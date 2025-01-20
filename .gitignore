@@ -1,65 +1,47 @@
-#OS junk files
-[Tt]humbs.db
-*.DS_Store
+# Ignore build directories
+bin/
+obj/
 
-#Visual Studio files
-*.pidb
-*.userprefs
-*.[Oo]bj
+# Ignore compiled DLLs and executable files
+*.dll
 *.exe
 *.pdb
-*.user
-*.aps
-*.pch
-*.vspscc
-*.vssscc
-*_i.c
-*_p.c
-*.ncb
-*.suo
-*.tlb
-*.tlh
-*.bak
-*.[Cc]ache
+*.cache
 *.ilk
+*.idb
 *.log
-*.lib
-*.sbr
-*.sdf
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.log
+*.user
+*.suo
+*.plist
+*.DS_Store
+*.swp
 *.lock
-*.ide
-*.ide-shm
-*.ide-wal
-ipch/
-obj/
-[Bb]in
-[Dd]ebug*/
-[Rr]elease*/
-Ankh.NoLoad
+*.gz
+*.zip
 
-#Tooling
-_ReSharper*/
-*.resharper
-[Tt]est[Rr]esult*
+# Ignore VSCode specific files
+.vscode/
+*.code-workspace
 
-#Project files
-[Bb]uild/
+# Ignore package manager files
+node_modules/
+*.lock
 
-#Subversion files
-.svn
+# Ignore MonoDevelop-specific files
+*.pidb
+*.userprefs
 
-# Office Temp Files
-~$*
+# Ignore MonoGame specific debug output
+refint/
 
-#monodroid private beta
-monodroid*.msi
-/CompiledContent/Android/IgnoreMe.dll
-/CompiledContent/OSX/IgnoreMe.dll
-/CompiledContent/Windows8/IgnoreMe.dll
-/CompiledContent/Windows/IgnoreMe.dll
-*.cachefile
-*.dll
-*.VC.db
-*.VC.opendb
+# Ignore generated files for intermediate frameworks
+*.csproj.user
+*.csproj.suo
 
-artifacts/
+# Ignore runtime and intermediate directories for .NET
+ref/
