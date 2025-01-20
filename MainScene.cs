@@ -24,8 +24,10 @@ public class MainScene : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-
+        _graphics.PreferredBackBufferWidth = Singleton.SCREENWIDTH;
+        _graphics.PreferredBackBufferHeight = Singleton.SCREENHEIGHT;
+        _graphics.ApplyChanges();
+        
         _gameObjects = new List<GameObject>();
 
         base.Initialize();

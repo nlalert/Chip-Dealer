@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 class Singleton
 {
+    public const int SCREENWIDTH = 640;
+    public const int SCREENHEIGHT = 480;
+
     public Random Random;
 
     public KeyboardState PreviousKey, CurrentKey;
