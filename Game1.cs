@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+namespace MidtermComGame;
+
 public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
