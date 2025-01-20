@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MidtermComGame;
 
-public class Game1 : Game
+public class MainScene : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -15,7 +15,7 @@ public class Game1 : Game
     List<GameObject> _gameObjects;
     int _numObject;
 
-    public Game1()
+    public MainScene()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";

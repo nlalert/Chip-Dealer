@@ -1,2 +1,2 @@
-﻿using var game = new MidtermComGame.Game1();
+﻿using var game = new MidtermComGame.MainScene();
 game.Run();
