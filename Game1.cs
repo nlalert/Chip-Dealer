@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -8,6 +9,11 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    SpriteFont _font;
+
+    List<GameObject> _gameObjects;
+    int _numObject;
 
     public Game1()
     {
@@ -20,6 +26,8 @@ public class Game1 : Game
     {
         // TODO: Add your initialization logic here
 
+        _gameObjects = new List<GameObject>();
+
         base.Initialize();
     }
 
@@ -27,15 +35,34 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        // TODO: use this.Content to load your game content here
+        _font = Content.Load<SpriteFont>("GameFont");
+
+        Reset();
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
+        Singleton.Instance.CurrentKey = Keyboard.GetState();
 
-        // TODO: Add your update logic here
+        _numObject = _gameObjects.Count;
+
+        // TODO: Do this when only in playing game state
+        for (int i = 0; i < _numObject; i++)
+            {
+                if(_gameObjects[i].IsActive)
+                    _gameObjects[i].Update(gameTime, _gameObjects);
+            }
+            for (int i = 0; i < _numObject; i++)
+            {
+                if(!_gameObjects[i].IsActive)
+                {
+                _gameObjects.RemoveAt(i);
+                i--;
+                _numObject--;
+                }
+            }
+
+        Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
         base.Update(gameTime);
     }
@@ -44,8 +71,31 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        _spriteBatch.Begin();
+
+        _numObject = _gameObjects.Count;
+
+        for (int i = 0; i < _numObject; i++)
+        {
+            _gameObjects[i].Draw(_spriteBatch);
+        }
+
+        _spriteBatch.End();
+
+        _graphics.BeginDraw();
 
         base.Draw(gameTime);
+    }
+
+    protected void Reset()
+    {
+        Singleton.Instance.Random = new System.Random();
+
+        _gameObjects.Clear();
+
+        foreach (GameObject s in _gameObjects)
+        {
+            s.Reset();
+        }
     }
 }
