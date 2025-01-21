@@ -2,6 +2,7 @@
 bin/
 obj/
 
+
 # Ignore specific subdirectories inside bin and obj
 bin/Debug/
 bin/Debug/net8.0/
@@ -21,3 +22,57 @@ obj/Debug/net8.0/DesktopGL/
 *.xnb
 *.mgcb~
 bin/*
+=======
+# Ignore compiled DLLs and executable files
+*.dll
+*.exe
+*.pdb
+*.cache
+*.ilk
+*.idb
+*.log
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.log
+*.user
+*.suo
+*.plist
+*.DS_Store
+*.swp
+*.lock
+*.gz
+*.zip
+
+# Ignore VSCode specific files
+.vscode/
+*.code-workspace
+
+# Ignore package manager files
+node_modules/
+*.lock
+
+# Ignore MonoDevelop-specific files
+*.pidb
+*.userprefs
+
+# Ignore MonoGame specific debug output
+refint/
+
+# Ignore generated files for intermediate frameworks
+*.csproj.user
+*.csproj.suo
+
+# Ignore runtime and intermediate directories for .NET
+ref/
+
+bin\Debug\net8.0\MidtermComGame.pdb
+bin\Debug\net8.0\MidtermComGame.dll
+bin\Debug\net8.0\MidtermComGame.exe
+obj\Debug\net8.0\apphost.exe
+obj\Debug\net8.0\MidtermComGame.dll
+obj\Debug\net8.0\MidtermComGame.pdb
+obj\Debug\net8.0\ref\MidtermComGame.dll
+obj\Debug\net8.0\refint\MidtermComGame.dll
+
