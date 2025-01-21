@@ -16,7 +16,7 @@ class Player : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_texture, Position, Viewport, Color.White);
+        spriteBatch.Draw(_texture, Position, Viewport, Color.White, Rotation, Vector2.Zero, Scale, SpriteEffects.None, 0f);
         base.Draw(spriteBatch);
     }
 
