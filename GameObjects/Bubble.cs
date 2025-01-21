@@ -66,13 +66,13 @@ class Bubble : GameObject
         float closestDistance = float.MaxValue;
         Vector2 closestGridPosition = Vector2.Zero;
         
-        for (int j = 0; j < Singleton.PLAY_AREA_HEIGHT; j++)
+        for (int j = 0; j < Singleton.BUBBLE_GRID_HEIGHT; j++)
         {
             int Xoffset = (j % 2 == 0) ? 0 : (Singleton.BUBBLE_SIZE / 2);
 
-            for (int i = 0; i < Singleton.PLAY_AREA_WIDTH; i++)
+            for (int i = 0; i < Singleton.BUBBLE_GRID_WIDTH; i++)
             {
-                if (Xoffset != 0 && i == Singleton.PLAY_AREA_WIDTH - 1)
+                if (Xoffset != 0 && i == Singleton.BUBBLE_GRID_WIDTH - 1)
                     continue;
 
                 float cellX = i * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset + Singleton.BUBBLE_SIZE / 2;
