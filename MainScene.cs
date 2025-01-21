@@ -86,7 +86,7 @@ public class MainScene : Game
             _gameObjects[i].Draw(_spriteBatch);
         }
 
-        DrawSetBubble(_spriteBatch);
+        // DrawSetBubble(_spriteBatch);
 
         _spriteBatch.End();
 
