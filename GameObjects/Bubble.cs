@@ -58,7 +58,8 @@ class Bubble : GameObject
             Speed = 0;
         }
 
-        if (Position.X < Singleton.PlayAreaStartX || Position.X > Singleton.PlayAreaEndX)
+
+        if (Position.X < Singleton.PLAY_AREA_START_X || Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
             Angle = (float)Math.PI - Angle;
 
         // foreach (GameObject s in gameObjects)
