@@ -1,4 +1,0 @@
-Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"D:/GitHub/MidtermComGame/Content/GameFont.spritefont","D:/GitHub/MidtermComGame/Content/bin/DesktopGL/Content/GameFont.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21538,0.0910382
-"D:/GitHub/MidtermComGame/Content/SpaceInvaderSheet.png","D:/GitHub/MidtermComGame/Content/bin/DesktopGL/Content/SpaceInvaderSheet.xnb","TextureProcessor","Texture2DContent",5980,129685,0.0575616
-"D:/GitHub/MidtermComGame/Content/TestBubble.jpg","D:/GitHub/MidtermComGame/Content/bin/DesktopGL/Content/TestBubble.xnb","TextureProcessor","Texture2DContent",5428,4181,0.0015839
