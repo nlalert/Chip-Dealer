@@ -108,7 +108,7 @@ public class MainScene : Game
 
     protected void Reset()
     {
-        Singleton.Instance.GameBoard = new Singleton.BubbleType[Singleton.BUBBLE_GRID_HEIGHT, Singleton.BUBBLE_GRID_WIDTH];
+        Singleton.Instance.GameBoard = new BubbleType[Singleton.BUBBLE_GRID_HEIGHT, Singleton.BUBBLE_GRID_WIDTH];
 
         // for (int i = 0; i < GameBoard; i++)
         // {

@@ -110,9 +110,9 @@ class Bubble : GameObject
             float targetX = X * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
             float targetY = Y * Singleton.BUBBLE_SIZE;
 
-            if(Singleton.Instance.GameBoard[Y, X] == Singleton.BubbleType.None)
+            if(Singleton.Instance.GameBoard[Y, X] == BubbleType.None)
             {
-                Singleton.Instance.GameBoard[Y, X] = Singleton.BubbleType.Red; // Red for now
+                Singleton.Instance.GameBoard[Y, X] = BubbleType.Red; // Red for now
                 Position = new Vector2(targetX, targetY);
                 break;
             }

@@ -18,11 +18,6 @@ class Singleton
     public const int PLAY_AREA_END_Y = 0;
     public const float MAX_PLAYER_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
 
-    public enum BubbleType
-    {
-        None, Red, Green, Blue
-    }
-
     public BubbleType[,] GameBoard;
 
     public Random Random;
