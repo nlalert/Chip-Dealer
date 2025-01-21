@@ -10,10 +10,19 @@ class Singleton
     public const int SCREENWIDTH = 640;
     public const int SCREENHEIGHT = 480;
 
-    public const int PLAYAREAWIDTH =  32*8;
-    public const int PlayAreaStartX = (SCREENWIDTH - PLAYAREAWIDTH) / 2;
-    public const int PlayAreaEndX = PlayAreaStartX + PLAYAREAWIDTH;
+    public const int PLAYAREAWIDTH = 8;
+    public const int PLAYAREAHEIGHT = 10;
+    public const int BUBBLESIZE = 32;
+    public const int PlayAreaStartX = (SCREENWIDTH - (PLAYAREAWIDTH * BUBBLESIZE)) / 2;
+    public const int PlayAreaEndX = PlayAreaStartX + (PLAYAREAWIDTH * BUBBLESIZE);
     public const int PlayAreaEndY = 0;
+
+    public enum BubbleType
+    {
+        Red, Green, Blue
+    }
+
+    public BubbleType[,] GameBoard;
 
     public Random Random;
 

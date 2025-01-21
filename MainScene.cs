@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,6 +15,8 @@ public class MainScene : Game
 
     List<GameObject> _gameObjects;
     int _numObject;
+
+    Texture2D _bubbleTexture;
 
     public MainScene()
     {
@@ -38,6 +41,7 @@ public class MainScene : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         _font = Content.Load<SpriteFont>("GameFont");
+        _bubbleTexture = Content.Load<Texture2D>("TestBubble");
 
         Reset();
     }
@@ -82,6 +86,8 @@ public class MainScene : Game
             _gameObjects[i].Draw(_spriteBatch);
         }
 
+        DrawSetBubble(_spriteBatch);
+
         _spriteBatch.End();
 
         _graphics.BeginDraw();
@@ -89,12 +95,36 @@ public class MainScene : Game
         base.Draw(gameTime);
     }
 
+    protected void DrawSetBubble(SpriteBatch _spriteBatch)
+    {
+        for (int j = 0; j < Singleton.PLAYAREAHEIGHT; j++)
+        {
+            int Xoffset = (j % 2 == 0) ? 0 : (Singleton.BUBBLESIZE / 2);
+
+            for (int i = 0; i < Singleton.PLAYAREAWIDTH; i++)
+            {
+                if(Xoffset != 0 && i == Singleton.PLAYAREAWIDTH - 1)
+                    continue;
+
+                //draw corresponding to each color (now only red)
+                if (Singleton.Instance.GameBoard[j, i] == Singleton.BubbleType.Red)
+                    _spriteBatch.Draw(_bubbleTexture, new Vector2(i * Singleton.BUBBLESIZE + Xoffset + Singleton.PlayAreaStartX, j * Singleton.BUBBLESIZE), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0);
+            }
+        }
+    }
+
     protected void Reset()
     {
+        Singleton.Instance.GameBoard = new Singleton.BubbleType[Singleton.PLAYAREAHEIGHT, Singleton.PLAYAREAWIDTH];
+
+        // for (int i = 0; i < GameBoard; i++)
+        // {
+            
+        // }
+
         Singleton.Instance.Random = new System.Random();
 
         Texture2D spaceInvaderTexture = Content.Load<Texture2D>("SpaceInvaderSheet");
-        Texture2D bubbleTexture = Content.Load<Texture2D>("TestBubble");
 
         _gameObjects.Clear();
         _gameObjects.Add(new Player(spaceInvaderTexture)
@@ -105,7 +135,7 @@ public class MainScene : Game
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
-            Bubble = new Bubble(bubbleTexture)
+            Bubble = new Bubble(_bubbleTexture)
             {
                 Name = "Bubble",
                 Viewport = new Rectangle(0, 0, 32, 32),
