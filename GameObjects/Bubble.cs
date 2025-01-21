@@ -23,7 +23,7 @@ class Bubble : GameObject
 
     public override void Reset()
     {
-        Speed = 300;
+        Speed = 600;
         base.Reset();
     }
 
@@ -45,7 +45,7 @@ class Bubble : GameObject
 
         foreach (GameObject s in gameObjects)
         {
-            if (IsTouching(s) && s.Name.Equals("Bubble"))
+            if (IsTouching(s) && s.Name.Contains("Bubble"))
             {
                 SnapToGrid();
             }

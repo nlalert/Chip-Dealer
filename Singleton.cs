@@ -12,7 +12,7 @@ class Singleton
     public const int SCREEN_HEIGHT = 480;
 
     public const int PLAY_AREA_WIDTH = 8;
-    public const int PLAY_AREA_HEIGHT = 10;
+    public const int PLAY_AREA_HEIGHT = 12;
     public const int BUBBLE_SIZE = 32;
     public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (PLAY_AREA_WIDTH * BUBBLE_SIZE)) / 2;
     public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (PLAY_AREA_WIDTH * BUBBLE_SIZE);

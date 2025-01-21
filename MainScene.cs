@@ -86,31 +86,11 @@ public class MainScene : Game
             _gameObjects[i].Draw(_spriteBatch);
         }
 
-        //DrawSetBubble(_spriteBatch);
-
         _spriteBatch.End();
 
         _graphics.BeginDraw();
 
         base.Draw(gameTime);
-    }
-
-    protected void DrawSetBubble(SpriteBatch _spriteBatch)
-    {
-        for (int j = 0; j < Singleton.PLAY_AREA_HEIGHT; j++)
-        {
-            int Xoffset = (j % 2 == 0) ? 0 : (Singleton.BUBBLE_SIZE / 2);
-
-            for (int i = 0; i < Singleton.PLAY_AREA_WIDTH; i++)
-            {
-                if(Xoffset != 0 && i == Singleton.PLAY_AREA_WIDTH - 1)
-                    continue;
-
-                //draw corresponding to each color (now only red)
-                if (Singleton.Instance.GameBoard[j, i] == Singleton.BubbleType.Red)
-                    _spriteBatch.Draw(_bubbleTexture, new Vector2(i * Singleton.BUBBLE_SIZE + Xoffset + Singleton.PLAY_AREA_START_X, j * Singleton.BUBBLE_SIZE), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0);
-            }
-        }
     }
 
     protected void Reset()
@@ -134,7 +114,8 @@ public class MainScene : Game
             {
                 Name = "Bubble",
                 Viewport = new Rectangle(0, 0, 32, 32),
-                Velocity = new Vector2(0, -600f)
+                Velocity = new Vector2(0, -600f),
+                Speed = 0
             }
         });
         foreach (GameObject s in _gameObjects)
