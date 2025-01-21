@@ -25,7 +25,7 @@ class Bubble : GameObject
 
     public override void Reset()
     {
-        Speed = 600;
+        Speed = 1000;
         Radius = Singleton.BUBBLE_SIZE/2;
         base.Reset();
     }
@@ -75,8 +75,8 @@ class Bubble : GameObject
                 if (Xoffset != 0 && i == Singleton.BUBBLE_GRID_WIDTH - 1)
                     continue;
 
-                float cellX = i * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset + Singleton.BUBBLE_SIZE / 2;
-                float cellY = j * Singleton.BUBBLE_SIZE;
+                float cellX = i * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
+                float cellY = j * Singleton.BUBBLE_SIZE;// + Singleton.PLAY_AREA_START_Y;
   
                 float distance = Vector2.Distance(new Vector2(cellX, cellY), Position);
 

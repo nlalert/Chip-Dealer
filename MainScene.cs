@@ -42,7 +42,7 @@ public class MainScene : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         _font = Content.Load<SpriteFont>("GameFont");
-        _bubbleTexture = Content.Load<Texture2D>("TestBubble");
+        _bubbleTexture = Content.Load<Texture2D>("Bubble");
 
         _rectTexture = new Texture2D(_graphics.GraphicsDevice, 3, 640);
         Color[] data = new Color[3*640];
