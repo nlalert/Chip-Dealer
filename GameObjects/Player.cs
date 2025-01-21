@@ -52,9 +52,10 @@ class Player : GameObject
         if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
             Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
         {
-            var newBubble = Bubble.Clone() as Bubble;
+            var newBubble = Bubble.Clone() as Bubble; 
             newBubble.Position = new Vector2(Rectangle.Width / 2 + Position.X - newBubble.Rectangle.Width / 2,
                                             Position.Y);
+            newBubble.Angle = Rotation + (float)(3 * Math.PI / 2);
             newBubble.Reset();
             gameObjects.Add(newBubble);
         }

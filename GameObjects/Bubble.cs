@@ -23,9 +23,6 @@ class Bubble : GameObject
 
     public override void Reset()
     {
-        // DistantMoved = 0;
-        Angle = (float)(3.2*Math.PI/3);
-
         Speed = 300;
         base.Reset();
     }
