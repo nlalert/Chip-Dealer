@@ -50,6 +50,9 @@ class Player : GameObject
         {
             Rotation += MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate clockwise
         }
+
+        Rotation = MathHelper.Clamp(Rotation, -Singleton.MAX_PLAYER_ROTATION, Singleton.MAX_PLAYER_ROTATION);
+
         if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
             ShootedBubble.Speed == 0 &&
             Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
