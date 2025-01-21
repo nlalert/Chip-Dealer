@@ -9,6 +9,8 @@ class Bubble : GameObject
     public float Angle;
     public float Speed;
 
+    public float Radius;
+
     // public float DistantMoved;
     public Bubble(Texture2D texture) : base(texture)
     {
@@ -23,7 +25,8 @@ class Bubble : GameObject
 
     public override void Reset()
     {
-        Speed = 300;
+        Speed = 600;
+        Radius = Singleton.BUBBLE_SIZE/2;
         base.Reset();
     }
 
@@ -34,22 +37,68 @@ class Bubble : GameObject
 
         Position += Velocity * (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
-        if (Position.Y < Singleton.PlayAreaEndY) 
+        //Snap
+        if (Position.Y < Singleton.PlayAreaEndY){
             Position.Y = Singleton.PlayAreaEndY;
+            SnapToGrid();
+        }
 
         if (Position.X < Singleton.PLAY_AREA_START_X || Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
             Angle = (float)Math.PI - Angle;
 
         foreach (GameObject s in gameObjects)
         {
-            if (IsTouching(s))
+            if (IsTouching(s) && IsTouchingAsCircle(s) && s.Name.Contains("Bubble"))
             {
-                // Handle collision logic here (if required)
+                SnapToGrid();
             }
         }
 
         Velocity = Vector2.Zero;
 
-    base.Update(gameTime, gameObjects);
+        base.Update(gameTime, gameObjects);
+    }
+
+    protected void SnapToGrid()
+    {
+        Speed = 0;
+
+        float closestDistance = float.MaxValue;
+        Vector2 closestGridPosition = Vector2.Zero;
+        
+        for (int j = 0; j < Singleton.PLAY_AREA_HEIGHT; j++)
+        {
+            int Xoffset = (j % 2 == 0) ? 0 : (Singleton.BUBBLE_SIZE / 2);
+
+            for (int i = 0; i < Singleton.PLAY_AREA_WIDTH; i++)
+            {
+                if (Xoffset != 0 && i == Singleton.PLAY_AREA_WIDTH - 1)
+                    continue;
+
+                float cellX = i * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset + Singleton.BUBBLE_SIZE / 2;
+                float cellY = j * Singleton.BUBBLE_SIZE;
+  
+                float distance = Vector2.Distance(new Vector2(cellX, cellY), Position);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestGridPosition = new Vector2(cellX, cellY);
+                }
+            }
+        }
+
+        Position = closestGridPosition;
+    }
+    protected bool IsTouchingAsCircle(GameObject g)
+    {
+        
+        if (g is Bubble otherBubble && this is Bubble)
+        {
+            float distance = Vector2.Distance(this.Position, otherBubble.Position);
+            // Console.WriteLine($"distace : {distance}");
+            return distance < this.Radius + otherBubble.Radius;
+        }
+        return false;
     }
 }

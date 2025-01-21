@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
-    public Bubble Bubble;
+    public Bubble Bubble, ShootedBubble;
     public Keys Left, Right, Fire;
     
     public Player(Texture2D texture) : base(texture)
@@ -35,7 +35,8 @@ class Player : GameObject
 
     public override void Reset()
     {
-        Position = new Vector2((Singleton.SCREENWIDTH - Rectangle.Width) / 2, 400);
+        Position = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, 400);
+        ShootedBubble = Bubble;
         base.Reset();
     }
 
@@ -50,6 +51,7 @@ class Player : GameObject
             Rotation += MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate clockwise
         }
         if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
+            ShootedBubble.Speed == 0 &&
             Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
         {
             var newBubble = Bubble.Clone() as Bubble; 
@@ -58,6 +60,8 @@ class Player : GameObject
             newBubble.Angle = Rotation + (float)(3 * Math.PI / 2);
             newBubble.Reset();
             gameObjects.Add(newBubble);
+            
+            ShootedBubble = newBubble;
         }
 
         Velocity = Vector2.Zero;

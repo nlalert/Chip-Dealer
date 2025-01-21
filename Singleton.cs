@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 class Singleton
 {
-    public const int SCREENWIDTH = 640;
-    public const int SCREENHEIGHT = 480;
+    public const int SCREEN_WIDTH = 640;
+    public const int SCREEN_HEIGHT = 480;
 
-    public const int PLAYAREAWIDTH = 8;
-    public const int PLAYAREAHEIGHT = 10;
-    public const int BUBBLESIZE = 32;
-    public const int PlayAreaStartX = (SCREENWIDTH - (PLAYAREAWIDTH * BUBBLESIZE)) / 2;
-    public const int PlayAreaEndX = PlayAreaStartX + (PLAYAREAWIDTH * BUBBLESIZE);
+    public const int PLAY_AREA_WIDTH = 8;
+    public const int PLAY_AREA_HEIGHT = 12;
+    public const int BUBBLE_SIZE = 32;
+    public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (PLAY_AREA_WIDTH * BUBBLE_SIZE)) / 2;
+    public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (PLAY_AREA_WIDTH * BUBBLE_SIZE);
     public const int PlayAreaEndY = 0;
 
     public enum BubbleType
     {
-        Red, Green, Blue
+        None, Red, Green, Blue
     }
 
     public BubbleType[,] GameBoard;

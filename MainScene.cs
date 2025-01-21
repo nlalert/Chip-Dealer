@@ -27,8 +27,8 @@ public class MainScene : Game
 
     protected override void Initialize()
     {
-        _graphics.PreferredBackBufferWidth = Singleton.SCREENWIDTH;
-        _graphics.PreferredBackBufferHeight = Singleton.SCREENHEIGHT;
+        _graphics.PreferredBackBufferWidth = Singleton.SCREEN_WIDTH;
+        _graphics.PreferredBackBufferHeight = Singleton.SCREEN_HEIGHT;
         _graphics.ApplyChanges();
         
         _gameObjects = new List<GameObject>();
@@ -86,8 +86,6 @@ public class MainScene : Game
             _gameObjects[i].Draw(_spriteBatch);
         }
 
-        DrawSetBubble(_spriteBatch);
-
         _spriteBatch.End();
 
         _graphics.BeginDraw();
@@ -95,27 +93,9 @@ public class MainScene : Game
         base.Draw(gameTime);
     }
 
-    protected void DrawSetBubble(SpriteBatch _spriteBatch)
-    {
-        for (int j = 0; j < Singleton.PLAYAREAHEIGHT; j++)
-        {
-            int Xoffset = (j % 2 == 0) ? 0 : (Singleton.BUBBLESIZE / 2);
-
-            for (int i = 0; i < Singleton.PLAYAREAWIDTH; i++)
-            {
-                if(Xoffset != 0 && i == Singleton.PLAYAREAWIDTH - 1)
-                    continue;
-
-                //draw corresponding to each color (now only red)
-                if (Singleton.Instance.GameBoard[j, i] == Singleton.BubbleType.Red)
-                    _spriteBatch.Draw(_bubbleTexture, new Vector2(i * Singleton.BUBBLESIZE + Xoffset + Singleton.PlayAreaStartX, j * Singleton.BUBBLESIZE), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0);
-            }
-        }
-    }
-
     protected void Reset()
     {
-        Singleton.Instance.GameBoard = new Singleton.BubbleType[Singleton.PLAYAREAHEIGHT, Singleton.PLAYAREAWIDTH];
+        Singleton.Instance.GameBoard = new Singleton.BubbleType[Singleton.PLAY_AREA_HEIGHT, Singleton.PLAY_AREA_WIDTH];
 
         // for (int i = 0; i < GameBoard; i++)
         // {
@@ -131,7 +111,7 @@ public class MainScene : Game
         {
             Name = "Player",
             Viewport = new Rectangle(51, 30, 54, 30),
-            Position = new Vector2(Singleton.SCREENWIDTH / 2, 400),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, 400),
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
@@ -139,7 +119,8 @@ public class MainScene : Game
             {
                 Name = "Bubble",
                 Viewport = new Rectangle(0, 0, 32, 32),
-                Velocity = new Vector2(0, -600f)
+                Velocity = new Vector2(0, -600f),
+                Speed = 0
             }
         });
         foreach (GameObject s in _gameObjects)
