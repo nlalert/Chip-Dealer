@@ -9,6 +9,8 @@ class Bubble : GameObject
     public float Angle;
     public float Speed;
 
+    public float Radius;
+
     // public float DistantMoved;
     public Bubble(Texture2D texture) : base(texture)
     {
@@ -24,6 +26,7 @@ class Bubble : GameObject
     public override void Reset()
     {
         Speed = 600;
+        Radius = Singleton.BUBBLE_SIZE/2;
         base.Reset();
     }
 
@@ -45,7 +48,7 @@ class Bubble : GameObject
 
         foreach (GameObject s in gameObjects)
         {
-            if (IsTouching(s) && s.Name.Contains("Bubble"))
+            if (IsTouching(s) && IsTouchingAsCircle(s) && s.Name.Contains("Bubble"))
             {
                 SnapToGrid();
             }
@@ -86,5 +89,16 @@ class Bubble : GameObject
         }
 
         Position = closestGridPosition;
+    }
+    protected bool IsTouchingAsCircle(GameObject g)
+    {
+        
+        if (g is Bubble otherBubble && this is Bubble)
+        {
+            float distance = Vector2.Distance(this.Position, otherBubble.Position);
+            // Console.WriteLine($"distace : {distance}");
+            return distance < this.Radius + otherBubble.Radius;
+        }
+        return false;
     }
 }
