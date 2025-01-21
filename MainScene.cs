@@ -117,11 +117,6 @@ public class MainScene : Game
     {
         Singleton.Instance.GameBoard = new Singleton.BubbleType[Singleton.PLAYAREAHEIGHT, Singleton.PLAYAREAWIDTH];
 
-        // for (int i = 0; i < GameBoard; i++)
-        // {
-            
-        // }
-
         Singleton.Instance.Random = new System.Random();
 
         Texture2D spaceInvaderTexture = Content.Load<Texture2D>("SpaceInvaderSheet");
