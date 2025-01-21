@@ -21,7 +21,7 @@ class Singleton
 
     public enum BubbleType
     {
-        Red, Green, Blue
+        None, Red, Green, Blue
     }
 
     public BubbleType[,] GameBoard;
