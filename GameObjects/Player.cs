@@ -16,7 +16,20 @@ class Player : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_texture, Position, Viewport, Color.White, Rotation, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+        Vector2 Origin = new Vector2(Rectangle.Width / 2, Rectangle.Height / 2);
+
+        // Draw the sprite with rotation around its center
+        spriteBatch.Draw(
+            _texture,
+            Position + Origin, // Position adjusted to account for origin
+            Viewport,
+            Color.White,
+            Rotation, 
+            Origin, 
+            Scale,
+            SpriteEffects.None,
+            0f
+        );
         base.Draw(spriteBatch);
     }
 
@@ -28,14 +41,14 @@ class Player : GameObject
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
-        // if(Singleton.Instance.CurrentKey.IsKeyDown(Left))
-        // {
-        //     Velocity.X = -500;
-        // }
-        // if(Singleton.Instance.CurrentKey.IsKeyDown(Right))
-        // {
-        //     Velocity.X = 500;
-        // }
+        if(Singleton.Instance.CurrentKey.IsKeyDown(Left))
+        {
+            Rotation -= MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate counterclockwise
+        }
+        if(Singleton.Instance.CurrentKey.IsKeyDown(Right))
+        {
+            Rotation += MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate clockwise
+        }
         if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
             Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
         {
@@ -46,11 +59,7 @@ class Player : GameObject
             gameObjects.Add(newBubble);
         }
 
-        // float newX = Position.X + Velocity.X * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-        // newX = MathHelper.Clamp(newX, 0, Singleton.SCREENWIDTH - Rectangle.Width);
-        // Position = new Vector2(newX, Position.Y);
-
-        // Velocity = Vector2.Zero;
+        Velocity = Vector2.Zero;
 
         base.Update(gameTime, gameObjects);
     }
