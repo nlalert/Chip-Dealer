@@ -80,58 +80,18 @@ class Bubble : GameObject
         for(int i = gameObjects.Count - 1; i >= 0; i--){
             if(IsTouching(gameObjects[i]) && gameObjects[i] is Bubble){
                 //draw line for dev
-                // touchingPairs.Add((this.Position + new Vector2(_texture.Width/2,_texture.Height/2 ), gameObjects[i].Position+ new Vector2(_texture.Width/2,_texture.Height/2)));
+                touchingPairs.Add((this.Position + new Vector2(_texture.Width/2,_texture.Height/2 ), gameObjects[i].Position+ new Vector2(_texture.Width/2,_texture.Height/2)));
                 Vector2 direction = gameObjects[i].Position - this.Position;
                 float collisionAngle = (float)Math.Atan2(direction.Y, direction.X);
-                float angleInDegrees = MathHelper.ToDegrees(collisionAngle);
-                float snapNumber = MathF.Round(angleInDegrees / 60);
-                float snappedDegrees = 60 * snapNumber;
-                float snappedRadians = MathHelper.ToRadians(snappedDegrees);
                 if(Speed !=0){
-                    Console.WriteLine($"Touched at angle: {MathHelper.ToDegrees(collisionAngle):F2} degrees Snapped to : {snappedDegrees},{snapNumber}");
-                    switch (snapNumber)
-                    {
-                        case 0:
-                            this.Position = gameObjects[i].Position + new Vector2(-_texture.Width, 0);
-                            break;
-                        case 1:
-                            this.Position = gameObjects[i].Position - new Vector2(
-                                (float)(Math.Cos(MathHelper.ToRadians(60)) * _texture.Width), 
-                                (float)(Math.Sin(MathHelper.ToRadians(60)) * _texture.Height) 
-                            );
-                            break;
-                        case 2:
-                            this.Position = gameObjects[i].Position - new Vector2(
-                                (float)(Math.Cos(MathHelper.ToRadians(120)) * _texture.Width), 
-                                (float)(Math.Sin(MathHelper.ToRadians(120)) * _texture.Height)  
-                            );
-                            break;
-                        case -1:
-                            this.Position = gameObjects[i].Position - new Vector2(
-                                (float)(Math.Cos(MathHelper.ToRadians(-60)) * _texture.Width), 
-                                (float)(Math.Sin(MathHelper.ToRadians(-60)) * _texture.Height)  
-                            );
-                            break;
-                        case -2:
-                            this.Position = gameObjects[i].Position - new Vector2(
-                                (float)(Math.Cos(MathHelper.ToRadians(-120)) * _texture.Width), 
-                                (float)(Math.Sin(MathHelper.ToRadians(-120)) * _texture.Height)  
-                            );
-                            break;
-                        case 3:
-                        case -3:
-                            this.Position = gameObjects[i].Position + new Vector2(_texture.Width, 0); 
-                            break;
-                        default:
-                            break;
-                    }
+                    Console.WriteLine($"Touched at angle: {MathHelper.ToDegrees(collisionAngle):F2} degrees");
                 }
-                //snap
-                
                 Speed = 0;
                 break;
             }
         }
+        
+        
         base.Update(gameTime, gameObjects);
 
     }
