@@ -37,7 +37,7 @@ class Bubble : GameObject
         if (Position.Y < Singleton.PlayAreaEndY) 
             Position.Y = Singleton.PlayAreaEndY;
 
-        if (Position.X < Singleton.PlayAreaStartX || Position.X > Singleton.PlayAreaEndX - Rectangle.Width) 
+        if (Position.X < Singleton.PLAY_AREA_START_X || Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
             Angle = (float)Math.PI - Angle;
 
         foreach (GameObject s in gameObjects)
