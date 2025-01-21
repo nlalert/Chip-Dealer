@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -72,33 +73,53 @@ class Bubble : GameObject
     {
         Speed = 0;
 
-        float closestDistance = float.MaxValue;
-        Vector2 closestGridPosition = Vector2.Zero;
-        
+        List<(float Distance, Vector2 GridPosition)> closestPositions = new List<(float, Vector2)>();
+
+        // Find all grid positions and calculate their distances
         for (int j = 0; j < Singleton.BUBBLE_GRID_HEIGHT; j++)
         {
             int Xoffset = (j % 2 == 0) ? 0 : (Singleton.BUBBLE_SIZE / 2);
 
             for (int i = 0; i < Singleton.BUBBLE_GRID_WIDTH; i++)
             {
+                //skip last column
                 if (Xoffset != 0 && i == Singleton.BUBBLE_GRID_WIDTH - 1)
                     continue;
 
-                float cellX = i * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
-                float cellY = j * Singleton.BUBBLE_SIZE;// + Singleton.PLAY_AREA_START_Y;
-  
-                float distance = Vector2.Distance(new Vector2(cellX, cellY), Position);
+                float targetX = i * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
+                float targetY = j * Singleton.BUBBLE_SIZE; // Add Y offset if needed
 
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestGridPosition = new Vector2(cellX, cellY);
-                }
+                float distance = Vector2.Distance(new Vector2(targetX, targetY), Position);
+
+                closestPositions.Add((distance, new Vector2(i, j)));
             }
         }
 
-        Position = closestGridPosition;
+        closestPositions = closestPositions.OrderBy(p => p.Distance).ToList();
+
+        for (int i = 0; i < closestPositions.Count; i++)
+        {
+            int X = (int) closestPositions[i].GridPosition.X;
+            int Y = (int) closestPositions[i].GridPosition.Y;
+            int Xoffset = (Y % 2 == 0) ? 0 : (Singleton.BUBBLE_SIZE / 2);
+
+            //skip last column
+            if (Xoffset != 0 && X == Singleton.BUBBLE_GRID_WIDTH - 1)
+                continue;
+
+            float targetX = X * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
+            float targetY = Y * Singleton.BUBBLE_SIZE;
+
+            if(Singleton.Instance.GameBoard[Y, X] == Singleton.BubbleType.None)
+            {
+                Singleton.Instance.GameBoard[Y, X] = Singleton.BubbleType.Red; // Red for now
+                Position = new Vector2(targetX, targetY);
+                break;
+            }
+        }
     }
+
+    
     protected bool IsTouchingAsCircle(GameObject g)
     {
         
