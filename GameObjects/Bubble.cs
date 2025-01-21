@@ -38,8 +38,8 @@ class Bubble : GameObject
         Position += Velocity * (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
         //Snap
-        if (Position.Y < Singleton.PlayAreaEndY){
-            Position.Y = Singleton.PlayAreaEndY;
+        if (Position.Y < Singleton.PLAY_AREA_END_Y){
+            Position.Y = Singleton.PLAY_AREA_END_Y;
             SnapToGrid();
         }
 

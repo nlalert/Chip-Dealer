@@ -15,7 +15,7 @@ class Singleton
     public const int BUBBLE_SIZE = 32;
     public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (BUBBLE_GRID_WIDTH * BUBBLE_SIZE)) / 2;
     public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (BUBBLE_GRID_WIDTH * BUBBLE_SIZE);
-    public const int PlayAreaEndY = 0;
+    public const int PLAY_AREA_END_Y = 0;
 
     public enum BubbleType
     {

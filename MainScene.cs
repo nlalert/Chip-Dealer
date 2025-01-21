@@ -17,6 +17,7 @@ public class MainScene : Game
     int _numObject;
 
     Texture2D _bubbleTexture;
+    Texture2D _rectTexture;
 
     public MainScene()
     {
@@ -42,6 +43,14 @@ public class MainScene : Game
 
         _font = Content.Load<SpriteFont>("GameFont");
         _bubbleTexture = Content.Load<Texture2D>("TestBubble");
+
+        _rectTexture = new Texture2D(_graphics.GraphicsDevice, 3, 640);
+        Color[] data = new Color[3*640];
+        for (int i = 0; i < data.Length; i++)
+        {
+            data[i] = Color.White;
+        }
+        _rectTexture.SetData(data);
 
         Reset();
     }
@@ -85,6 +94,10 @@ public class MainScene : Game
         {
             _gameObjects[i].Draw(_spriteBatch);
         }
+
+        //Play Border
+        _spriteBatch.Draw(_rectTexture, new Vector2(Singleton.PLAY_AREA_END_X, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+        _spriteBatch.Draw(_rectTexture, new Vector2(Singleton.PLAY_AREA_START_X, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
 
         _spriteBatch.End();
 
