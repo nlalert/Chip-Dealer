@@ -43,8 +43,17 @@ class Bubble : GameObject
             SnapToGrid();
         }
 
-        if (Position.X < Singleton.PLAY_AREA_START_X || Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
+        if (Position.X < Singleton.PLAY_AREA_START_X){
+            Position.X = Singleton.PLAY_AREA_START_X;
             Angle = (float)Math.PI - Angle;
+        }
+        
+        if(Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
+        {
+            Position.X = Singleton.PLAY_AREA_END_X - Rectangle.Width;
+            Angle = (float)Math.PI - Angle;
+        }
+           
 
         foreach (GameObject s in gameObjects)
         {
