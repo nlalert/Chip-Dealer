@@ -11,9 +11,9 @@ class Singleton
     public const int SCREENHEIGHT = 480;
 
     public const int PLAYAREAWIDTH =  32*8;
-    public static int PlayAreaStartX => (SCREENWIDTH - PLAYAREAWIDTH) / 2;
-    public static int PlayAreaEndX => PlayAreaStartX + PLAYAREAWIDTH;
-    public static int PlayAreaEndY => 0;
+    public const int PlayAreaStartX = (SCREENWIDTH - PLAYAREAWIDTH) / 2;
+    public const int PlayAreaEndX = PlayAreaStartX + PLAYAREAWIDTH;
+    public const int PlayAreaEndY = 0;
 
     public Random Random;
 
