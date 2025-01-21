@@ -10,6 +10,11 @@ class Singleton
     public const int SCREENWIDTH = 640;
     public const int SCREENHEIGHT = 480;
 
+    public const int PLAYAREAWIDTH =  32*8;
+    public static int PlayAreaStartX => (SCREENWIDTH - PLAYAREAWIDTH) / 2;
+    public static int PlayAreaEndX => PlayAreaStartX + PLAYAREAWIDTH;
+    public static int PlayAreaEndY => 0;
+
     public Random Random;
 
     public KeyboardState PreviousKey, CurrentKey;

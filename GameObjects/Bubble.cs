@@ -26,39 +26,19 @@ class Bubble : GameObject
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
-        // DistantMoved += Math.Abs(Velocity.Y * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond);
-        Position += Velocity * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+        Position += Velocity * (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
-        // if (DistantMoved >= Singleton.SCREENHEIGHT)
-        //     IsActive = false;
+        if (Position.Y < Singleton.PlayAreaEndY) Position.Y = Singleton.PlayAreaEndY;
+        if (Position.X < Singleton.PlayAreaStartX || Position.X < Singleton.PlayAreaEndX) Velocity.X *=-1;
 
         foreach (GameObject s in gameObjects)
         {
-            // if(Name.Equals("BulletPlayer"))
-            // {
-            //     if(IsTouching(s) && (s.Name.Equals("Enemy") || s.Name.Equals("BulletEnemy")))
-            //     {
-            //         s.IsActive = false;
-            //         if(s is Enemy)
-            //         {
-            //             Singleton.Instance.Score += (s as Enemy).Score;
-            //             Singleton.Instance.InvaderLeft--;
-            //         }
-            //         IsActive = false;
-            //     }
-            // }
-            // else if(Name.Equals("BulletEnemy"))
-            // {
-            //     if(IsTouching(s) && s.Name.Equals("Player"))
-            //     {
-            //         s.Reset();
-            //         IsActive = false;
-            //         Singleton.Instance.Life--;
-            //         Singleton.Instance.CurrentGameState = Singleton.GameState.StartNewLife;
-            //     }
-            // }
+            if (IsTouching(s))
+            {
+                // Handle collision logic here (if required)
+            }
         }
 
-        base.Update(gameTime, gameObjects);
+    base.Update(gameTime, gameObjects);
     }
 }
