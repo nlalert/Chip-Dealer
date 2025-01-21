@@ -238,19 +238,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nutth\\.nuget\\packages\\": {}
+    "C:\\Users\\Devas IPASON\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\GitHub\\MidtermComGame\\MidtermComGame.csproj",
+      "projectUniqueName": "D:\\Year3Work\\GameDev\\MidTermGame\\MidtermComGame\\MidtermComGame.csproj",
       "projectName": "MidtermComGame",
-      "projectPath": "D:\\GitHub\\MidtermComGame\\MidtermComGame.csproj",
-      "packagesPath": "C:\\Users\\nutth\\.nuget\\packages\\",
-      "outputPath": "D:\\GitHub\\MidtermComGame\\obj\\",
+      "projectPath": "D:\\Year3Work\\GameDev\\MidTermGame\\MidtermComGame\\MidtermComGame.csproj",
+      "packagesPath": "C:\\Users\\Devas IPASON\\.nuget\\packages\\",
+      "outputPath": "D:\\Year3Work\\GameDev\\MidTermGame\\MidtermComGame\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\nutth\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Devas IPASON\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -304,7 +304,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

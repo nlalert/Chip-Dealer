@@ -45,3 +45,4 @@ refint/
 
 # Ignore runtime and intermediate directories for .NET
 ref/
+/MidtermComGame/obj

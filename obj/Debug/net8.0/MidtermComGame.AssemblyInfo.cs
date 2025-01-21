@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MidtermComGame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a473580a2961002666f79bb2bcef65df8a5ab730")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f2e7f06a1c1bd568dc9ac5c77f91adc7ceead8e")]
 [assembly: System.Reflection.AssemblyProductAttribute("MidtermComGame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MidtermComGame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
