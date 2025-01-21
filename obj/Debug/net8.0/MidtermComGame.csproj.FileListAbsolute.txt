@@ -25,3 +25,5 @@ d:\GitHub\MidtermComGame\obj\Debug\net8.0\MidtermComGame.pdb
 D:\GitHub\MidtermComGame\obj\Debug\net8.0\MidtermComGame.genruntimeconfig.cache
 D:\GitHub\MidtermComGame\obj\Debug\net8.0\ref\MidtermComGame.dll
 d:\GitHub\MidtermComGame\bin\Debug\net8.0\Content\GameFont.xnb
+d:\GitHub\MidtermComGame\bin\Debug\net8.0\Content\SpaceInvaderSheet.xnb
+d:\GitHub\MidtermComGame\bin\Debug\net8.0\Content\TestBubble.xnb

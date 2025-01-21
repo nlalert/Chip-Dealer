@@ -22,7 +22,7 @@ class Player : GameObject
 
     public override void Reset()
     {
-        Position = new Vector2(62, 640);
+        Position = new Vector2((Singleton.SCREENWIDTH - Rectangle.Width) / 2, 400);
         base.Reset();
     }
 

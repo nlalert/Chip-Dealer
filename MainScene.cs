@@ -71,7 +71,7 @@ public class MainScene : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.Black);
 
         _spriteBatch.Begin();
 
@@ -93,8 +93,25 @@ public class MainScene : Game
     {
         Singleton.Instance.Random = new System.Random();
 
-        _gameObjects.Clear();
+        Texture2D spaceInvaderTexture = Content.Load<Texture2D>("SpaceInvaderSheet");
+        Texture2D bubbleTexture = Content.Load<Texture2D>("TestBubble");
 
+        _gameObjects.Clear();
+        _gameObjects.Add(new Player(spaceInvaderTexture)
+        {
+            Name = "Player",
+            Viewport = new Rectangle(51, 30, 54, 30),
+            Position = new Vector2(Singleton.SCREENWIDTH / 2, 400),
+            Left = Keys.Left,
+            Right = Keys.Right,
+            Fire = Keys.Space,
+            Bubble = new Bubble(bubbleTexture)
+            {
+                Name = "Bubble",
+                Viewport = new Rectangle(0, 0, 32, 32),
+                Velocity = new Vector2(0, -600f)
+            }
+        });
         foreach (GameObject s in _gameObjects)
         {
             s.Reset();
