@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +7,15 @@ using System.Threading.Tasks;
 
 class Singleton
 {
-    public const int SCREEN_WIDTH = 640;
-    public const int SCREEN_HEIGHT = 480;
+    public const int SCREENWIDTH = 640;
+    public const int SCREENHEIGHT = 480;
 
-    public const int PLAY_AREA_WIDTH = 8;
-    public const int PLAY_AREA_HEIGHT = 10;
-    public const int BUBBLE_SIZE = 32;
-    public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (PLAY_AREA_WIDTH * BUBBLE_SIZE)) / 2;
-    public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (PLAY_AREA_WIDTH * BUBBLE_SIZE);
+    public const int PLAYAREAWIDTH = 8;
+    public const int PLAYAREAHEIGHT = 10;
+    public const int BUBBLESIZE = 32;
+    public const int PlayAreaStartX = (SCREENWIDTH - (PLAYAREAWIDTH * BUBBLESIZE)) / 2;
+    public const int PlayAreaEndX = PlayAreaStartX + (PLAYAREAWIDTH * BUBBLESIZE);
     public const int PlayAreaEndY = 0;
-    public const float MAX_PLAYER_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
 
     public enum BubbleType
     {

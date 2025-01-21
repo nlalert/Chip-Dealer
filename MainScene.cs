@@ -27,8 +27,8 @@ public class MainScene : Game
 
     protected override void Initialize()
     {
-        _graphics.PreferredBackBufferWidth = Singleton.SCREEN_WIDTH;
-        _graphics.PreferredBackBufferHeight = Singleton.SCREEN_HEIGHT;
+        _graphics.PreferredBackBufferWidth = Singleton.SCREENWIDTH;
+        _graphics.PreferredBackBufferHeight = Singleton.SCREENHEIGHT;
         _graphics.ApplyChanges();
         
         _gameObjects = new List<GameObject>();
@@ -97,25 +97,30 @@ public class MainScene : Game
 
     protected void DrawSetBubble(SpriteBatch _spriteBatch)
     {
-        for (int j = 0; j < Singleton.PLAY_AREA_HEIGHT; j++)
+        for (int j = 0; j < Singleton.PLAYAREAHEIGHT; j++)
         {
-            int Xoffset = (j % 2 == 0) ? 0 : (Singleton.BUBBLE_SIZE / 2);
+            int Xoffset = (j % 2 == 0) ? 0 : (Singleton.BUBBLESIZE / 2);
 
-            for (int i = 0; i < Singleton.PLAY_AREA_WIDTH; i++)
+            for (int i = 0; i < Singleton.PLAYAREAWIDTH; i++)
             {
-                if(Xoffset != 0 && i == Singleton.PLAY_AREA_WIDTH - 1)
+                if(Xoffset != 0 && i == Singleton.PLAYAREAWIDTH - 1)
                     continue;
 
                 //draw corresponding to each color (now only red)
                 if (Singleton.Instance.GameBoard[j, i] == Singleton.BubbleType.Red)
-                    _spriteBatch.Draw(_bubbleTexture, new Vector2(i * Singleton.BUBBLE_SIZE + Xoffset + Singleton.PLAY_AREA_START_X, j * Singleton.BUBBLE_SIZE), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0);
+                    _spriteBatch.Draw(_bubbleTexture, new Vector2(i * Singleton.BUBBLESIZE + Xoffset + Singleton.PlayAreaStartX, j * Singleton.BUBBLESIZE), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0);
             }
         }
     }
 
     protected void Reset()
     {
-        Singleton.Instance.GameBoard = new Singleton.BubbleType[Singleton.PLAY_AREA_HEIGHT, Singleton.PLAY_AREA_WIDTH];
+        Singleton.Instance.GameBoard = new Singleton.BubbleType[Singleton.PLAYAREAHEIGHT, Singleton.PLAYAREAWIDTH];
+
+        // for (int i = 0; i < GameBoard; i++)
+        // {
+            
+        // }
 
         Singleton.Instance.Random = new System.Random();
 
@@ -126,7 +131,7 @@ public class MainScene : Game
         {
             Name = "Player",
             Viewport = new Rectangle(51, 30, 54, 30),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, 400),
+            Position = new Vector2(Singleton.SCREENWIDTH / 2, 400),
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
