@@ -9,7 +9,6 @@ class Bubble : GameObject
     public float Angle;
     public float Speed;
 
-    private List<(Vector2, Vector2)> touchingPairs = new List<(Vector2, Vector2)>(); //for dev 
     // public float DistantMoved;
     public Bubble(Texture2D texture) : base(texture)
     {
@@ -20,23 +19,6 @@ class Bubble : GameObject
     {
         spriteBatch.Draw(_texture, Position, Viewport, Color.White);
         base.Draw(spriteBatch);
-        Texture2D lineTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-        lineTexture.SetData(new[] { Color.White });
-
-        foreach (var pair in touchingPairs)
-        {
-            DrawLine(spriteBatch, lineTexture, pair.Item1, pair.Item2, Color.Red, 2);
-        }
-    }
-    private void DrawLine(SpriteBatch spriteBatch, Texture2D texture, Vector2 start, Vector2 end, Color color, float thickness)
-    {
-        //for dev purpose
-        Vector2 direction = end - start;
-        float length = direction.Length();
-        float rotation = (float)Math.Atan2(direction.Y, direction.X);
-
-        spriteBatch.Draw(texture, start, null, color, rotation, Vector2.Zero, new Vector2(length, thickness), SpriteEffects.None, 0);
-      
     }
 
     public override void Reset()
@@ -47,14 +29,14 @@ class Bubble : GameObject
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
-        Velocity.X = (float)Math.Cos(Angle) * Speed;
-        Velocity.Y = (float)Math.Sin(Angle) * Speed;
+        Velocity.X = (float) Math.Cos(Angle) * Speed;
+        Velocity.Y = (float) Math.Sin(Angle) * Speed;
 
         Position += Velocity * (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
-        if (Position.Y < Singleton.PlayAreaEndY)
-        {
+        if (Position.Y < Singleton.PlayAreaEndY) 
             Position.Y = Singleton.PlayAreaEndY;
+<<<<<<< HEAD
             Speed = 0;
         }
 
@@ -92,6 +74,22 @@ class Bubble : GameObject
         
         
         base.Update(gameTime, gameObjects);
+=======
 
+        if (Position.X < Singleton.PLAY_AREA_START_X || Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
+            Angle = (float)Math.PI - Angle;
+
+        foreach (GameObject s in gameObjects)
+        {
+            if (IsTouching(s))
+            {
+                // Handle collision logic here (if required)
+            }
+        }
+>>>>>>> parent of d4ffaaa (Merge pull request #5 from nlalert/AngleDection)
+
+        Velocity = Vector2.Zero;
+
+    base.Update(gameTime, gameObjects);
     }
 }
