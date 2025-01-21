@@ -45,3 +45,12 @@ refint/
 
 # Ignore runtime and intermediate directories for .NET
 ref/
+
+bin\Debug\net8.0\MidtermComGame.pdb
+bin\Debug\net8.0\MidtermComGame.dll
+bin\Debug\net8.0\MidtermComGame.exe
+obj\Debug\net8.0\apphost.exe
+obj\Debug\net8.0\MidtermComGame.dll
+obj\Debug\net8.0\MidtermComGame.pdb
+obj\Debug\net8.0\ref\MidtermComGame.dll
+obj\Debug\net8.0\refint\MidtermComGame.dll
