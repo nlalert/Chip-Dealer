@@ -1,4 +1,0 @@
-Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"D:/Year3Work/GameDev/MidTermGame/MidtermComGame/Content/GameFont.spritefont","D:/Year3Work/GameDev/MidTermGame/MidtermComGame/Content/bin/DesktopGL/Content/GameFont.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21538,0.1553224
-"D:/Year3Work/GameDev/MidTermGame/MidtermComGame/Content/SpaceInvaderSheet.png","D:/Year3Work/GameDev/MidTermGame/MidtermComGame/Content/bin/DesktopGL/Content/SpaceInvaderSheet.xnb","TextureProcessor","Texture2DContent",5980,129685,0.0187583
-"D:/Year3Work/GameDev/MidTermGame/MidtermComGame/Content/TestBubble.jpg","D:/Year3Work/GameDev/MidTermGame/MidtermComGame/Content/bin/DesktopGL/Content/TestBubble.xnb","TextureProcessor","Texture2DContent",5428,4181,0.0029538
