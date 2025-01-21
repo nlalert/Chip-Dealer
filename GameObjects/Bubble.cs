@@ -36,45 +36,6 @@ class Bubble : GameObject
 
         if (Position.Y < Singleton.PlayAreaEndY) 
             Position.Y = Singleton.PlayAreaEndY;
-<<<<<<< HEAD
-            Speed = 0;
-        }
-
-        if (Position.X < Singleton.PlayAreaStartX || Position.X > Singleton.PlayAreaEndX)
-            Angle = (float)Math.PI - Angle;
-
-        // foreach (GameObject s in gameObjects)
-        // {
-        //     if (IsTouching(s) && s is Bubble)
-        //     {
-                
-        //         // Add the touching pair to the list for dev
-        //         touchingPairs.Add((this.Position + new Vector2(_texture.Width/2,_texture.Height/2 ), s.Position+ new Vector2(_texture.Width/2,_texture.Height/2)));
-        //         Vector2 direction = s.Position - this.Position;
-        //         float collisionAngle = (float)Math.Atan2(direction.Y, direction.X);
-        //         Console.WriteLine($"Touched at angle: {MathHelper.ToDegrees(collisionAngle):F2} degrees");
-
-        //         Speed = 0;
-        //         break;
-        //     }
-        // }
-        for(int i = gameObjects.Count - 1; i >= 0; i--){
-            if(IsTouching(gameObjects[i]) && gameObjects[i] is Bubble){
-                //draw line for dev
-                touchingPairs.Add((this.Position + new Vector2(_texture.Width/2,_texture.Height/2 ), gameObjects[i].Position+ new Vector2(_texture.Width/2,_texture.Height/2)));
-                Vector2 direction = gameObjects[i].Position - this.Position;
-                float collisionAngle = (float)Math.Atan2(direction.Y, direction.X);
-                if(Speed !=0){
-                    Console.WriteLine($"Touched at angle: {MathHelper.ToDegrees(collisionAngle):F2} degrees");
-                }
-                Speed = 0;
-                break;
-            }
-        }
-        
-        
-        base.Update(gameTime, gameObjects);
-=======
 
         if (Position.X < Singleton.PLAY_AREA_START_X || Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
             Angle = (float)Math.PI - Angle;
@@ -86,7 +47,6 @@ class Bubble : GameObject
                 // Handle collision logic here (if required)
             }
         }
->>>>>>> parent of d4ffaaa (Merge pull request #5 from nlalert/AngleDection)
 
         Velocity = Vector2.Zero;
 
