@@ -12,6 +12,8 @@ class Bubble : GameObject
 
     public float Radius;
 
+    public Vector2 BoardCoord;
+
     public BubbleType BubbleType;
     Color BallColor;
 
@@ -30,6 +32,7 @@ class Bubble : GameObject
     {
         Speed = 1000f;
         Radius = Singleton.BUBBLE_SIZE / 2;
+        BoardCoord = new Vector2(Singleton.BUBBLE_GRID_WIDTH, Singleton.BUBBLE_GRID_HEIGHT);
         BallColor = Singleton.GetBubbleColor(BubbleType);
         base.Reset();
     }
@@ -64,6 +67,7 @@ class Bubble : GameObject
             if (IsTouching(s) && IsTouchingAsCircle(s) && s.Name.Contains("Bubble"))
             {
                 SnapToGrid();
+                CheckAndDestroySameTypeBubble(gameObjects);
             }
         }
 
@@ -71,6 +75,18 @@ class Bubble : GameObject
 
         base.Update(gameTime, gameObjects);
     }
+
+    private void CheckAndDestroySameTypeBubble(List<GameObject> gameObjects)
+    {
+        List<Vector2> sameTypeBubbles = new List<Vector2>();
+
+        CheckSameTypeBubbles(BoardCoord, sameTypeBubbles);
+
+        Console.WriteLine("Visited : "+ sameTypeBubbles.Count);
+        if(sameTypeBubbles.Count >= 4)
+            DestroySameTypeBubbles(sameTypeBubbles, gameObjects);
+    }
+
     protected void SnapToGrid()
     {
         Speed = 0;
@@ -99,8 +115,6 @@ class Bubble : GameObject
 
         closestPositions = closestPositions.OrderBy(p => p.Distance).ToList();
 
-        Vector2 finalGridCoord = new Vector2(Singleton.BUBBLE_GRID_WIDTH, Singleton.BUBBLE_GRID_WIDTH);
-
         for (int i = 0; i < closestPositions.Count; i++)
         {
             int X = (int) closestPositions[i].GridPosition.X;
@@ -118,18 +132,11 @@ class Bubble : GameObject
             {
                 Singleton.Instance.GameBoard[Y, X] = BubbleType;
                 Position = new Vector2(targetX, targetY);
-                finalGridCoord = new Vector2(X, Y);
+
+                BoardCoord = new Vector2(X, Y);
                 break;
             }
         }
-
-        List<Vector2> visitedCoord = new List<Vector2>();
-
-        Console.WriteLine("Checking");
-
-        CheckSameTypeBubbles(finalGridCoord, visitedCoord);
-
-        Console.WriteLine("Visited : "+ visitedCoord.Count);
     }
 
     protected void CheckSameTypeBubbles(Vector2 gridCoord, List<Vector2> visitedCoord)
@@ -150,7 +157,6 @@ class Bubble : GameObject
         if(IsValidAndSame(X, Y, X, Y-1)) CheckSameTypeBubbles(new Vector2(X, Y-1), visitedCoord);
         if(IsValidAndSame(X, Y, X, Y+1)) CheckSameTypeBubbles(new Vector2(X, Y+1), visitedCoord);
         
-
         if (isOddRow)
         {
             if(IsValidAndSame(X, Y, X+1, Y-1)) CheckSameTypeBubbles(new Vector2(X+1, Y-1), visitedCoord);
@@ -160,6 +166,21 @@ class Bubble : GameObject
         {
             if(IsValidAndSame(X, Y, X-1, Y-1)) CheckSameTypeBubbles(new Vector2(X-1, Y-1), visitedCoord);
             if(IsValidAndSame(X, Y, X-1, Y+1)) CheckSameTypeBubbles(new Vector2(X-1, Y+1), visitedCoord);
+        }
+    }
+
+    protected void DestroySameTypeBubbles(List<Vector2> visitedCoord, List<GameObject> gameObjects)
+    {
+        for (int i = 0; i < visitedCoord.Count; i++)
+        {
+            Singleton.Instance.GameBoard[(int)visitedCoord[i].Y, (int)visitedCoord[i].X] = BubbleType.None;
+            foreach (GameObject s in gameObjects)
+            {
+                if(s is Bubble && (s as Bubble).BoardCoord == visitedCoord[i])
+                {
+                    s.IsActive = false;
+                }
+            }
         }
     }
 
