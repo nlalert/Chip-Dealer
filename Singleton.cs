@@ -19,6 +19,8 @@ class Singleton
     public const int PLAY_AREA_END_Y = 0;
     public const float MAX_PLAYER_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
 
+    public const int BUBBLE_BREAK_AMOUNT = 4;
+
     public BubbleType[,] GameBoard;
 
     public BubbleType CurrentBubble;

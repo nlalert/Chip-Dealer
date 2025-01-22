@@ -48,6 +48,7 @@ class Bubble : GameObject
         if (Position.Y < Singleton.PLAY_AREA_END_Y){
             Position.Y = Singleton.PLAY_AREA_END_Y;
             SnapToGrid();
+            CheckAndDestroySameTypeBubble(gameObjects);
         }
 
         if (Position.X < Singleton.PLAY_AREA_START_X){
@@ -64,7 +65,7 @@ class Bubble : GameObject
 
         foreach (GameObject s in gameObjects)
         {
-            if (IsTouching(s) && IsTouchingAsCircle(s) && s.Name.Contains("Bubble"))
+            if (IsTouching(s) && IsTouchingAsCircle(s) && s is Bubble)
             {
                 SnapToGrid();
                 CheckAndDestroySameTypeBubble(gameObjects);
@@ -74,17 +75,6 @@ class Bubble : GameObject
         Velocity = Vector2.Zero;
 
         base.Update(gameTime, gameObjects);
-    }
-
-    private void CheckAndDestroySameTypeBubble(List<GameObject> gameObjects)
-    {
-        List<Vector2> sameTypeBubbles = new List<Vector2>();
-
-        CheckSameTypeBubbles(BoardCoord, sameTypeBubbles);
-
-        Console.WriteLine("Visited : "+ sameTypeBubbles.Count);
-        if(sameTypeBubbles.Count >= 4)
-            DestroySameTypeBubbles(sameTypeBubbles, gameObjects);
     }
 
     protected void SnapToGrid()
@@ -139,6 +129,17 @@ class Bubble : GameObject
         }
     }
 
+    private void CheckAndDestroySameTypeBubble(List<GameObject> gameObjects)
+    {
+        List<Vector2> sameTypeBubbles = new List<Vector2>();
+
+        CheckSameTypeBubbles(BoardCoord, sameTypeBubbles);
+
+        Console.WriteLine("Visited : "+ sameTypeBubbles.Count);
+        if(sameTypeBubbles.Count >= Singleton.BUBBLE_BREAK_AMOUNT)
+            DestroySameTypeBubbles(sameTypeBubbles, gameObjects);
+    }
+
     protected void CheckSameTypeBubbles(Vector2 gridCoord, List<Vector2> visitedCoord)
     {
         if(visitedCoord.Contains(gridCoord))
@@ -147,15 +148,14 @@ class Bubble : GameObject
         int X = (int)gridCoord.X;
         int Y = (int)gridCoord.Y;
 
-        Vector2 coord = new Vector2(X, Y);
-        visitedCoord.Add(coord);
-
-        bool isOddRow = (Y % 2 == 1);
+        visitedCoord.Add(new Vector2(X, Y));
 
         if(IsValidAndSame(X, Y, X-1, Y)) CheckSameTypeBubbles(new Vector2(X-1, Y), visitedCoord);
         if(IsValidAndSame(X, Y, X+1, Y)) CheckSameTypeBubbles(new Vector2(X+1, Y), visitedCoord);
         if(IsValidAndSame(X, Y, X, Y-1)) CheckSameTypeBubbles(new Vector2(X, Y-1), visitedCoord);
         if(IsValidAndSame(X, Y, X, Y+1)) CheckSameTypeBubbles(new Vector2(X, Y+1), visitedCoord);
+
+        bool isOddRow = (Y % 2 == 1);
         
         if (isOddRow)
         {
