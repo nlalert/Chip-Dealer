@@ -56,8 +56,6 @@ class Bubble : GameObject
         }
     }
 
-
-
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
         Velocity.X = (float) Math.Cos(Angle) * Speed;

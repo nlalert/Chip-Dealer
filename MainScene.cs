@@ -17,7 +17,8 @@ public class MainScene
     int _numObject;
     Texture2D _backgroundTexture;
     Texture2D _bubbleTexture;
-    Texture2D _chipTextures;
+    Texture2D _chipTexture;
+    Texture2D _chipStickTexture;
     Texture2D _rectTexture;
     Texture2D _cannonTexture;
 
@@ -34,7 +35,8 @@ public class MainScene
         _backgroundTexture = content.Load<Texture2D>("Background");
 
         _bubbleTexture = content.Load<Texture2D>("Bubble");
-        _chipTextures = content.Load<Texture2D>("Chips");
+        _chipTexture = content.Load<Texture2D>("Chips");
+        _chipStickTexture = content.Load<Texture2D>("ChipStick");
 
         _cannonTexture = content.Load<Texture2D>("Cannon");
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
@@ -90,6 +92,9 @@ public class MainScene
 
         _spriteBatch.Draw(_backgroundTexture, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
 
+        _spriteBatch.Draw(_chipStickTexture, new Vector2(Singleton.PLAY_AREA_START_X, -_chipStickTexture.Height + Singleton.Instance.CeilingPosition),
+        null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+
         for (int i = 0; i < _numObject; i++)
         {
             _gameObjects[i].Draw(_spriteBatch);
@@ -112,6 +117,7 @@ public class MainScene
         Singleton.Instance.BubbleShotAmount = 0;
         Singleton.Instance.PlayAreaStartY = 0;
         Singleton.Instance.PlayAreaStartY = 0;
+        Singleton.Instance.CeilingPosition = 0;
 
         Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
 
@@ -125,7 +131,7 @@ public class MainScene
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
-            Bubble = new Bubble(_chipTextures)
+            Bubble = new Bubble(_chipTexture)
             {
                 Name = "Bubble",
                 Speed = 0
@@ -142,6 +148,7 @@ public class MainScene
     {
         if(Singleton.Instance.BubbleShotAmount % Singleton.CEILING_WAITING_TURN == 0){
             Singleton.Instance.PlayAreaStartY += Singleton.BUBBLE_SIZE;
+            Singleton.Instance.CeilingPosition += Singleton.BUBBLE_SIZE;
 
             _numObject = _gameObjects.Count;
 
@@ -152,6 +159,7 @@ public class MainScene
                     _gameObjects[i].Position.Y += Singleton.BUBBLE_SIZE;
                 }
             }
+
         }
     }
 

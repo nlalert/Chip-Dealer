@@ -22,7 +22,9 @@ class Singleton
     public const int BUBBLE_BREAK_AMOUNT = 3;
     public const int CEILING_WAITING_TURN = 8;
 
+    public int CeilingPosition = 0;
     public int BubbleShotAmount = 0;
+
 
     public BubbleType[,] GameBoard;
 
