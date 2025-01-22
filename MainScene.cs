@@ -134,6 +134,7 @@ public class MainScene
             Bubble = new Bubble(_chipTexture)
             {
                 Name = "Bubble",
+                Viewport = new Rectangle(0, 0, 32, 32),
                 Speed = 0
             }
         });
