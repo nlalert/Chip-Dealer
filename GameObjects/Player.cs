@@ -17,6 +17,12 @@ class Player : GameObject
     public override void Draw(SpriteBatch spriteBatch)
     {
         Vector2 Origin = new Vector2(Rectangle.Width / 2, Rectangle.Height / 2);
+        
+        //draw aim line
+        float DotLinelength = 100f;
+        float DotSize = 4f;
+        float DotGap = 8f;
+        DrawDottedLine(spriteBatch, Position + Origin, Rotation, DotLinelength, Color.White, DotSize, DotGap);
 
         // Draw the sprite with rotation around its center
         spriteBatch.Draw(
@@ -70,5 +76,41 @@ class Player : GameObject
         Velocity = Vector2.Zero;
 
         base.Update(gameTime, gameObjects);
+    }
+
+    private void DrawDottedLine(SpriteBatch spriteBatch, Vector2 start, float rotation, float length, Color color, float dotSize, float gapSize)
+    {
+        // 1x1 pixel texture 
+        Texture2D dotTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+        dotTexture.SetData(new[] { Color.White });
+
+        // rotate to straight with player
+        float adjustedRotation = rotation - MathHelper.PiOver2;
+        // cal direction
+        Vector2 direction = new Vector2(
+            (float)Math.Cos(adjustedRotation),
+            (float)Math.Sin(adjustedRotation)
+        );
+
+        Vector2 currentPos = start;
+        float totalDistance = 0;
+        while (totalDistance < length)
+        {
+            // Draw a dot
+            spriteBatch.Draw(
+                dotTexture,
+                currentPos,
+                null,
+                color,
+                0f,
+                Vector2.Zero,
+                new Vector2(dotSize, dotSize), // Scale the dot size
+                SpriteEffects.None,
+                0
+            );
+
+            currentPos += direction * (dotSize + gapSize);
+            totalDistance += dotSize + gapSize;
+        }
     }
 }
