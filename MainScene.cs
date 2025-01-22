@@ -82,11 +82,14 @@ public class MainScene : Game
             case Singleton.GameState.CheckBubbleAndCeiling:
                 CheckAndDestroyHangingBubbles();
                 CheckAndPushDownCeiling();
-                Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
+                CheckGameOver();
+                break;
+            case Singleton.GameState.GameOver:
+                Console.WriteLine(Singleton.Instance.CurrentGameState);
+                // TODO: Later Lazy
                 break;
         }
 
-        Console.WriteLine(Singleton.Instance.CurrentGameState);
 
         Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
@@ -113,6 +116,9 @@ public class MainScene : Game
         //Next Bubble Display
         _spriteBatch.Draw(_bubbleTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetBubbleColor(Singleton.Instance.NextBubble));
 
+        //Game Over Line
+        _spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.BUBBLE_GRID_HEIGHT * Singleton.BUBBLE_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
+
         _spriteBatch.End();
 
         _graphics.BeginDraw();
@@ -127,6 +133,7 @@ public class MainScene : Game
         Singleton.Instance.Random = new System.Random();
 
         Singleton.Instance.BubbleShotAmount = 0;
+        Singleton.Instance.PlayAreaStartY = 0;
         Singleton.Instance.PlayAreaStartY = 0;
 
         Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
@@ -159,9 +166,7 @@ public class MainScene : Game
 
     protected void CheckAndPushDownCeiling()
     {
-        if(Singleton.Instance.BubbleShotAmount >= Singleton.CEILING_WAITING_TURN){
-            Singleton.Instance.BubbleShotAmount %= Singleton.CEILING_WAITING_TURN;
-
+        if(Singleton.Instance.BubbleShotAmount % Singleton.CEILING_WAITING_TURN == 0){
             Singleton.Instance.PlayAreaStartY += Singleton.BUBBLE_SIZE;
 
             _numObject = _gameObjects.Count;
@@ -251,6 +256,29 @@ public class MainScene : Game
                 if(_gameObjects[j] is Bubble && (_gameObjects[j] as Bubble).BoardCoord == AdjacentBubbles[i])
                 {
                     _gameObjects[j].IsActive = false;
+                }
+            }
+        }
+    }
+
+    protected void CheckGameOver()
+    {
+        Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
+
+        int ceilingPushedAmount = Singleton.Instance.BubbleShotAmount / Singleton.CEILING_WAITING_TURN;
+
+        Console.WriteLine("Push : " + ceilingPushedAmount);
+        Console.WriteLine("Shot : " + Singleton.Instance.BubbleShotAmount);
+        Console.WriteLine("======");
+
+        for (int i = 0; i < Singleton.BUBBLE_GRID_WIDTH; i++)
+        {
+            for (int j = Singleton.BUBBLE_GRID_HEIGHT - ceilingPushedAmount; j < Singleton.BUBBLE_GRID_HEIGHT; j++)
+            {
+                if(Singleton.Instance.GameBoard[j, i] != BubbleType.None)
+                {
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.GameOver;
+                    return;
                 }
             }
         }
