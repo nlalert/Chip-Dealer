@@ -28,26 +28,9 @@ class Bubble : GameObject
 
     public override void Reset()
     {
-        Speed = 1000;
+        Speed = 1000f;
         Radius = Singleton.BUBBLE_SIZE / 2;
-
-        BallColor = Color.White;
-        switch (BubbleType)
-        {
-            case BubbleType.Red:
-                BallColor = Color.Red;
-                break;
-            case BubbleType.Green:
-                BallColor = Color.LimeGreen;
-                break;
-            case BubbleType.Blue:
-                BallColor = Color.Blue;
-                break;
-            case BubbleType.Yellow:
-                BallColor = Color.Yellow;
-                break;
-        }
-
+        BallColor = Singleton.GetBubbleColor(BubbleType);
         base.Reset();
     }
 
@@ -88,7 +71,6 @@ class Bubble : GameObject
 
         base.Update(gameTime, gameObjects);
     }
-
     protected void SnapToGrid()
     {
         Speed = 0;
@@ -138,8 +120,6 @@ class Bubble : GameObject
             }
         }
     }
-
-    
     protected bool IsTouchingAsCircle(GameObject g)
     {
         
@@ -151,4 +131,5 @@ class Bubble : GameObject
         }
         return false;
     }
+
 }

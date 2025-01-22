@@ -98,6 +98,9 @@ public class MainScene : Game
         //Play Border
         _spriteBatch.Draw(_rectTexture, new Vector2(Singleton.PLAY_AREA_END_X, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         _spriteBatch.Draw(_rectTexture, new Vector2(Singleton.PLAY_AREA_START_X, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+        
+        //Next Bubble Display
+        _spriteBatch.Draw(_bubbleTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetBubbleColor(Singleton.Instance.NextBubble));
 
         _spriteBatch.End();
 
@@ -136,6 +139,7 @@ public class MainScene : Game
                 Speed = 0
             }
         });
+        
         foreach (GameObject s in _gameObjects)
         {
             s.Reset();

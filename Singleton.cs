@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,9 @@ class Singleton
 
     public BubbleType[,] GameBoard;
 
+    public BubbleType CurrentBubble;
+    public BubbleType NextBubble;
+    
     public Random Random;
 
     public KeyboardState PreviousKey, CurrentKey;
@@ -38,6 +42,21 @@ class Singleton
             }
             return instance;
         }
+    }
+    public static Color GetBubbleColor(BubbleType bubbleType){
+        switch (bubbleType)
+        {
+            case BubbleType.Red:
+                return Color.Red;
+            case BubbleType.Green:
+                return Color.LimeGreen;
+            case BubbleType.Blue:
+                return Color.Blue;
+            case BubbleType.Yellow:
+                return Color.Yellow;
+        }
+        // if somehow not have color 
+        return Color.White;
     }
 }
 

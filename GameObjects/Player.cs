@@ -6,8 +6,9 @@ using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
-    public Bubble Bubble, CurrentBubble;
+    public Bubble Bubble, LastShotBubble;
     public Keys Left, Right, Fire;
+    
     
     public Player(Texture2D texture) : base(texture)
     {
@@ -29,7 +30,7 @@ class Player : GameObject
             _texture,
             Position + Origin, // Position adjusted to account for origin
             Viewport,
-            Color.White,
+            Singleton.GetBubbleColor(Singleton.Instance.CurrentBubble),
             Rotation, 
             Origin, 
             Scale,
@@ -42,7 +43,9 @@ class Player : GameObject
     public override void Reset()
     {
         Position = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, 400);
-        CurrentBubble = Bubble;
+        Singleton.Instance.CurrentBubble = RandomBubbleColor();
+        Singleton.Instance.NextBubble = RandomBubbleColor();
+        LastShotBubble = Bubble;
         base.Reset();
     }
 
@@ -58,26 +61,31 @@ class Player : GameObject
         }
 
         Rotation = MathHelper.Clamp(Rotation, -Singleton.MAX_PLAYER_ROTATION, Singleton.MAX_PLAYER_ROTATION);
-
         if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
-            CurrentBubble.Speed == 0 &&
+            LastShotBubble.Speed == 0 &&
             Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
         {
+            OnShoot(gameTime,gameObjects);
+            Singleton.Instance.CurrentBubble = Singleton.Instance.NextBubble;
+            Singleton.Instance.NextBubble = RandomBubbleColor();
+            Console.WriteLine(Singleton.Instance.NextBubble);
+        }
+        base.Update(gameTime, gameObjects);
+    }
+    
+    private void OnShoot(GameTime gameTime, List<GameObject> gameObjects){
+        
             var newBubble = Bubble.Clone() as Bubble; 
             newBubble.Position = new Vector2(Rectangle.Width / 2 + Position.X - newBubble.Rectangle.Width / 2,
                                             Position.Y);
             newBubble.Angle = Rotation + (float)(3 * Math.PI / 2);
-            newBubble.BubbleType = (BubbleType) Singleton.Instance.Random.Next(1, 5);
-            Console.WriteLine(newBubble.BubbleType);
+            newBubble.BubbleType = Singleton.Instance.CurrentBubble;
             newBubble.Reset();
             gameObjects.Add(newBubble);
-            
-            CurrentBubble = newBubble;
-        }
-
-        Velocity = Vector2.Zero;
-
-        base.Update(gameTime, gameObjects);
+            LastShotBubble = newBubble;
+    }
+    private BubbleType RandomBubbleColor(){
+        return (BubbleType) Singleton.Instance.Random.Next(1, 5);
     }
 
     private void DrawDottedLine(SpriteBatch spriteBatch, Vector2 start, float rotation, float length, Color color, float dotSize, float gapSize)
