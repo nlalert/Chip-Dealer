@@ -117,13 +117,13 @@ public class MainScene : Game
 
         Singleton.Instance.Random = new System.Random();
 
-        Texture2D spaceInvaderTexture = Content.Load<Texture2D>("SpaceInvaderSheet");
+        Texture2D cannonTexture = Content.Load<Texture2D>("Cannon");
 
         _gameObjects.Clear();
-        _gameObjects.Add(new Player(spaceInvaderTexture)
+        _gameObjects.Add(new Player(cannonTexture)
         {
             Name = "Player",
-            Viewport = new Rectangle(51, 30, 54, 30),
+            Viewport = new Rectangle(0, 0, 72, 72),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, 400),
             Left = Keys.Left,
             Right = Keys.Right,

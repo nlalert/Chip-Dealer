@@ -17,7 +17,7 @@ class Player : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        Vector2 Origin = new Vector2(Rectangle.Width / 2, Rectangle.Height / 2);
+        Vector2 Origin = new Vector2(36, 55);
         
         //draw aim line
         float DotLinelength = 100f;
@@ -77,7 +77,7 @@ class Player : GameObject
         
             var newBubble = Bubble.Clone() as Bubble; 
             newBubble.Position = new Vector2(Rectangle.Width / 2 + Position.X - newBubble.Rectangle.Width / 2,
-                                            Position.Y);
+                                            Position.Y + Rectangle.Height / 2);
             newBubble.Angle = Rotation + (float)(3 * Math.PI / 2);
             newBubble.BubbleType = Singleton.Instance.CurrentBubble;
             newBubble.Reset();
