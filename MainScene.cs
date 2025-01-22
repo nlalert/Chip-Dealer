@@ -77,6 +77,8 @@ public class MainScene : Game
             }
         }
 
+        CheckAndDestroyHangingBubbles();
+
         Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
         base.Update(gameTime);
@@ -139,5 +141,60 @@ public class MainScene : Game
         {
             s.Reset();
         }
+    }
+
+    private void CheckAndDestroyHangingBubbles()
+    {
+        for (int j = 1; j < Singleton.BUBBLE_GRID_HEIGHT; j++)
+        {
+            for (int i = 0; i < Singleton.BUBBLE_GRID_WIDTH; i++)
+            {
+                //skip last column
+                if (j % 2 == 1 && i == Singleton.BUBBLE_GRID_WIDTH - 1)
+                    continue;
+
+                if(!HaveBubble(i-1, j) && !HaveBubble(i+1, j) && !HaveBubble(i, j-1))
+                {  
+                    if (j % 2 == 1)
+                    {
+                        if(!HaveBubble(i+1, j-1))
+                        {
+                            foreach (GameObject s in _gameObjects)
+                            {
+                                if(s is Bubble && (s as Bubble).BoardCoord == new Vector2(i, j))
+                                {
+                                    s.IsActive = false;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(!HaveBubble(i-1, j-1))
+                        {
+                            foreach (GameObject s in _gameObjects)
+                            {
+                                if(s is Bubble && (s as Bubble).BoardCoord == new Vector2(i, j))
+                                {
+                                    s.IsActive = false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    protected bool HaveBubble(int x, int y)
+    {
+        if (x >= 0 && x < Singleton.BUBBLE_GRID_WIDTH && 
+            y >= 0 && y < Singleton.BUBBLE_GRID_HEIGHT)
+        {
+            return Singleton.Instance.GameBoard[y, x] != BubbleType.None;
+        }
+        return false;
     }
 }
