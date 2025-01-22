@@ -164,7 +164,6 @@ public class MainScene : Game
                     if(b.Y < highestRow) highestRow = (int) b.Y;
                 }
 
-                Console.WriteLine("highestRow : "+ highestRow);
                 if(highestRow != 0)
                     DestroyBubbles(AdjacentBubbles);
                     
@@ -212,6 +211,7 @@ public class MainScene : Game
     {
         for (int i = 0; i < AdjacentBubbles.Count; i++)
         {
+            Singleton.Instance.GameBoard[(int)AdjacentBubbles[i].Y, (int)AdjacentBubbles[i].X] = BubbleType.None;
             for (int j = 0; j < _numObject; j++)
             {
                 if(_gameObjects[j] is Bubble && (_gameObjects[j] as Bubble).BoardCoord == AdjacentBubbles[i])
