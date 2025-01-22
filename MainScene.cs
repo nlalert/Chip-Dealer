@@ -85,11 +85,9 @@ public class MainScene : Game
                 CheckGameOver();
                 break;
             case Singleton.GameState.GameOver:
-                Console.WriteLine(Singleton.Instance.CurrentGameState);
                 // TODO: Later Lazy
                 break;
         }
-
 
         Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
@@ -266,10 +264,6 @@ public class MainScene : Game
         Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
 
         int ceilingPushedAmount = Singleton.Instance.BubbleShotAmount / Singleton.CEILING_WAITING_TURN;
-
-        Console.WriteLine("Push : " + ceilingPushedAmount);
-        Console.WriteLine("Shot : " + Singleton.Instance.BubbleShotAmount);
-        Console.WriteLine("======");
 
         for (int i = 0; i < Singleton.BUBBLE_GRID_WIDTH; i++)
         {
