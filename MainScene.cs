@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using Microsoft.Xna.Framework.Content;
 namespace MidtermComGame;
 
-public class MainScene : Game
+public class MainScene 
 {
-    private GraphicsDeviceManager _graphics;
+    // private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
     SpriteFont _font;
@@ -18,44 +18,35 @@ public class MainScene : Game
 
     Texture2D _bubbleTexture;
     Texture2D _rectTexture;
+    Texture2D _cannonTexture;
 
-    public MainScene()
+    public void Initialize()
     {
-        _graphics = new GraphicsDeviceManager(this);
-        Content.RootDirectory = "Content";
-        IsMouseVisible = true;
-    }
+        Singleton.Instance.GameBoard = new BubbleType[Singleton.BUBBLE_GRID_HEIGHT, Singleton.BUBBLE_GRID_WIDTH];
+        Singleton.Instance.Random = new System.Random();
+        Singleton.Instance.BubbleShotAmount = 0;
+        Singleton.Instance.PlayAreaStartY = 0;
+        Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
 
-    protected override void Initialize()
-    {
-        _graphics.PreferredBackBufferWidth = Singleton.SCREEN_WIDTH;
-        _graphics.PreferredBackBufferHeight = Singleton.SCREEN_HEIGHT;
-        _graphics.ApplyChanges();
-        
         _gameObjects = new List<GameObject>();
 
-        base.Initialize();
     }
 
-    protected override void LoadContent()
+    public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        _font = Content.Load<SpriteFont>("GameFont");
-        _bubbleTexture = Content.Load<Texture2D>("Bubble");
-
-        _rectTexture = new Texture2D(_graphics.GraphicsDevice, 3, 640);
-        Color[] data = new Color[3*640];
-        for (int i = 0; i < data.Length; i++)
-        {
-            data[i] = Color.White;
-        }
+        _spriteBatch = spriteBatch;
+        _font = content.Load<SpriteFont>("GameFont");
+        _bubbleTexture = content.Load<Texture2D>("Bubble");
+        _cannonTexture = content.Load<Texture2D>("Cannon");
+        _rectTexture = new Texture2D(graphicsDevice, 3, 640);
+        Color[] data = new Color[3 * 640];
+        for (int i = 0; i < data.Length; i++) data[i] = Color.White;
         _rectTexture.SetData(data);
 
         Reset();
     }
 
-    protected override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
         Singleton.Instance.CurrentKey = Keyboard.GetState();
 
@@ -91,14 +82,10 @@ public class MainScene : Game
 
         Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
-        base.Update(gameTime);
     }
 
-    protected override void Draw(GameTime gameTime)
+    public void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.Black);
-
-        _spriteBatch.Begin();
 
         _numObject = _gameObjects.Count;
 
@@ -117,11 +104,6 @@ public class MainScene : Game
         //Game Over Line
         _spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.BUBBLE_GRID_HEIGHT * Singleton.BUBBLE_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
-        _spriteBatch.End();
-
-        _graphics.BeginDraw();
-
-        base.Draw(gameTime);
     }
 
     protected void Reset()
@@ -136,10 +118,9 @@ public class MainScene : Game
 
         Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
 
-        Texture2D cannonTexture = Content.Load<Texture2D>("Cannon");
+        // Texture2D cannonTexture = content.Load<Texture2D>("Cannon");
 
-        _gameObjects.Clear();
-        _gameObjects.Add(new Player(cannonTexture)
+        _gameObjects.Add(new Player(_cannonTexture)
         {
             Name = "Player",
             Viewport = new Rectangle(0, 0, 72, 72),
