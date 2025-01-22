@@ -63,19 +63,19 @@ public class MainScene : Game
 
         // TODO: Do this when only in playing game state
         for (int i = 0; i < _numObject; i++)
+        {
+            if(_gameObjects[i].IsActive)
+                _gameObjects[i].Update(gameTime, _gameObjects);
+        }
+        for (int i = 0; i < _numObject; i++)
+        {
+            if(!_gameObjects[i].IsActive)
             {
-                if(_gameObjects[i].IsActive)
-                    _gameObjects[i].Update(gameTime, _gameObjects);
+            _gameObjects.RemoveAt(i);
+            i--;
+            _numObject--;
             }
-            for (int i = 0; i < _numObject; i++)
-            {
-                if(!_gameObjects[i].IsActive)
-                {
-                _gameObjects.RemoveAt(i);
-                i--;
-                _numObject--;
-                }
-            }
+        }
 
         Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
@@ -112,11 +112,6 @@ public class MainScene : Game
     protected void Reset()
     {
         Singleton.Instance.GameBoard = new BubbleType[Singleton.BUBBLE_GRID_HEIGHT, Singleton.BUBBLE_GRID_WIDTH];
-
-        // for (int i = 0; i < GameBoard; i++)
-        // {
-            
-        // }
 
         Singleton.Instance.Random = new System.Random();
 

@@ -99,6 +99,8 @@ class Bubble : GameObject
 
         closestPositions = closestPositions.OrderBy(p => p.Distance).ToList();
 
+        Vector2 finalGridCoord = new Vector2(Singleton.BUBBLE_GRID_WIDTH, Singleton.BUBBLE_GRID_WIDTH);
+
         for (int i = 0; i < closestPositions.Count; i++)
         {
             int X = (int) closestPositions[i].GridPosition.X;
@@ -114,12 +116,63 @@ class Bubble : GameObject
 
             if(Singleton.Instance.GameBoard[Y, X] == BubbleType.None)
             {
-                Singleton.Instance.GameBoard[Y, X] = BubbleType; // Red for now
+                Singleton.Instance.GameBoard[Y, X] = BubbleType;
                 Position = new Vector2(targetX, targetY);
+                finalGridCoord = new Vector2(X, Y);
                 break;
             }
         }
+
+        List<Vector2> visitedCoord = new List<Vector2>();
+
+        Console.WriteLine("Checking");
+
+        CheckSameTypeBubbles(finalGridCoord, visitedCoord);
+
+        Console.WriteLine("Visited : "+ visitedCoord.Count);
     }
+
+    protected void CheckSameTypeBubbles(Vector2 gridCoord, List<Vector2> visitedCoord)
+    {
+        if(visitedCoord.Contains(gridCoord))
+            return;
+
+        int X = (int)gridCoord.X;
+        int Y = (int)gridCoord.Y;
+
+        Vector2 coord = new Vector2(X, Y);
+        visitedCoord.Add(coord);
+
+        bool isOddRow = (Y % 2 == 1);
+
+        if(IsValidAndSame(X, Y, X-1, Y)) CheckSameTypeBubbles(new Vector2(X-1, Y), visitedCoord);
+        if(IsValidAndSame(X, Y, X+1, Y)) CheckSameTypeBubbles(new Vector2(X+1, Y), visitedCoord);
+        if(IsValidAndSame(X, Y, X, Y-1)) CheckSameTypeBubbles(new Vector2(X, Y-1), visitedCoord);
+        if(IsValidAndSame(X, Y, X, Y+1)) CheckSameTypeBubbles(new Vector2(X, Y+1), visitedCoord);
+        
+
+        if (isOddRow)
+        {
+            if(IsValidAndSame(X, Y, X+1, Y-1)) CheckSameTypeBubbles(new Vector2(X+1, Y-1), visitedCoord);
+            if(IsValidAndSame(X, Y, X+1, Y+1)) CheckSameTypeBubbles(new Vector2(X+1, Y+1), visitedCoord);
+        }
+        else
+        {
+            if(IsValidAndSame(X, Y, X-1, Y-1)) CheckSameTypeBubbles(new Vector2(X-1, Y-1), visitedCoord);
+            if(IsValidAndSame(X, Y, X-1, Y+1)) CheckSameTypeBubbles(new Vector2(X-1, Y+1), visitedCoord);
+        }
+    }
+
+    protected bool IsValidAndSame(int x, int y, int refX, int refY)
+    {
+        if (refX >= 0 && refX < Singleton.BUBBLE_GRID_WIDTH && 
+            refY >= 0 && refY < Singleton.BUBBLE_GRID_HEIGHT)
+        {
+            return Singleton.Instance.GameBoard[y, x] == Singleton.Instance.GameBoard[refY, refX];
+        }
+        return false;
+    }
+    
     protected bool IsTouchingAsCircle(GameObject g)
     {
         
