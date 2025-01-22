@@ -79,6 +79,8 @@ public class MainScene : Game
 
         CheckAndDestroyHangingBubbles();
 
+        CheckAndPushDownCeiling();
+
         Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
         base.Update(gameTime);
@@ -117,6 +119,9 @@ public class MainScene : Game
 
         Singleton.Instance.Random = new System.Random();
 
+        Singleton.Instance.BubbleShotAmount = 0;
+        Singleton.Instance.PlayAreaStartY = 0;
+
         Texture2D cannonTexture = Content.Load<Texture2D>("Cannon");
 
         _gameObjects.Clear();
@@ -140,6 +145,25 @@ public class MainScene : Game
         foreach (GameObject s in _gameObjects)
         {
             s.Reset();
+        }
+    }
+
+    protected void CheckAndPushDownCeiling()
+    {
+        if(Singleton.Instance.BubbleShotAmount >= 4){
+            Singleton.Instance.BubbleShotAmount %= 4;
+
+            Singleton.Instance.PlayAreaStartY += Singleton.BUBBLE_SIZE;
+
+            _numObject = _gameObjects.Count;
+
+            for (int i = 0; i < _numObject; i++)
+            {
+                if(_gameObjects[i].Name.Contains("Bubble"))
+                {
+                    _gameObjects[i].Position.Y += Singleton.BUBBLE_SIZE;
+                }
+            }
         }
     }
 
@@ -212,6 +236,7 @@ public class MainScene : Game
         for (int i = 0; i < AdjacentBubbles.Count; i++)
         {
             Singleton.Instance.GameBoard[(int)AdjacentBubbles[i].Y, (int)AdjacentBubbles[i].X] = BubbleType.None;
+            _numObject = _gameObjects.Count;
             for (int j = 0; j < _numObject; j++)
             {
                 if(_gameObjects[j] is Bubble && (_gameObjects[j] as Bubble).BoardCoord == AdjacentBubbles[i])

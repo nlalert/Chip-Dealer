@@ -45,8 +45,8 @@ class Bubble : GameObject
         Position += Velocity * (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
         //Snap
-        if (Position.Y < Singleton.PLAY_AREA_END_Y){
-            Position.Y = Singleton.PLAY_AREA_END_Y;
+        if (Position.Y < Singleton.Instance.PlayAreaStartY){
+            Position.Y = Singleton.Instance.PlayAreaStartY;
             SnapToGrid();
             CheckAndDestroySameTypeBubble(gameObjects);
         }
@@ -95,7 +95,7 @@ class Bubble : GameObject
                     continue;
 
                 float targetX = i * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
-                float targetY = j * Singleton.BUBBLE_SIZE; // Add Y offset if needed
+                float targetY = j * Singleton.BUBBLE_SIZE + Singleton.Instance.PlayAreaStartY;
 
                 float distance = Vector2.Distance(new Vector2(targetX, targetY), Position);
 
@@ -116,7 +116,7 @@ class Bubble : GameObject
                 continue;
 
             float targetX = X * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
-            float targetY = Y * Singleton.BUBBLE_SIZE;
+            float targetY = Y * Singleton.BUBBLE_SIZE + Singleton.Instance.PlayAreaStartY;
 
             if(Singleton.Instance.GameBoard[Y, X] == BubbleType.None)
             {

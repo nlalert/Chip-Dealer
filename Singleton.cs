@@ -16,10 +16,12 @@ class Singleton
     public const int BUBBLE_SIZE = 32;
     public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (BUBBLE_GRID_WIDTH * BUBBLE_SIZE)) / 2;
     public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (BUBBLE_GRID_WIDTH * BUBBLE_SIZE);
-    public const int PLAY_AREA_END_Y = 0;
+    public int PlayAreaStartY = 0;
     public const float MAX_PLAYER_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
 
     public const int BUBBLE_BREAK_AMOUNT = 4;
+
+    public int BubbleShotAmount = 0;
 
     public BubbleType[,] GameBoard;
 

@@ -68,7 +68,7 @@ class Player : GameObject
             OnShoot(gameTime,gameObjects);
             Singleton.Instance.CurrentBubble = Singleton.Instance.NextBubble;
             Singleton.Instance.NextBubble = RandomBubbleColor();
-            Console.WriteLine(Singleton.Instance.NextBubble);
+            Singleton.Instance.BubbleShotAmount++;
         }
         base.Update(gameTime, gameObjects);
     }
