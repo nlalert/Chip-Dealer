@@ -58,6 +58,7 @@ class Singleton
             return instance;
         }
     }
+    
     public static Color GetBubbleColor(BubbleType bubbleType){
         switch (bubbleType)
         {
