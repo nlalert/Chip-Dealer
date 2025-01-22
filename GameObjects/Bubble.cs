@@ -12,7 +12,9 @@ class Bubble : GameObject
 
     public float Radius;
 
-    // public float DistantMoved;
+    public BubbleType BubbleType;
+    Color BallColor;
+
     public Bubble(Texture2D texture) : base(texture)
     {
 
@@ -20,14 +22,32 @@ class Bubble : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_texture, Position, Viewport, Color.White);
+        spriteBatch.Draw(_texture, Position, Viewport, BallColor);
         base.Draw(spriteBatch);
     }
 
     public override void Reset()
     {
         Speed = 1000;
-        Radius = Singleton.BUBBLE_SIZE/2;
+        Radius = Singleton.BUBBLE_SIZE / 2;
+
+        BallColor = Color.White;
+        switch (BubbleType)
+        {
+            case BubbleType.Red:
+                BallColor = Color.Red;
+                break;
+            case BubbleType.Green:
+                BallColor = Color.LimeGreen;
+                break;
+            case BubbleType.Blue:
+                BallColor = Color.Blue;
+                break;
+            case BubbleType.Yellow:
+                BallColor = Color.Yellow;
+                break;
+        }
+
         base.Reset();
     }
 
@@ -112,7 +132,7 @@ class Bubble : GameObject
 
             if(Singleton.Instance.GameBoard[Y, X] == BubbleType.None)
             {
-                Singleton.Instance.GameBoard[Y, X] = BubbleType.Red; // Red for now
+                Singleton.Instance.GameBoard[Y, X] = BubbleType; // Red for now
                 Position = new Vector2(targetX, targetY);
                 break;
             }
