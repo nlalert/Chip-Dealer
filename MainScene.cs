@@ -15,8 +15,9 @@ public class MainScene
 
     List<GameObject> _gameObjects;
     int _numObject;
-
+    Texture2D _backgroundTexture;
     Texture2D _bubbleTexture;
+    Texture2D _chipTextures;
     Texture2D _rectTexture;
     Texture2D _cannonTexture;
 
@@ -36,7 +37,12 @@ public class MainScene
     {
         _spriteBatch = spriteBatch;
         _font = content.Load<SpriteFont>("GameFont");
+
+        _backgroundTexture = content.Load<Texture2D>("Background");
+
         _bubbleTexture = content.Load<Texture2D>("Bubble");
+        _chipTextures = content.Load<Texture2D>("Chips");
+
         _cannonTexture = content.Load<Texture2D>("Cannon");
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
@@ -89,20 +95,18 @@ public class MainScene
 
         _numObject = _gameObjects.Count;
 
+        _spriteBatch.Draw(_backgroundTexture, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+
         for (int i = 0; i < _numObject; i++)
         {
             _gameObjects[i].Draw(_spriteBatch);
         }
-
-        //Play Border
-        _spriteBatch.Draw(_rectTexture, new Vector2(Singleton.PLAY_AREA_END_X, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-        _spriteBatch.Draw(_rectTexture, new Vector2(Singleton.PLAY_AREA_START_X, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         
         //Next Bubble Display
         _spriteBatch.Draw(_bubbleTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetBubbleColor(Singleton.Instance.NextBubble));
 
         //Game Over Line
-        _spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.BUBBLE_GRID_HEIGHT * Singleton.BUBBLE_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
+        //_spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.BUBBLE_GRID_HEIGHT * Singleton.BUBBLE_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
     }
 
@@ -128,7 +132,7 @@ public class MainScene
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
-            Bubble = new Bubble(_bubbleTexture)
+            Bubble = new Bubble(_chipTextures)
             {
                 Name = "Bubble",
                 Viewport = new Rectangle(0, 0, 32, 32),

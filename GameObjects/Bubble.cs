@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 class Bubble : GameObject
 {   
@@ -24,7 +23,11 @@ class Bubble : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_texture, Position, Viewport, BallColor);
+        if (BallColor == Color.Red) Viewport = new Rectangle(0, 0, 32, 32);
+        else if (BallColor == Color.Blue) Viewport = new Rectangle(32, 0, 32, 32);
+        else if (BallColor == Color.LimeGreen) Viewport = new Rectangle(64, 0, 32, 32);
+        else if (BallColor == Color.Yellow) Viewport = new Rectangle(96, 0, 32, 32);
+        spriteBatch.Draw(_texture, Position, Viewport, Color.White);
         base.Draw(spriteBatch);
     }
 
