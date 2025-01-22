@@ -143,7 +143,7 @@ public class MainScene : Game
         }
     }
 
-    private void CheckAndDestroyHangingBubbles()
+    protected void CheckAndDestroyHangingBubbles()
     {
         for (int j = 1; j < Singleton.BUBBLE_GRID_HEIGHT; j++)
         {
@@ -153,38 +153,48 @@ public class MainScene : Game
                 if (j % 2 == 1 && i == Singleton.BUBBLE_GRID_WIDTH - 1)
                     continue;
 
-                if(!HaveBubble(i-1, j) && !HaveBubble(i+1, j) && !HaveBubble(i, j-1))
-                {  
-                    if (j % 2 == 1)
-                    {
-                        if(!HaveBubble(i+1, j-1))
-                        {
-                            foreach (GameObject s in _gameObjects)
-                            {
-                                if(s is Bubble && (s as Bubble).BoardCoord == new Vector2(i, j))
-                                {
-                                    s.IsActive = false;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if(!HaveBubble(i-1, j-1))
-                        {
-                            foreach (GameObject s in _gameObjects)
-                            {
-                                if(s is Bubble && (s as Bubble).BoardCoord == new Vector2(i, j))
-                                {
-                                    s.IsActive = false;
-                                }
-                            }
-                        }
-                    }
+                List<Vector2> AdjacentBubbles = new List<Vector2>();
+
+                CheckHighestHangingBubbles(new Vector2(i, j), AdjacentBubbles);
+
+                int highestRow = Singleton.BUBBLE_GRID_HEIGHT;
+
+                foreach (Vector2 b in AdjacentBubbles)
+                {
+                    if(b.Y < highestRow) highestRow = (int) b.Y;
                 }
 
-
+                Console.WriteLine("highestRow : "+ highestRow);
+                if(highestRow != 0)
+                    DestroyBubbles(AdjacentBubbles);
+                    
             }
+        }
+    }
+
+    private void CheckHighestHangingBubbles(Vector2 boardCoord, List<Vector2> AdjacentBubbles)
+    {
+        if(AdjacentBubbles.Contains(boardCoord))
+            return;
+
+        int X = (int)boardCoord.X;
+        int Y = (int)boardCoord.Y;
+
+        AdjacentBubbles.Add(new Vector2(X, Y));
+
+        if(HaveBubble(X-1, Y)) CheckHighestHangingBubbles(new Vector2(X-1, Y), AdjacentBubbles);
+        if(HaveBubble(X+1, Y)) CheckHighestHangingBubbles(new Vector2(X+1, Y), AdjacentBubbles);
+        if(HaveBubble(X, Y-1)) CheckHighestHangingBubbles(new Vector2(X, Y-1), AdjacentBubbles);
+
+        bool isOddRow = (Y % 2 == 1);
+        
+        if (isOddRow)
+        {
+            if(HaveBubble( X+1, Y-1)) CheckHighestHangingBubbles(new Vector2(X+1, Y-1), AdjacentBubbles);
+        }
+        else
+        {
+            if(HaveBubble(X-1, Y-1)) CheckHighestHangingBubbles(new Vector2(X-1, Y-1), AdjacentBubbles);
         }
     }
 
@@ -196,5 +206,19 @@ public class MainScene : Game
             return Singleton.Instance.GameBoard[y, x] != BubbleType.None;
         }
         return false;
+    }
+
+    protected void DestroyBubbles(List<Vector2> AdjacentBubbles)
+    {
+        for (int i = 0; i < AdjacentBubbles.Count; i++)
+        {
+            for (int j = 0; j < _numObject; j++)
+            {
+                if(_gameObjects[j] is Bubble && (_gameObjects[j] as Bubble).BoardCoord == AdjacentBubbles[i])
+                {
+                    _gameObjects[j].IsActive = false;
+                }
+            }
+        }
     }
 }
