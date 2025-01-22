@@ -61,25 +61,32 @@ public class MainScene : Game
 
         _numObject = _gameObjects.Count;
 
-        // TODO: Do this when only in playing game state
-        for (int i = 0; i < _numObject; i++)
+        switch (Singleton.Instance.CurrentGameState)
         {
-            if(_gameObjects[i].IsActive)
-                _gameObjects[i].Update(gameTime, _gameObjects);
-        }
-        for (int i = 0; i < _numObject; i++)
-        {
-            if(!_gameObjects[i].IsActive)
-            {
-            _gameObjects.RemoveAt(i);
-            i--;
-            _numObject--;
-            }
+            case Singleton.GameState.Playing:
+                for (int i = 0; i < _numObject; i++)
+                {
+                    if(_gameObjects[i].IsActive)
+                        _gameObjects[i].Update(gameTime, _gameObjects);
+                }
+                for (int i = 0; i < _numObject; i++)
+                {
+                    if(!_gameObjects[i].IsActive)
+                    {
+                    _gameObjects.RemoveAt(i);
+                    i--;
+                    _numObject--;
+                    }
+                }
+                break;
+            case Singleton.GameState.CheckBubbleAndCeiling:
+                CheckAndDestroyHangingBubbles();
+                CheckAndPushDownCeiling();
+                Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
+                break;
         }
 
-        CheckAndDestroyHangingBubbles();
-
-        CheckAndPushDownCeiling();
+        Console.WriteLine(Singleton.Instance.CurrentGameState);
 
         Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
@@ -122,6 +129,8 @@ public class MainScene : Game
         Singleton.Instance.BubbleShotAmount = 0;
         Singleton.Instance.PlayAreaStartY = 0;
 
+        Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
+
         Texture2D cannonTexture = Content.Load<Texture2D>("Cannon");
 
         _gameObjects.Clear();
@@ -150,8 +159,8 @@ public class MainScene : Game
 
     protected void CheckAndPushDownCeiling()
     {
-        if(Singleton.Instance.BubbleShotAmount >= 4){
-            Singleton.Instance.BubbleShotAmount %= 4;
+        if(Singleton.Instance.BubbleShotAmount >= Singleton.CEILING_WAITING_TURN){
+            Singleton.Instance.BubbleShotAmount %= Singleton.CEILING_WAITING_TURN;
 
             Singleton.Instance.PlayAreaStartY += Singleton.BUBBLE_SIZE;
 

@@ -49,6 +49,7 @@ class Bubble : GameObject
             Position.Y = Singleton.Instance.PlayAreaStartY;
             SnapToGrid();
             CheckAndDestroySameTypeBubble(gameObjects);
+            Singleton.Instance.CurrentGameState = Singleton.GameState.CheckBubbleAndCeiling;
         }
 
         if (Position.X < Singleton.PLAY_AREA_START_X){
@@ -69,6 +70,7 @@ class Bubble : GameObject
             {
                 SnapToGrid();
                 CheckAndDestroySameTypeBubble(gameObjects);
+                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckBubbleAndCeiling;
             }
         }
 
@@ -135,7 +137,6 @@ class Bubble : GameObject
 
         CheckSameTypeBubbles(BoardCoord, sameTypeBubbles);
 
-        Console.WriteLine("Visited : "+ sameTypeBubbles.Count);
         if(sameTypeBubbles.Count >= Singleton.BUBBLE_BREAK_AMOUNT)
             DestroySameTypeBubbles(sameTypeBubbles, gameObjects);
     }

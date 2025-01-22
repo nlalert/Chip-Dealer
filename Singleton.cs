@@ -19,7 +19,8 @@ class Singleton
     public int PlayAreaStartY = 0;
     public const float MAX_PLAYER_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
 
-    public const int BUBBLE_BREAK_AMOUNT = 4;
+    public const int BUBBLE_BREAK_AMOUNT = 3;
+    public const int CEILING_WAITING_TURN = 8;
 
     public int BubbleShotAmount = 0;
 
@@ -29,6 +30,16 @@ class Singleton
     public BubbleType NextBubble;
     
     public Random Random;
+
+    public enum GameState
+    {
+        Playing,
+        CheckBubbleAndCeiling,
+        Pause,
+        GameOver,
+    }
+
+    public GameState CurrentGameState;
 
     public KeyboardState PreviousKey, CurrentKey;
 
