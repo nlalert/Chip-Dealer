@@ -23,14 +23,7 @@ public class MainScene
 
     public void Initialize()
     {
-        Singleton.Instance.GameBoard = new BubbleType[Singleton.BUBBLE_GRID_HEIGHT, Singleton.BUBBLE_GRID_WIDTH];
-        Singleton.Instance.Random = new System.Random();
-        Singleton.Instance.BubbleShotAmount = 0;
-        Singleton.Instance.PlayAreaStartY = 0;
-        Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
-
         _gameObjects = new List<GameObject>();
-
     }
 
     public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
@@ -135,8 +128,6 @@ public class MainScene
             Bubble = new Bubble(_chipTextures)
             {
                 Name = "Bubble",
-                Viewport = new Rectangle(0, 0, 32, 32),
-                Velocity = new Vector2(0, -600f),
                 Speed = 0
             }
         });

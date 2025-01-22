@@ -14,7 +14,6 @@ class Bubble : GameObject
     public Vector2 BoardCoord;
 
     public BubbleType BubbleType;
-    Color BallColor;
 
     public Bubble(Texture2D texture) : base(texture)
     {
@@ -23,10 +22,6 @@ class Bubble : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if (BallColor == Color.Red) Viewport = new Rectangle(0, 0, 32, 32);
-        else if (BallColor == Color.Blue) Viewport = new Rectangle(32, 0, 32, 32);
-        else if (BallColor == Color.LimeGreen) Viewport = new Rectangle(64, 0, 32, 32);
-        else if (BallColor == Color.Yellow) Viewport = new Rectangle(96, 0, 32, 32);
         spriteBatch.Draw(_texture, Position, Viewport, Color.White);
         base.Draw(spriteBatch);
     }
@@ -36,9 +31,32 @@ class Bubble : GameObject
         Speed = 1000f;
         Radius = Singleton.BUBBLE_SIZE / 2;
         BoardCoord = new Vector2(Singleton.BUBBLE_GRID_WIDTH, Singleton.BUBBLE_GRID_HEIGHT);
-        BallColor = Singleton.GetBubbleColor(BubbleType);
+
+        ResetChipTexture();
+
         base.Reset();
     }
+
+    protected void ResetChipTexture()
+    {
+        switch (BubbleType)
+        {
+            case BubbleType.Red:
+                Viewport = new Rectangle(0, 0, 32, 32);
+                break;
+            case BubbleType.Blue:
+                Viewport = new Rectangle(32, 0, 32, 32);
+                break;
+            case BubbleType.Green:
+                Viewport = new Rectangle(64, 0, 32, 32);
+                break;
+            case BubbleType.Yellow:
+                Viewport = new Rectangle(96, 0, 32, 32);
+                break;
+        }
+    }
+
+
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {

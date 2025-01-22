@@ -9,7 +9,6 @@ class Player : GameObject
     public Bubble Bubble, LastShotBubble;
     public Keys Left, Right, Fire;
     
-    
     public Player(Texture2D texture) : base(texture)
     {
 
