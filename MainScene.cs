@@ -24,6 +24,7 @@ public class MainScene
     Texture2D _cannonTexture;
 
     SoundEffect _ceilingPushingSound;
+    SoundEffect _chipHitSound;
 
     public void Initialize()
     {
@@ -49,6 +50,7 @@ public class MainScene
         _rectTexture.SetData(data);
 
         _ceilingPushingSound = content.Load<SoundEffect>("Ceilingpushing");
+        _chipHitSound = content.Load<SoundEffect>("ChipHit");
 
         Reset();
     }
@@ -163,6 +165,7 @@ public class MainScene
             {
                 Name = "Bubble",
                 Viewport = new Rectangle(0, 0, 32, 32),
+                ChipHitSound = _chipHitSound,
                 Speed = 0
             }
         });

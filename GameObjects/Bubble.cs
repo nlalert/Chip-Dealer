@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 class Bubble : GameObject
@@ -14,6 +15,8 @@ class Bubble : GameObject
     public Vector2 BoardCoord;
 
     public BubbleType BubbleType;
+
+    public SoundEffect ChipHitSound;
 
     public Bubble(Texture2D texture) : base(texture)
     {
@@ -145,6 +148,8 @@ class Bubble : GameObject
                 Position = new Vector2(targetX, targetY);
 
                 BoardCoord = new Vector2(X, Y);
+
+                ChipHitSound.Play();
                 break;
             }
         }

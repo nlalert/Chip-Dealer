@@ -55,6 +55,12 @@
 /processorParam:Quality=Best
 /build:Ceilingpushing.wav
 
+#begin ChipHit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ChipHit.wav
+
 #begin Chips.png
 /importer:TextureImporter
 /processor:TextureProcessor
