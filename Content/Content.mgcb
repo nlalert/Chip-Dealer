@@ -25,18 +25,6 @@
 /processorParam:TextureFormat=Color
 /build:Background.png
 
-#begin Bubble.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Bubble.png
-
 #begin Cannon.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,16 +103,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Start.png
-
-#begin TestBubble.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:TestBubble.jpg
 
