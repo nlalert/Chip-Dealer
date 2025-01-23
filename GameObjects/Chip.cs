@@ -31,7 +31,7 @@ class Chip : GameObject
 
     public override void Reset()
     {
-        Speed = 1000f;
+        Speed = 0;
         Radius = Singleton.CHIP_SIZE / 2;
         BoardCoord = new Vector2(Singleton.CHIP_GRID_WIDTH, Singleton.CHIP_GRID_HEIGHT);
 
@@ -40,7 +40,7 @@ class Chip : GameObject
         base.Reset();
     }
 
-    protected void ResetChipTexture()
+    public void ResetChipTexture()
     {
         switch (ChipType)
         {
@@ -64,35 +64,36 @@ class Chip : GameObject
         Velocity.X = (float) Math.Cos(Angle) * Speed;
         Velocity.Y = (float) Math.Sin(Angle) * Speed;
 
-        Position += Velocity * (float)(gameTime.ElapsedGameTime.TotalSeconds);
+        Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        //Snap
-        if (Position.Y < Singleton.Instance.PlayAreaStartY){
-            Position.Y = Singleton.Instance.PlayAreaStartY;
-            SnapToGrid();
-            CheckAndDestroySameTypeChip(gameObjects);
-            Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
-        }
-
-        if (Position.X < Singleton.PLAY_AREA_START_X){
-            Position.X = Singleton.PLAY_AREA_START_X;
-            Angle = (float)Math.PI - Angle;
-        }
-        
-        if(Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
+        if(Speed != 0)
         {
-            Position.X = Singleton.PLAY_AREA_END_X - Rectangle.Width;
-            Angle = (float)Math.PI - Angle;
-        }
-           
-
-        foreach (GameObject s in gameObjects)
-        {
-            if (IsTouching(s) && IsTouchingAsCircle(s) && s is Chip)
-            {
+            if (Position.Y < Singleton.Instance.PlayAreaStartY){
+                Position.Y = Singleton.Instance.PlayAreaStartY;
                 SnapToGrid();
                 CheckAndDestroySameTypeChip(gameObjects);
                 Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
+            }
+
+            if (Position.X < Singleton.PLAY_AREA_START_X){
+                Position.X = Singleton.PLAY_AREA_START_X;
+                Angle = (float)Math.PI - Angle;
+            }
+            
+            if(Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
+            {
+                Position.X = Singleton.PLAY_AREA_END_X - Rectangle.Width;
+                Angle = (float)Math.PI - Angle;
+            }
+            
+            foreach (GameObject s in gameObjects)
+            {
+                if (IsTouching(s) && IsTouchingAsCircle(s) && s is Chip)
+                {
+                    SnapToGrid();
+                    CheckAndDestroySameTypeChip(gameObjects);
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
+                }
             }
         }
 

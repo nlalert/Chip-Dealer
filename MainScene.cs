@@ -61,6 +61,10 @@ public class MainScene
 
         switch (Singleton.Instance.CurrentGameState)
         {
+            case Singleton.GameState.SetLevel:
+                SetUpInitalChipsPattern();
+                Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
+                break;
             case Singleton.GameState.Playing:
                 for (int i = 0; i < _numObject; i++)
                 {
@@ -147,7 +151,7 @@ public class MainScene
         Singleton.Instance.PlayAreaStartY = 0;
         Singleton.Instance.CeilingPosition = 0;
 
-        Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
+        Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
 
         // Texture2D cannonTexture = content.Load<Texture2D>("Cannon");
 
@@ -172,6 +176,38 @@ public class MainScene
         {
             s.Reset();
         }
+    }
+
+    protected void SetUpInitalChipsPattern()
+    {
+        //temp pattern
+        Singleton.Instance.GameBoard[0, 3] = ChipType.Green;
+
+
+        for (int j = 0; j < Singleton.CHIP_GRID_HEIGHT; j++)
+        {
+            for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
+            {
+                if(Singleton.Instance.GameBoard[j, i] != ChipType.None)
+                    AddChipToBoard(i, j);
+            }
+        }
+    }
+
+    protected void AddChipToBoard(int i, int j)
+    {
+        Chip newChip = new Chip(_chipTexture)
+        {
+            Name = "Chip",
+            Position = new Vector2(Singleton.PLAY_AREA_START_X + i * Singleton.CHIP_SIZE, j * Singleton.CHIP_SIZE),
+            ChipHitSound = _chipHitSound,
+            ChipType = Singleton.Instance.GameBoard[j, i],
+        };
+
+        newChip.Reset();
+        newChip.BoardCoord =  new Vector2(i, j);
+
+        _gameObjects.Add(newChip);
     }
 
     protected void CheckAndPushDownCeiling()
