@@ -94,7 +94,10 @@ public class MainScene
                 CheckGameOver();
                 break;
             case Singleton.GameState.GameOver:
-                // TODO: Later Lazy
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
                 break;
         }
 
