@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
-class Bubble : GameObject
+class Chip : GameObject
 {   
     public float Angle;
     public float Speed;
@@ -14,11 +14,11 @@ class Bubble : GameObject
 
     public Vector2 BoardCoord;
 
-    public BubbleType BubbleType;
+    public ChipType ChipType;
 
     public SoundEffect ChipHitSound;
 
-    public Bubble(Texture2D texture) : base(texture)
+    public Chip(Texture2D texture) : base(texture)
     {
 
     }
@@ -32,8 +32,8 @@ class Bubble : GameObject
     public override void Reset()
     {
         Speed = 1000f;
-        Radius = Singleton.BUBBLE_SIZE / 2;
-        BoardCoord = new Vector2(Singleton.BUBBLE_GRID_WIDTH, Singleton.BUBBLE_GRID_HEIGHT);
+        Radius = Singleton.CHIP_SIZE / 2;
+        BoardCoord = new Vector2(Singleton.CHIP_GRID_WIDTH, Singleton.CHIP_GRID_HEIGHT);
 
         ResetChipTexture();
 
@@ -42,18 +42,18 @@ class Bubble : GameObject
 
     protected void ResetChipTexture()
     {
-        switch (BubbleType)
+        switch (ChipType)
         {
-            case BubbleType.Red:
+            case ChipType.Red:
                 Viewport = new Rectangle(0, 0, 32, 32);
                 break;
-            case BubbleType.Blue:
+            case ChipType.Blue:
                 Viewport = new Rectangle(32, 0, 32, 32);
                 break;
-            case BubbleType.Green:
+            case ChipType.Green:
                 Viewport = new Rectangle(64, 0, 32, 32);
                 break;
-            case BubbleType.Yellow:
+            case ChipType.Yellow:
                 Viewport = new Rectangle(96, 0, 32, 32);
                 break;
         }
@@ -70,8 +70,8 @@ class Bubble : GameObject
         if (Position.Y < Singleton.Instance.PlayAreaStartY){
             Position.Y = Singleton.Instance.PlayAreaStartY;
             SnapToGrid();
-            CheckAndDestroySameTypeBubble(gameObjects);
-            Singleton.Instance.CurrentGameState = Singleton.GameState.CheckBubbleAndCeiling;
+            CheckAndDestroySameTypeChip(gameObjects);
+            Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
         }
 
         if (Position.X < Singleton.PLAY_AREA_START_X){
@@ -88,11 +88,11 @@ class Bubble : GameObject
 
         foreach (GameObject s in gameObjects)
         {
-            if (IsTouching(s) && IsTouchingAsCircle(s) && s is Bubble)
+            if (IsTouching(s) && IsTouchingAsCircle(s) && s is Chip)
             {
                 SnapToGrid();
-                CheckAndDestroySameTypeBubble(gameObjects);
-                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckBubbleAndCeiling;
+                CheckAndDestroySameTypeChip(gameObjects);
+                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
             }
         }
 
@@ -108,18 +108,18 @@ class Bubble : GameObject
         List<(float Distance, Vector2 GridPosition)> closestPositions = new List<(float, Vector2)>();
 
         // Find all grid positions and calculate their distances
-        for (int j = 0; j < Singleton.BUBBLE_GRID_HEIGHT; j++)
+        for (int j = 0; j < Singleton.CHIP_GRID_HEIGHT; j++)
         {
-            int Xoffset = (j % 2 == 0) ? 0 : (Singleton.BUBBLE_SIZE / 2);
+            int Xoffset = (j % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
 
-            for (int i = 0; i < Singleton.BUBBLE_GRID_WIDTH; i++)
+            for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
             {
                 //skip last column
-                if (Xoffset != 0 && i == Singleton.BUBBLE_GRID_WIDTH - 1)
+                if (Xoffset != 0 && i == Singleton.CHIP_GRID_WIDTH - 1)
                     continue;
 
-                float targetX = i * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
-                float targetY = j * Singleton.BUBBLE_SIZE + Singleton.Instance.PlayAreaStartY;
+                float targetX = i * Singleton.CHIP_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
+                float targetY = j * Singleton.CHIP_SIZE + Singleton.Instance.PlayAreaStartY;
 
                 float distance = Vector2.Distance(new Vector2(targetX, targetY), Position);
 
@@ -133,18 +133,18 @@ class Bubble : GameObject
         {
             int X = (int) closestPositions[i].GridPosition.X;
             int Y = (int) closestPositions[i].GridPosition.Y;
-            int Xoffset = (Y % 2 == 0) ? 0 : (Singleton.BUBBLE_SIZE / 2);
+            int Xoffset = (Y % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
 
             //skip last column
-            if (Xoffset != 0 && X == Singleton.BUBBLE_GRID_WIDTH - 1)
+            if (Xoffset != 0 && X == Singleton.CHIP_GRID_WIDTH - 1)
                 continue;
 
-            float targetX = X * Singleton.BUBBLE_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
-            float targetY = Y * Singleton.BUBBLE_SIZE + Singleton.Instance.PlayAreaStartY;
+            float targetX = X * Singleton.CHIP_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
+            float targetY = Y * Singleton.CHIP_SIZE + Singleton.Instance.PlayAreaStartY;
 
-            if(Singleton.Instance.GameBoard[Y, X] == BubbleType.None)
+            if(Singleton.Instance.GameBoard[Y, X] == ChipType.None)
             {
-                Singleton.Instance.GameBoard[Y, X] = BubbleType;
+                Singleton.Instance.GameBoard[Y, X] = ChipType;
                 Position = new Vector2(targetX, targetY);
 
                 BoardCoord = new Vector2(X, Y);
@@ -155,17 +155,17 @@ class Bubble : GameObject
         }
     }
 
-    private void CheckAndDestroySameTypeBubble(List<GameObject> gameObjects)
+    private void CheckAndDestroySameTypeChip(List<GameObject> gameObjects)
     {
-        List<Vector2> sameTypeBubbles = new List<Vector2>();
+        List<Vector2> sameTypeChips = new List<Vector2>();
 
-        CheckSameTypeBubbles(BoardCoord, sameTypeBubbles);
+        CheckSameTypeChips(BoardCoord, sameTypeChips);
 
-        if(sameTypeBubbles.Count >= Singleton.BUBBLE_BREAK_AMOUNT)
-            DestroySameTypeBubbles(sameTypeBubbles, gameObjects);
+        if(sameTypeChips.Count >= Singleton.CHIP_BREAK_AMOUNT)
+            DestroySameTypeChips(sameTypeChips, gameObjects);
     }
 
-    protected void CheckSameTypeBubbles(Vector2 gridCoord, List<Vector2> visitedCoord)
+    protected void CheckSameTypeChips(Vector2 gridCoord, List<Vector2> visitedCoord)
     {
         if(visitedCoord.Contains(gridCoord))
             return;
@@ -175,33 +175,33 @@ class Bubble : GameObject
 
         visitedCoord.Add(new Vector2(X, Y));
 
-        if(IsValidAndSame(X, Y, X-1, Y)) CheckSameTypeBubbles(new Vector2(X-1, Y), visitedCoord);
-        if(IsValidAndSame(X, Y, X+1, Y)) CheckSameTypeBubbles(new Vector2(X+1, Y), visitedCoord);
-        if(IsValidAndSame(X, Y, X, Y-1)) CheckSameTypeBubbles(new Vector2(X, Y-1), visitedCoord);
-        if(IsValidAndSame(X, Y, X, Y+1)) CheckSameTypeBubbles(new Vector2(X, Y+1), visitedCoord);
+        if(IsValidAndSame(X, Y, X-1, Y)) CheckSameTypeChips(new Vector2(X-1, Y), visitedCoord);
+        if(IsValidAndSame(X, Y, X+1, Y)) CheckSameTypeChips(new Vector2(X+1, Y), visitedCoord);
+        if(IsValidAndSame(X, Y, X, Y-1)) CheckSameTypeChips(new Vector2(X, Y-1), visitedCoord);
+        if(IsValidAndSame(X, Y, X, Y+1)) CheckSameTypeChips(new Vector2(X, Y+1), visitedCoord);
 
         bool isOddRow = (Y % 2 == 1);
         
         if (isOddRow)
         {
-            if(IsValidAndSame(X, Y, X+1, Y-1)) CheckSameTypeBubbles(new Vector2(X+1, Y-1), visitedCoord);
-            if(IsValidAndSame(X, Y, X+1, Y+1)) CheckSameTypeBubbles(new Vector2(X+1, Y+1), visitedCoord);
+            if(IsValidAndSame(X, Y, X+1, Y-1)) CheckSameTypeChips(new Vector2(X+1, Y-1), visitedCoord);
+            if(IsValidAndSame(X, Y, X+1, Y+1)) CheckSameTypeChips(new Vector2(X+1, Y+1), visitedCoord);
         }
         else
         {
-            if(IsValidAndSame(X, Y, X-1, Y-1)) CheckSameTypeBubbles(new Vector2(X-1, Y-1), visitedCoord);
-            if(IsValidAndSame(X, Y, X-1, Y+1)) CheckSameTypeBubbles(new Vector2(X-1, Y+1), visitedCoord);
+            if(IsValidAndSame(X, Y, X-1, Y-1)) CheckSameTypeChips(new Vector2(X-1, Y-1), visitedCoord);
+            if(IsValidAndSame(X, Y, X-1, Y+1)) CheckSameTypeChips(new Vector2(X-1, Y+1), visitedCoord);
         }
     }
 
-    protected void DestroySameTypeBubbles(List<Vector2> visitedCoord, List<GameObject> gameObjects)
+    protected void DestroySameTypeChips(List<Vector2> visitedCoord, List<GameObject> gameObjects)
     {
         for (int i = 0; i < visitedCoord.Count; i++)
         {
-            Singleton.Instance.GameBoard[(int)visitedCoord[i].Y, (int)visitedCoord[i].X] = BubbleType.None;
+            Singleton.Instance.GameBoard[(int)visitedCoord[i].Y, (int)visitedCoord[i].X] = ChipType.None;
             foreach (GameObject s in gameObjects)
             {
-                if(s is Bubble && (s as Bubble).BoardCoord == visitedCoord[i])
+                if(s is Chip && (s as Chip).BoardCoord == visitedCoord[i])
                 {
                     s.IsActive = false;
                 }
@@ -211,8 +211,8 @@ class Bubble : GameObject
 
     protected bool IsValidAndSame(int x, int y, int refX, int refY)
     {
-        if (refX >= 0 && refX < Singleton.BUBBLE_GRID_WIDTH && 
-            refY >= 0 && refY < Singleton.BUBBLE_GRID_HEIGHT)
+        if (refX >= 0 && refX < Singleton.CHIP_GRID_WIDTH && 
+            refY >= 0 && refY < Singleton.CHIP_GRID_HEIGHT)
         {
             return Singleton.Instance.GameBoard[y, x] == Singleton.Instance.GameBoard[refY, refX];
         }
@@ -222,11 +222,11 @@ class Bubble : GameObject
     protected bool IsTouchingAsCircle(GameObject g)
     {
         
-        if (g is Bubble otherBubble && this is Bubble)
+        if (g is Chip otherChip && this is Chip)
         {
-            float distance = Vector2.Distance(this.Position, otherBubble.Position);
+            float distance = Vector2.Distance(this.Position, otherChip.Position);
             // Console.WriteLine($"distace : {distance}");
-            return distance < this.Radius + otherBubble.Radius;
+            return distance < this.Radius + otherChip.Radius;
         }
         return false;
     }

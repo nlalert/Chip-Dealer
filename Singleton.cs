@@ -11,32 +11,32 @@ class Singleton
     public const int SCREEN_WIDTH = 640;
     public const int SCREEN_HEIGHT = 480;
 
-    public const int BUBBLE_GRID_WIDTH = 8;
-    public const int BUBBLE_GRID_HEIGHT = 12;
-    public const int BUBBLE_SIZE = 32;
-    public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (BUBBLE_GRID_WIDTH * BUBBLE_SIZE)) / 2;
-    public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (BUBBLE_GRID_WIDTH * BUBBLE_SIZE);
+    public const int CHIP_GRID_WIDTH = 8;
+    public const int CHIP_GRID_HEIGHT = 12;
+    public const int CHIP_SIZE = 32;
+    public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (CHIP_GRID_WIDTH * CHIP_SIZE)) / 2;
+    public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (CHIP_GRID_WIDTH * CHIP_SIZE);
     public int PlayAreaStartY = 0;
     public const float MAX_PLAYER_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
 
-    public const int BUBBLE_BREAK_AMOUNT = 3;
+    public const int CHIP_BREAK_AMOUNT = 3;
     public const int CEILING_WAITING_TURN = 8;
 
     public int CeilingPosition = 0;
-    public int BubbleShotAmount = 0;
+    public int ChipShotAmount = 0;
 
 
-    public BubbleType[,] GameBoard;
+    public ChipType[,] GameBoard;
 
-    public BubbleType CurrentBubble;
-    public BubbleType NextBubble;
+    public ChipType CurrentChip;
+    public ChipType NextChip;
     
     public Random Random;
 
     public enum GameState
     {
         Playing,
-        CheckBubbleAndCeiling,
+        CheckChipAndCeiling,
         Pause,
         GameOver,
     }
@@ -61,16 +61,16 @@ class Singleton
         }
     }
     
-    public static Color GetBubbleColor(BubbleType bubbleType){
-        switch (bubbleType)
+    public static Color GetChipColor(ChipType chipType){
+        switch (chipType)
         {
-            case BubbleType.Red:
+            case ChipType.Red:
                 return Color.Red;
-            case BubbleType.Green:
+            case ChipType.Green:
                 return Color.LimeGreen;
-            case BubbleType.Blue:
+            case ChipType.Blue:
                 return Color.Blue;
-            case BubbleType.Yellow:
+            case ChipType.Yellow:
                 return Color.Yellow;
         }
         // if somehow not have color 

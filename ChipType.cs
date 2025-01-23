@@ -1,4 +1,4 @@
-public enum BubbleType
+public enum ChipType
 {
     None, 
     Red, 

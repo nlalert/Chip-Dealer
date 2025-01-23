@@ -17,7 +17,6 @@ public class MainScene
     List<GameObject> _gameObjects;
     int _numObject;
     Texture2D _backgroundTexture;
-    Texture2D _bubbleTexture;
     Texture2D _chipTexture;
     Texture2D _chipStickTexture;
     Texture2D _rectTexture;
@@ -38,7 +37,6 @@ public class MainScene
 
         _backgroundTexture = content.Load<Texture2D>("Background");
 
-        _bubbleTexture = content.Load<Texture2D>("Bubble");
         _chipTexture = content.Load<Texture2D>("Chips");
         _chipStickTexture = content.Load<Texture2D>("ChipStick");
 
@@ -79,8 +77,8 @@ public class MainScene
                     }
                 }
                 break;
-            case Singleton.GameState.CheckBubbleAndCeiling:
-                CheckAndDestroyHangingBubbles();
+            case Singleton.GameState.CheckChipAndCeiling:
+                CheckAndDestroyHangingChips();
                 CheckAndPushDownCeiling();
                 CheckGameOver();
                 break;
@@ -108,23 +106,23 @@ public class MainScene
             _gameObjects[i].Draw(_spriteBatch);
         }
         
-        //Next Bubble Display 
+        //Next Chip Display 
         // Red blue green Yellow
         // 0 1 2 3
-        // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetBubbleColor(Singleton.Instance.NextBubble));
+        // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetChipColor(Singleton.Instance.NextChip));
         int chipIndex =0;
-        switch (Singleton.Instance.NextBubble)
+        switch (Singleton.Instance.NextChip)
         {
-            case BubbleType.Red: 
+            case ChipType.Red: 
                 chipIndex =0;
                 break;
-            case BubbleType.Blue: 
+            case ChipType.Blue: 
                 chipIndex =1;
                 break;
-            case BubbleType.Green: 
+            case ChipType.Green: 
                 chipIndex =2;
                 break;
-            case BubbleType.Yellow: 
+            case ChipType.Yellow: 
                 chipIndex =3;
                 break;
             default:
@@ -134,17 +132,17 @@ public class MainScene
         // Draw the chip using the sourceRectangle
         _spriteBatch.Draw(_chipTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400),new Rectangle(chipIndex * 32, 0, 32, 32),Color.White); 
         //Game Over Line
-        //_spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.BUBBLE_GRID_HEIGHT * Singleton.BUBBLE_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
+        //_spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.CHIP_GRID_HEIGHT * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
     }
 
     protected void Reset()
     {
-        Singleton.Instance.GameBoard = new BubbleType[Singleton.BUBBLE_GRID_HEIGHT, Singleton.BUBBLE_GRID_WIDTH];
+        Singleton.Instance.GameBoard = new ChipType[Singleton.CHIP_GRID_HEIGHT, Singleton.CHIP_GRID_WIDTH];
 
         Singleton.Instance.Random = new System.Random();
 
-        Singleton.Instance.BubbleShotAmount = 0;
+        Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.PlayAreaStartY = 0;
         Singleton.Instance.PlayAreaStartY = 0;
         Singleton.Instance.CeilingPosition = 0;
@@ -161,9 +159,9 @@ public class MainScene
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
-            Bubble = new Bubble(_chipTexture)
+            Chip = new Chip(_chipTexture)
             {
-                Name = "Bubble",
+                Name = "Chip",
                 Viewport = new Rectangle(0, 0, 32, 32),
                 ChipHitSound = _chipHitSound,
                 Speed = 0
@@ -178,97 +176,97 @@ public class MainScene
 
     protected void CheckAndPushDownCeiling()
     {
-        if(Singleton.Instance.BubbleShotAmount % Singleton.CEILING_WAITING_TURN == 0){
-            Singleton.Instance.PlayAreaStartY += Singleton.BUBBLE_SIZE;
+        if(Singleton.Instance.ChipShotAmount % Singleton.CEILING_WAITING_TURN == 0){
+            Singleton.Instance.PlayAreaStartY += Singleton.CHIP_SIZE;
 
             _numObject = _gameObjects.Count;
 
             for (int i = 0; i < _numObject; i++)
             {
-                if(_gameObjects[i].Name.Contains("Bubble"))
+                if(_gameObjects[i].Name.Contains("Chip"))
                 {
-                    _gameObjects[i].Position.Y += Singleton.BUBBLE_SIZE;
+                    _gameObjects[i].Position.Y += Singleton.CHIP_SIZE;
                 }
             }
 
-            Singleton.Instance.CeilingPosition += Singleton.BUBBLE_SIZE;
+            Singleton.Instance.CeilingPosition += Singleton.CHIP_SIZE;
             _ceilingPushingSound.Play();
         }
     }
 
-    protected void CheckAndDestroyHangingBubbles()
+    protected void CheckAndDestroyHangingChips()
     {
-        for (int j = 1; j < Singleton.BUBBLE_GRID_HEIGHT; j++)
+        for (int j = 1; j < Singleton.CHIP_GRID_HEIGHT; j++)
         {
-            for (int i = 0; i < Singleton.BUBBLE_GRID_WIDTH; i++)
+            for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
             {
                 //skip last column
-                if (j % 2 == 1 && i == Singleton.BUBBLE_GRID_WIDTH - 1)
+                if (j % 2 == 1 && i == Singleton.CHIP_GRID_WIDTH - 1)
                     continue;
 
-                List<Vector2> AdjacentBubbles = new List<Vector2>();
+                List<Vector2> AdjacentChips = new List<Vector2>();
 
-                CheckHighestHangingBubbles(new Vector2(i, j), AdjacentBubbles);
+                CheckHighestHangingChips(new Vector2(i, j), AdjacentChips);
 
-                int highestRow = Singleton.BUBBLE_GRID_HEIGHT;
+                int highestRow = Singleton.CHIP_GRID_HEIGHT;
 
-                foreach (Vector2 b in AdjacentBubbles)
+                foreach (Vector2 b in AdjacentChips)
                 {
                     if(b.Y < highestRow) highestRow = (int) b.Y;
                 }
 
                 if(highestRow != 0)
-                    DestroyBubbles(AdjacentBubbles);
+                    DestroyChips(AdjacentChips);
                     
             }
         }
     }
 
-    private void CheckHighestHangingBubbles(Vector2 boardCoord, List<Vector2> AdjacentBubbles)
+    private void CheckHighestHangingChips(Vector2 boardCoord, List<Vector2> AdjacentChips)
     {
-        if(AdjacentBubbles.Contains(boardCoord))
+        if(AdjacentChips.Contains(boardCoord))
             return;
 
         int X = (int)boardCoord.X;
         int Y = (int)boardCoord.Y;
 
-        AdjacentBubbles.Add(new Vector2(X, Y));
+        AdjacentChips.Add(new Vector2(X, Y));
 
-        if(HaveBubble(X-1, Y)) CheckHighestHangingBubbles(new Vector2(X-1, Y), AdjacentBubbles);
-        if(HaveBubble(X+1, Y)) CheckHighestHangingBubbles(new Vector2(X+1, Y), AdjacentBubbles);
-        if(HaveBubble(X, Y-1)) CheckHighestHangingBubbles(new Vector2(X, Y-1), AdjacentBubbles);
+        if(HaveChip(X-1, Y)) CheckHighestHangingChips(new Vector2(X-1, Y), AdjacentChips);
+        if(HaveChip(X+1, Y)) CheckHighestHangingChips(new Vector2(X+1, Y), AdjacentChips);
+        if(HaveChip(X, Y-1)) CheckHighestHangingChips(new Vector2(X, Y-1), AdjacentChips);
 
         bool isOddRow = (Y % 2 == 1);
         
         if (isOddRow)
         {
-            if(HaveBubble( X+1, Y-1)) CheckHighestHangingBubbles(new Vector2(X+1, Y-1), AdjacentBubbles);
+            if(HaveChip( X+1, Y-1)) CheckHighestHangingChips(new Vector2(X+1, Y-1), AdjacentChips);
         }
         else
         {
-            if(HaveBubble(X-1, Y-1)) CheckHighestHangingBubbles(new Vector2(X-1, Y-1), AdjacentBubbles);
+            if(HaveChip(X-1, Y-1)) CheckHighestHangingChips(new Vector2(X-1, Y-1), AdjacentChips);
         }
     }
 
-    protected bool HaveBubble(int x, int y)
+    protected bool HaveChip(int x, int y)
     {
-        if (x >= 0 && x < Singleton.BUBBLE_GRID_WIDTH && 
-            y >= 0 && y < Singleton.BUBBLE_GRID_HEIGHT)
+        if (x >= 0 && x < Singleton.CHIP_GRID_WIDTH && 
+            y >= 0 && y < Singleton.CHIP_GRID_HEIGHT)
         {
-            return Singleton.Instance.GameBoard[y, x] != BubbleType.None;
+            return Singleton.Instance.GameBoard[y, x] != ChipType.None;
         }
         return false;
     }
 
-    protected void DestroyBubbles(List<Vector2> AdjacentBubbles)
+    protected void DestroyChips(List<Vector2> AdjacentChips)
     {
-        for (int i = 0; i < AdjacentBubbles.Count; i++)
+        for (int i = 0; i < AdjacentChips.Count; i++)
         {
-            Singleton.Instance.GameBoard[(int)AdjacentBubbles[i].Y, (int)AdjacentBubbles[i].X] = BubbleType.None;
+            Singleton.Instance.GameBoard[(int)AdjacentChips[i].Y, (int)AdjacentChips[i].X] = ChipType.None;
             _numObject = _gameObjects.Count;
             for (int j = 0; j < _numObject; j++)
             {
-                if(_gameObjects[j] is Bubble && (_gameObjects[j] as Bubble).BoardCoord == AdjacentBubbles[i])
+                if(_gameObjects[j] is Chip && (_gameObjects[j] as Chip).BoardCoord == AdjacentChips[i])
                 {
                     _gameObjects[j].IsActive = false;
                 }
@@ -280,13 +278,13 @@ public class MainScene
     {
         Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
 
-        int ceilingPushedAmount = Singleton.Instance.BubbleShotAmount / Singleton.CEILING_WAITING_TURN;
+        int ceilingPushedAmount = Singleton.Instance.ChipShotAmount / Singleton.CEILING_WAITING_TURN;
 
-        for (int i = 0; i < Singleton.BUBBLE_GRID_WIDTH; i++)
+        for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
         {
-            for (int j = Singleton.BUBBLE_GRID_HEIGHT - ceilingPushedAmount; j < Singleton.BUBBLE_GRID_HEIGHT; j++)
+            for (int j = Singleton.CHIP_GRID_HEIGHT - ceilingPushedAmount; j < Singleton.CHIP_GRID_HEIGHT; j++)
             {
-                if(Singleton.Instance.GameBoard[j, i] != BubbleType.None)
+                if(Singleton.Instance.GameBoard[j, i] != ChipType.None)
                 {
                     Singleton.Instance.CurrentGameState = Singleton.GameState.GameOver;
                     return;

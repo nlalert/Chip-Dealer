@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
-    public Bubble Bubble, LastShotBubble;
+    public Chip Chip, LastShotChip;
     public Keys Left, Right, Fire;
     
     public Player(Texture2D texture) : base(texture)
@@ -29,7 +29,7 @@ class Player : GameObject
             _texture,
             Position + Origin, // Position adjusted to account for origin
             Viewport,
-            Singleton.GetBubbleColor(Singleton.Instance.CurrentBubble),
+            Singleton.GetChipColor(Singleton.Instance.CurrentChip),
             Rotation, 
             Origin, 
             Scale,
@@ -42,9 +42,9 @@ class Player : GameObject
     public override void Reset()
     {
         Position = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, 400);
-        Singleton.Instance.CurrentBubble = RandomBubbleColor();
-        Singleton.Instance.NextBubble = RandomBubbleColor();
-        LastShotBubble = Bubble;
+        Singleton.Instance.CurrentChip = RandomChipColor();
+        Singleton.Instance.NextChip = RandomChipColor();
+        LastShotChip = Chip;
         base.Reset();
     }
 
@@ -61,30 +61,30 @@ class Player : GameObject
 
         Rotation = MathHelper.Clamp(Rotation, -Singleton.MAX_PLAYER_ROTATION, Singleton.MAX_PLAYER_ROTATION);
         if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
-            LastShotBubble.Speed == 0 &&
+            LastShotChip.Speed == 0 &&
             Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
         {
             OnShoot(gameTime,gameObjects);
-            Singleton.Instance.CurrentBubble = Singleton.Instance.NextBubble;
-            Singleton.Instance.NextBubble = RandomBubbleColor();
-            Singleton.Instance.BubbleShotAmount++;
+            Singleton.Instance.CurrentChip = Singleton.Instance.NextChip;
+            Singleton.Instance.NextChip = RandomChipColor();
+            Singleton.Instance.ChipShotAmount++;
         }
         base.Update(gameTime, gameObjects);
     }
     
     private void OnShoot(GameTime gameTime, List<GameObject> gameObjects){
         
-            var newBubble = Bubble.Clone() as Bubble; 
-            newBubble.Position = new Vector2(Rectangle.Width / 2 + Position.X - newBubble.Rectangle.Width / 2,
+            var newChip = Chip.Clone() as Chip; 
+            newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
                                             Position.Y + Rectangle.Height / 2);
-            newBubble.Angle = Rotation + (float)(3 * Math.PI / 2);
-            newBubble.BubbleType = Singleton.Instance.CurrentBubble;
-            newBubble.Reset();
-            gameObjects.Add(newBubble);
-            LastShotBubble = newBubble;
+            newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
+            newChip.ChipType = Singleton.Instance.CurrentChip;
+            newChip.Reset();
+            gameObjects.Add(newChip);
+            LastShotChip = newChip;
     }
-    private BubbleType RandomBubbleColor(){
-        return (BubbleType) Singleton.Instance.Random.Next(1, 5);
+    private ChipType RandomChipColor(){
+        return (ChipType) Singleton.Instance.Random.Next(1, 5);
     }
 
     private void DrawDottedLine(SpriteBatch spriteBatch, Vector2 start, float rotation, float length, Color color, float dotSize, float gapSize)
