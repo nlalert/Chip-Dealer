@@ -100,9 +100,31 @@ public class MainScene
             _gameObjects[i].Draw(_spriteBatch);
         }
         
-        //Next Bubble Display
-        _spriteBatch.Draw(_bubbleTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetBubbleColor(Singleton.Instance.NextBubble));
-
+        //Next Bubble Display 
+        // Red blue green Yellow
+        // 0 1 2 3
+        // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetBubbleColor(Singleton.Instance.NextBubble));
+        int chipIndex =0;
+        switch (Singleton.Instance.NextBubble)
+        {
+            case BubbleType.Red: 
+                chipIndex =0;
+                break;
+            case BubbleType.Blue: 
+                chipIndex =1;
+                break;
+            case BubbleType.Green: 
+                chipIndex =2;
+                break;
+            case BubbleType.Yellow: 
+                chipIndex =3;
+                break;
+            default:
+                break;
+        }
+        
+        // Draw the chip using the sourceRectangle
+        _spriteBatch.Draw(_chipTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400),new Rectangle(chipIndex * 32, 0, 32, 32),Color.White); 
         //Game Over Line
         //_spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.BUBBLE_GRID_HEIGHT * Singleton.BUBBLE_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
