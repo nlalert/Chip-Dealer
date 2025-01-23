@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 namespace MidtermComGame;
 
 public class MainScene 
@@ -24,6 +25,7 @@ public class MainScene
 
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
+    Song _gameMusic;
 
     public void Initialize()
     {
@@ -49,6 +51,7 @@ public class MainScene
 
         _ceilingPushingSound = content.Load<SoundEffect>("Ceilingpushing");
         _chipHitSound = content.Load<SoundEffect>("ChipHit");
+        _gameMusic = content.Load<Song>("A Night Alone - TrackTribe");
 
         Reset();
     }
@@ -66,6 +69,10 @@ public class MainScene
                 Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
                 break;
             case Singleton.GameState.Playing:
+                if (MediaPlayer.State != MediaState.Playing)
+                {
+                    MediaPlayer.Play(_gameMusic);
+                }
                 for (int i = 0; i < _numObject; i++)
                 {
                     if(_gameObjects[i].IsActive)
@@ -97,7 +104,6 @@ public class MainScene
 
     public void Draw(GameTime gameTime)
     {
-
         _numObject = _gameObjects.Count;
 
         _spriteBatch.Draw(_backgroundTexture, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);

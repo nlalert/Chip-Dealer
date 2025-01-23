@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin A Night Alone - TrackTribe.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:A Night Alone - TrackTribe.mp3
+
 #begin Background.png
 /importer:TextureImporter
 /processor:TextureProcessor
