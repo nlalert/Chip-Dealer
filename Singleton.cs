@@ -35,6 +35,7 @@ class Singleton
 
     public enum GameState
     {
+        MainMenu,
         SetLevel,
         Playing,
         CheckChipAndCeiling,
