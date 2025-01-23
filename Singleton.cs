@@ -76,5 +76,21 @@ class Singleton
         // if somehow not have color 
         return Color.White;
     }
+    public static Rectangle GetChipViewPort(ChipType chipType){
+        switch (chipType)
+        {
+            case ChipType.Red: 
+                return new Rectangle(0, 0, 32, 32);//red
+            case ChipType.Blue: 
+                return new Rectangle(1* 32, 0, 32, 32);
+            case ChipType.Green: 
+                return new Rectangle(2 * 32, 0, 32, 32);
+            case ChipType.Yellow: 
+                return new Rectangle(3 * 32, 0, 32, 32);
+            default:
+                break;
+        }
+        return new Rectangle(0, 0, 32, 32);//red
+    }
 }
 

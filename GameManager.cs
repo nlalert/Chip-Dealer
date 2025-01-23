@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,12 +21,16 @@ public class GameManager : Game
 
     // Main Menu Variables
     private Texture2D _startButtonTexture;
+    private Texture2D _BackGroundTexture;
+    private Texture2D _GameNameTexture;
+    private Texture2D _chipTexture;
     private Rectangle _startButtonRectangle;
     private MouseState _previousMouseState;
+    private List<Vector3> _ChipPos;// z is type of Chips
 
     // Game Scene (MainScene)
     private MainScene _mainScene;
-
+    private const float CHIP_FALL_SPEED = 1.5f;
     public GameManager()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -43,16 +49,38 @@ public class GameManager : Game
 
         // Load main menu assets
         _startButtonTexture = Content.Load<Texture2D>("Start"); // Add Start.png to Content
+        _BackGroundTexture = Content.Load<Texture2D>("Background"); 
+        _GameNameTexture = Content.Load<Texture2D>("GameName"); 
+        _chipTexture = Content.Load<Texture2D>("Chips");
+
         int buttonWidth = _startButtonTexture.Width;
         int buttonHeight = _startButtonTexture.Height;
         int buttonX = (Singleton.SCREEN_WIDTH - buttonWidth) / 2;
         int buttonY = (Singleton.SCREEN_HEIGHT - buttonHeight) / 2;
         _startButtonRectangle = new Rectangle(buttonX, buttonY, buttonWidth, buttonHeight);
+        //chis falling
+        _ChipPos = new List<Vector3>();
+            // _ChipPos.Add(new Vector3(100,10,1));
+            // _ChipPos.Add(new Vector3(150,100,2));
+            // _ChipPos.Add(new Vector3(200,300,3));
+            // _ChipPos.Add(new Vector3(100,210,0));
+            // _ChipPos.Add(new Vector3(500,410,1));
+            // _ChipPos.Add(new Vector3(600,610,2));
+            // _ChipPos.Add(new Vector3(950,510,3));
+            // _ChipPos.Add(new Vector3(10,70,0));
+            Random rd = new Random();
+            for (int i = 0; i < 15; i++)
+            {
+                _ChipPos.Add(new Vector3(rd.Next(0, Singleton.SCREEN_WIDTH-(_chipTexture.Width/4))
+                                        ,rd.Next(0, Singleton.SCREEN_HEIGHT-_chipTexture.Width),
+                                        new Random().Next(1,5)));
+            }
 
         // Initialize the main game scene
         _mainScene = new MainScene();
         _mainScene.Initialize(); // Ensure MainScene has a proper Initialize method
         _mainScene.LoadContent(Content, GraphicsDevice, _spriteBatch);
+
     }
 
     protected override void Update(GameTime gameTime)
@@ -84,9 +112,23 @@ public class GameManager : Game
             _currentGameState = GameState.Game;
         }
 
+        // Update chip positions
+        for (int i = 0; i < _ChipPos.Count; i++)
+        {
+            Vector3 chip = _ChipPos[i];
+            chip.Y += CHIP_FALL_SPEED; // Move chip downwards
+            // Reset position if it goes off-screen
+            if (chip.Y > Singleton.SCREEN_HEIGHT)
+            {
+                chip.Y = -_chipTexture.Height; // Reset Y to top
+                chip.X = new Random().Next(0, Singleton.SCREEN_WIDTH - _chipTexture.Width/4); // Random X position
+                // Optionally change the Z value to switch chip type randomly
+                chip.Z = new Random().Next(1, 5);
+            }
+            _ChipPos[i] = chip; 
+        }
         _previousMouseState = currentMouseState;
     }
-
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -111,6 +153,16 @@ public class GameManager : Game
 
     private void DrawMainMenu()
     {
+        _spriteBatch.Draw(_BackGroundTexture,new Vector2(0,0), Color.White);
+        //draw falling chips
+        foreach (Vector3 ChipPos in _ChipPos)
+        {
+            _spriteBatch.Draw(_chipTexture, new Vector2(ChipPos.X,ChipPos.Y),Singleton.GetChipViewPort((ChipType)ChipPos.Z),Color.White); 
+        }
         _spriteBatch.Draw(_startButtonTexture, _startButtonRectangle, Color.White);
+        _spriteBatch.Draw(_GameNameTexture, new Vector2((Singleton.SCREEN_WIDTH - _GameNameTexture.Width)/2  ,(Singleton.SCREEN_HEIGHT - _GameNameTexture.Height)/4 ), Color.White);
+        
+        
+        
     }
 }
