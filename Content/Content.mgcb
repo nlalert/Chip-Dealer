@@ -49,6 +49,12 @@
 /processorParam:TextureFormat=Color
 /build:Cannon.png
 
+#begin Ceilingpushing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Ceilingpushing.wav
+
 #begin Chips.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 namespace MidtermComGame;
 
 public class MainScene 
@@ -22,6 +23,8 @@ public class MainScene
     Texture2D _rectTexture;
     Texture2D _cannonTexture;
 
+    SoundEffect _ceilingPushingSound;
+
     public void Initialize()
     {
         _gameObjects = new List<GameObject>();
@@ -39,10 +42,13 @@ public class MainScene
         _chipStickTexture = content.Load<Texture2D>("ChipStick");
 
         _cannonTexture = content.Load<Texture2D>("Cannon");
+        
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
         for (int i = 0; i < data.Length; i++) data[i] = Color.White;
         _rectTexture.SetData(data);
+
+        _ceilingPushingSound = content.Load<SoundEffect>("Ceilingpushing");
 
         Reset();
     }
@@ -171,7 +177,6 @@ public class MainScene
     {
         if(Singleton.Instance.BubbleShotAmount % Singleton.CEILING_WAITING_TURN == 0){
             Singleton.Instance.PlayAreaStartY += Singleton.BUBBLE_SIZE;
-            Singleton.Instance.CeilingPosition += Singleton.BUBBLE_SIZE;
 
             _numObject = _gameObjects.Count;
 
@@ -183,6 +188,8 @@ public class MainScene
                 }
             }
 
+            Singleton.Instance.CeilingPosition += Singleton.BUBBLE_SIZE;
+            _ceilingPushingSound.Play();
         }
     }
 
