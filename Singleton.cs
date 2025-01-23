@@ -47,7 +47,9 @@ class Singleton
 
     private static Singleton instance;
 
-    private Singleton() { }
+    private Singleton() { 
+        Random = new Random();
+    }
 
     public static Singleton Instance
     {

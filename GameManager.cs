@@ -60,11 +60,10 @@ public class GameManager : Game
         _startButtonRectangle = new Rectangle(buttonX, buttonY, buttonWidth, buttonHeight);
         //chis falling
         _ChipPos = new List<Vector3>();
-        Random rd = new Random();
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 50; i++)
         {
-            _ChipPos.Add(new Vector3(rd.Next(0, Singleton.SCREEN_WIDTH-(_chipTexture.Width/4))
-                                    ,rd.Next(0-_chipTexture.Height, Singleton.SCREEN_HEIGHT+_chipTexture.Height),
+            _ChipPos.Add(new Vector3(Singleton.Instance.Random.Next(0, Singleton.SCREEN_WIDTH-(_chipTexture.Width/4))
+                                    ,Singleton.Instance.Random.Next(0-_chipTexture.Height, Singleton.SCREEN_HEIGHT+_chipTexture.Height),
                                     new Random().Next(1,5)));
         }
 
