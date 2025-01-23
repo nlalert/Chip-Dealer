@@ -60,21 +60,13 @@ public class GameManager : Game
         _startButtonRectangle = new Rectangle(buttonX, buttonY, buttonWidth, buttonHeight);
         //chis falling
         _ChipPos = new List<Vector3>();
-            // _ChipPos.Add(new Vector3(100,10,1));
-            // _ChipPos.Add(new Vector3(150,100,2));
-            // _ChipPos.Add(new Vector3(200,300,3));
-            // _ChipPos.Add(new Vector3(100,210,0));
-            // _ChipPos.Add(new Vector3(500,410,1));
-            // _ChipPos.Add(new Vector3(600,610,2));
-            // _ChipPos.Add(new Vector3(950,510,3));
-            // _ChipPos.Add(new Vector3(10,70,0));
-            Random rd = new Random();
-            for (int i = 0; i < 15; i++)
-            {
-                _ChipPos.Add(new Vector3(rd.Next(0, Singleton.SCREEN_WIDTH-(_chipTexture.Width/4))
-                                        ,rd.Next(0, Singleton.SCREEN_HEIGHT-_chipTexture.Width),
-                                        new Random().Next(1,5)));
-            }
+        Random rd = new Random();
+        for (int i = 0; i < 1000; i++)
+        {
+            _ChipPos.Add(new Vector3(rd.Next(0, Singleton.SCREEN_WIDTH-(_chipTexture.Width/4))
+                                    ,rd.Next(0-_chipTexture.Height, Singleton.SCREEN_HEIGHT+_chipTexture.Height),
+                                    new Random().Next(1,5)));
+        }
 
         // Initialize the main game scene
         _mainScene = new MainScene();
@@ -118,7 +110,7 @@ public class GameManager : Game
             Vector3 chip = _ChipPos[i];
             chip.Y += CHIP_FALL_SPEED; // Move chip downwards
             // Reset position if it goes off-screen
-            if (chip.Y > Singleton.SCREEN_HEIGHT)
+            if (chip.Y > Singleton.SCREEN_HEIGHT+_chipTexture.Height)
             {
                 chip.Y = -_chipTexture.Height; // Reset Y to top
                 chip.X = new Random().Next(0, Singleton.SCREEN_WIDTH - _chipTexture.Width/4); // Random X position
