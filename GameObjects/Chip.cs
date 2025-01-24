@@ -27,7 +27,7 @@ class Chip : GameObject
     public override void Draw(SpriteBatch spriteBatch)
     {
         if (!_isShot){
-        Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, 430 - (_texture.Height - 3)/2);
+        Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, Singleton.CHIP_SHOOTING_HEIGHT - (_texture.Height - 3)/2);
 
         int chipIndex =0;
         switch (Singleton.Instance.CurrentChip)

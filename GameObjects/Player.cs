@@ -46,7 +46,7 @@ class Player : GameObject
 
     public override void Reset()
     {
-        Position = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, 430);
+        Position = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, Singleton.CHIP_SHOOTING_HEIGHT);
         Singleton.Instance.CurrentChip = RandomChipColor();
         Singleton.Instance.NextChip = RandomChipColor();
         LastShotChip = Chip;

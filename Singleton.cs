@@ -13,6 +13,8 @@ class Singleton
 
     public const int CHIP_GRID_WIDTH = 8;
     public const int CHIP_GRID_HEIGHT = 12;
+
+    public const int CHIP_SHOOTING_HEIGHT = 430;
     public const int CHIP_SIZE = 32;
     public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (CHIP_GRID_WIDTH * CHIP_SIZE)) / 2;
     public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (CHIP_GRID_WIDTH * CHIP_SIZE);

@@ -172,7 +172,7 @@ public class MainScene
         {
             Name = "Player",
             Viewport = new Rectangle(0, 0, 96, 80),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, 430),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
