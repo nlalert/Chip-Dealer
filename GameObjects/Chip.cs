@@ -45,16 +45,16 @@ class Chip : GameObject
         switch (ChipType)
         {
             case ChipType.Red:
-                Viewport = new Rectangle(0, 0, 32, 32);
+                Viewport = new Rectangle(0, 0, 32, 35);
                 break;
             case ChipType.Blue:
-                Viewport = new Rectangle(32, 0, 32, 32);
+                Viewport = new Rectangle(32, 0, 32, 35);
                 break;
             case ChipType.Green:
-                Viewport = new Rectangle(64, 0, 32, 32);
+                Viewport = new Rectangle(64, 0, 32, 35);
                 break;
             case ChipType.Yellow:
-                Viewport = new Rectangle(96, 0, 32, 32);
+                Viewport = new Rectangle(96, 0, 32, 35);
                 break;
         }
     }

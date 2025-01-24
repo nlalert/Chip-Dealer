@@ -83,17 +83,17 @@ class Singleton
         switch (chipType)
         {
             case ChipType.Red: 
-                return new Rectangle(0, 0, 32, 32);//red
+                return new Rectangle(0, 0, 32, 35);//red
             case ChipType.Blue: 
-                return new Rectangle(1* 32, 0, 32, 32);
+                return new Rectangle(1* 32, 0, 32, 35);
             case ChipType.Green: 
-                return new Rectangle(2 * 32, 0, 32, 32);
+                return new Rectangle(2 * 32, 0, 32, 35);
             case ChipType.Yellow: 
-                return new Rectangle(3 * 32, 0, 32, 32);
+                return new Rectangle(3 * 32, 0, 32, 35);
             default:
                 break;
         }
-        return new Rectangle(0, 0, 32, 32);//red
+        return new Rectangle(0, 0, 32, 35);//red
     }
 }
 
