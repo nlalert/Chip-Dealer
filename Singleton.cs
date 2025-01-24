@@ -24,6 +24,8 @@ class Singleton
     public int CeilingPosition;
     public int ChipShotAmount;
 
+    public int Score;
+
     public ChipType[,] GameBoard;
 
     public ChipType CurrentChip;

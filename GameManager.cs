@@ -50,7 +50,7 @@ public class GameManager : Game
 
     protected override void Update(GameTime gameTime)
     {
-        Console.WriteLine(Singleton.Instance.CurrentGameState);
+        // Console.WriteLine(Singleton.Instance.CurrentGameState);
 
         switch (Singleton.Instance.CurrentGameState)
         {

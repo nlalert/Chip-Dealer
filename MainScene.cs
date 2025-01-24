@@ -147,6 +147,11 @@ public class MainScene
         //Game Over Line
         //_spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.CHIP_GRID_HEIGHT * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
+        Vector2 fontSize = _font.MeasureString("Score : " + Singleton.Instance.Score.ToString());
+        _spriteBatch.DrawString(_font,
+            "Score : " + Singleton.Instance.Score.ToString(),
+            new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 30),
+            Color.White);
     }
 
     protected void Reset()
@@ -155,8 +160,9 @@ public class MainScene
 
         Singleton.Instance.Random = new System.Random();
 
-        Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.CeilingPosition = 0;
+        Singleton.Instance.ChipShotAmount = 0;
+        Singleton.Instance.Score = 0;
 
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
 
@@ -175,7 +181,8 @@ public class MainScene
                 Name = "Chip",
                 Viewport = new Rectangle(0, 0, 32, 32),
                 ChipHitSound = _chipHitSound,
-                Speed = 0
+                Speed = 0,
+                Score = 10
             }
         });
         
@@ -241,6 +248,7 @@ public class MainScene
             Position = new Vector2(Singleton.PLAY_AREA_START_X + i * Singleton.CHIP_SIZE + offSetX, j * Singleton.CHIP_SIZE),
             ChipHitSound = _chipHitSound,
             ChipType = Singleton.Instance.GameBoard[j, i],
+            Score = 10
         };
 
         newChip.Reset();
@@ -277,11 +285,13 @@ public class MainScene
                 //skip last column
                 if (j % 2 == 1 && i == Singleton.CHIP_GRID_WIDTH - 1)
                     continue;
+                if(Singleton.Instance.GameBoard[j, i] == ChipType.None)
+                    continue;
 
                 List<Vector2> AdjacentChips = new List<Vector2>();
 
                 CheckHighestHangingChips(new Vector2(i, j), AdjacentChips);
-
+                Console.WriteLine(AdjacentChips.Count);
                 int highestRow = Singleton.CHIP_GRID_HEIGHT;
 
                 foreach (Vector2 b in AdjacentChips)
@@ -293,6 +303,7 @@ public class MainScene
                     DestroyChips(AdjacentChips);
             }
         }
+        Console.WriteLine("============");
     }
 
     private void CheckHighestHangingChips(Vector2 boardCoord, List<Vector2> AdjacentChips)
@@ -342,9 +353,14 @@ public class MainScene
                 if(_gameObjects[j] is Chip && (_gameObjects[j] as Chip).BoardCoord == AdjacentChips[i])
                 {
                     _gameObjects[j].IsActive = false;
+                    break;
                 }
             }
         }
+        //Score
+        // Console.WriteLine(AdjacentChips.Count);
+        // Singleton.Instance.Score += (int)(10 * Math.Pow(2, AdjacentChips.Count));
+        // Console.WriteLine((int)(10 * Math.Pow(2, AdjacentChips.Count)));
     }
 
     protected void CheckGameOver()

@@ -12,6 +12,8 @@ class Chip : GameObject
 
     public float Radius;
 
+    public int Score;
+
     public Vector2 BoardCoord;
 
     public ChipType ChipType;
@@ -164,6 +166,7 @@ class Chip : GameObject
 
         if(sameTypeChips.Count >= Singleton.CHIP_BREAK_AMOUNT)
             DestroySameTypeChips(sameTypeChips, gameObjects);
+
     }
 
     protected void CheckSameTypeChips(Vector2 gridCoord, List<Vector2> visitedCoord)
@@ -204,7 +207,9 @@ class Chip : GameObject
             {
                 if(s is Chip && (s as Chip).BoardCoord == visitedCoord[i])
                 {
+                    Singleton.Instance.Score += (s as Chip).Score;//Temp
                     s.IsActive = false;
+                    break;
                 }
             }
         }
