@@ -20,6 +20,7 @@ public class MainScene
     Texture2D _backgroundTexture;
     Texture2D _chipTexture;
     Texture2D _chipStickTexture;
+    Texture2D _handTexture;
     Texture2D _rectTexture;
     Texture2D _cannonTexture;
 
@@ -41,6 +42,7 @@ public class MainScene
 
         _chipTexture = content.Load<Texture2D>("Chips");
         _chipStickTexture = content.Load<Texture2D>("ChipStick");
+        _handTexture = content.Load<Texture2D>("Hand");
 
         _cannonTexture = content.Load<Texture2D>("Cannon");
         
@@ -123,6 +125,7 @@ public class MainScene
         // Red blue green Yellow
         // 0 1 2 3
         // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetChipColor(Singleton.Instance.NextChip));
+
         int chipIndex =0;
         switch (Singleton.Instance.NextChip)
         {
@@ -144,8 +147,9 @@ public class MainScene
         
         // Draw the chip using the sourceRectangle
         _spriteBatch.Draw(_chipTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400),new Rectangle(chipIndex * 32, 0, 32, 35),Color.White); 
+
         //Game Over Line
-        //_spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.CHIP_GRID_HEIGHT * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
+        _spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.CHIP_GRID_HEIGHT * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
     }
 
@@ -164,18 +168,19 @@ public class MainScene
 
         // Texture2D cannonTexture = content.Load<Texture2D>("Cannon");
 
-        _gameObjects.Add(new Player(_cannonTexture)
+        _gameObjects.Add(new Player(_handTexture)
         {
             Name = "Player",
-            Viewport = new Rectangle(0, 0, 72, 72),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, 400),
+            Viewport = new Rectangle(0, 0, 96, 80),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, 430),
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
             Chip = new Chip(_chipTexture)
             {
                 Name = "Chip",
-                Viewport = new Rectangle(0, 0, 32, 32),
+                _isShot = false,
+                Viewport = new Rectangle(32, 0, 32, 32), 
                 ChipHitSound = _chipHitSound,
                 Speed = 0
             }
@@ -240,6 +245,7 @@ public class MainScene
         Chip newChip = new Chip(_chipTexture)
         {
             Name = "Chip",
+            _isShot = true,
             Position = new Vector2(Singleton.PLAY_AREA_START_X + i * Singleton.CHIP_SIZE + offSetX, j * Singleton.CHIP_SIZE),
             ChipHitSound = _chipHitSound,
             ChipType = Singleton.Instance.GameBoard[j, i],

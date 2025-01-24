@@ -11,6 +11,7 @@ class Chip : GameObject
     public float Speed;
 
     public float Radius;
+    public bool _isShot;
 
     public Vector2 BoardCoord;
 
@@ -25,6 +26,32 @@ class Chip : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
+        if (!_isShot){
+        Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, 430 - (_texture.Height - 3)/2);
+
+        int chipIndex =0;
+        switch (Singleton.Instance.CurrentChip)
+        {
+            case ChipType.Red: 
+                chipIndex =0;
+                break;
+            case ChipType.Blue: 
+                chipIndex =1;
+                break;
+            case ChipType.Green: 
+                chipIndex =2;
+                break;
+            case ChipType.Yellow: 
+                chipIndex =3;
+                break;
+            default:
+                break;
+        }
+
+        Viewport = new Rectangle(chipIndex * 32, 0, 32, 35);
+
+        }
+
         spriteBatch.Draw(_texture, Position, Viewport, Color.White);
         base.Draw(spriteBatch);
     }
