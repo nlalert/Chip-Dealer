@@ -16,15 +16,13 @@ class Singleton
     public const int CHIP_SIZE = 32;
     public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (CHIP_GRID_WIDTH * CHIP_SIZE)) / 2;
     public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (CHIP_GRID_WIDTH * CHIP_SIZE);
-    public int PlayAreaStartY = 0;
     public const float MAX_PLAYER_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
 
     public const int CHIP_BREAK_AMOUNT = 3;
     public const int CEILING_WAITING_TURN = 8;
 
-    public int CeilingPosition = 0;
-    public int ChipShotAmount = 0;
-
+    public int CeilingPosition;
+    public int ChipShotAmount;
 
     public ChipType[,] GameBoard;
 

@@ -68,8 +68,8 @@ class Chip : GameObject
 
         if(Speed != 0)
         {
-            if (Position.Y < Singleton.Instance.PlayAreaStartY){
-                Position.Y = Singleton.Instance.PlayAreaStartY;
+            if (Position.Y < Singleton.Instance.CeilingPosition){
+                Position.Y = Singleton.Instance.CeilingPosition;
                 SnapToGrid();
                 CheckAndDestroySameTypeChip(gameObjects);
                 Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
@@ -120,7 +120,7 @@ class Chip : GameObject
                     continue;
 
                 float targetX = i * Singleton.CHIP_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
-                float targetY = j * Singleton.CHIP_SIZE + Singleton.Instance.PlayAreaStartY;
+                float targetY = j * Singleton.CHIP_SIZE + Singleton.Instance.CeilingPosition;
 
                 float distance = Vector2.Distance(new Vector2(targetX, targetY), Position);
 
@@ -141,7 +141,7 @@ class Chip : GameObject
                 continue;
 
             float targetX = X * Singleton.CHIP_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
-            float targetY = Y * Singleton.CHIP_SIZE + Singleton.Instance.PlayAreaStartY;
+            float targetY = Y * Singleton.CHIP_SIZE + Singleton.Instance.CeilingPosition;
 
             if(Singleton.Instance.GameBoard[Y, X] == ChipType.None)
             {

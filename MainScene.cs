@@ -156,8 +156,6 @@ public class MainScene
         Singleton.Instance.Random = new System.Random();
 
         Singleton.Instance.ChipShotAmount = 0;
-        Singleton.Instance.PlayAreaStartY = 0;
-        Singleton.Instance.PlayAreaStartY = 0;
         Singleton.Instance.CeilingPosition = 0;
 
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
@@ -254,7 +252,6 @@ public class MainScene
     protected void CheckAndPushDownCeiling()
     {
         if(Singleton.Instance.ChipShotAmount % Singleton.CEILING_WAITING_TURN == 0){
-            Singleton.Instance.PlayAreaStartY += Singleton.CHIP_SIZE;
 
             _numObject = _gameObjects.Count;
 
