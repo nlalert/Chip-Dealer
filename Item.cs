@@ -28,16 +28,4 @@ class Item : Chip{
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
     }
-    public bool IsClicked()
-    {
-        MouseState mouseState = Mouse.GetState();
-        Rectangle gameObjectRectangle = new Rectangle(
-            (int)Position.X,
-            (int)Position.Y,
-            Viewport.Width,
-            Viewport.Height
-        );
-        Point mouseClickPosition = new Point(mouseState.X, mouseState.Y);
-        return gameObjectRectangle.Contains(mouseClickPosition) && mouseState.LeftButton == ButtonState.Pressed;
-    }
 }

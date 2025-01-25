@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 class Shop : GameObject
 {   
     private List<Item> _shopItems;
-    private int _rows = 4; // Number of rows
+    private int _rows = 3; // Number of rows
     private int _columns = 2; // Number of columns
     private int _itemSpacing = 10; // Spacing between items
     private int _itemSize = 50; // Assume each item's size (width/height)
@@ -63,15 +63,6 @@ class Shop : GameObject
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
-        foreach (var item in _shopItems)
-        {
-            item.Update(gameTime, gameObjects);
-            // Check if the item was clicked (simplified example)
-            if (item.IsClicked())
-            {
-                item.OnClickBuy();
-            }
-        }
 
         base.Update(gameTime, gameObjects);
     }
