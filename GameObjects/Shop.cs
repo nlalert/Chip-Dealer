@@ -7,33 +7,75 @@ using Microsoft.Xna.Framework.Graphics;
 
 class Shop : GameObject
 {   
-    Dictionary<Item, int> _shopItems;
+    private List<Item> _shopItems;
+    private int _rows = 4; // Number of rows
+    private int _columns = 2; // Number of columns
+    private int _itemSpacing = 10; // Spacing between items
+    private int _itemSize = 50; // Assume each item's size (width/height)
 
     public Shop(Texture2D texture) : base(texture)
     {
-        _shopItems = new Dictionary<Item, int>();
+        _shopItems = new List<Item>();
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
         //Display Shop
-        spriteBatch.Draw(_texture,new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30),Color.White);
+        spriteBatch.Draw(_texture, Position, Color.White);
+        for (int i = 0; i < _shopItems.Count; i++)
+        {
+            int row = i / _columns; // Determine the row
+            int col = i % _columns; // Determine the column
+
+            // Calculate item's position
+            Vector2 itemPosition = new Vector2(
+                Position.X + col * (_itemSize + _itemSpacing),
+                Position.Y + _texture.Height + row * (_itemSize + _itemSpacing)
+            );
+
+            // Set the position for the item
+            _shopItems[i].Position = itemPosition;
+
+            // Draw the item
+            _shopItems[i].Draw(spriteBatch);
+        }
+
         base.Draw(spriteBatch);
     }
 
     public override void Reset()
     {
         Console.WriteLine("Shop Reset");
-        _shopItems.Add(new RedChip(_texture),50);
+
+        // Populate the shop with items (4x2 grid)
+        // for (int i = 0; i < _rows * _columns; i++)
+        // {
+        //     // Add new RedChip to the shop
+        //     var redChip = new RedChip(_texture)
+        //     {
+        //         Price = 50 
+        //     };
+        //     _shopItems.Add(redChip);
+        // }
+
         base.Reset();
     }
 
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
+        foreach (var item in _shopItems)
+        {
+            item.Update(gameTime, gameObjects);
+            // Check if the item was clicked (simplified example)
+            if (item.IsClicked())
+            {
+                item.OnClickBuy();
+            }
+        }
 
         base.Update(gameTime, gameObjects);
     }
-
-    
-
+    public void AddShopItem(Item item){
+        _shopItems.Add(item);
+    }
 }

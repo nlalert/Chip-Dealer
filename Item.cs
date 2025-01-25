@@ -4,15 +4,17 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 class Item : Chip{
-    
+    public int Price;
+    private bool _wasMousePressed = false;
     public Item(Texture2D texture) : base(texture)
     {
-
+        
     }
     public virtual void OnClickBuy(){
-        
+        Console.WriteLine($"Item purchased for {Price}!");
     }
     public override void Reset()
     {
@@ -20,9 +22,22 @@ class Item : Chip{
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
+        spriteBatch.Draw(_texture, Position, Viewport, Color.White);
         base.Draw(spriteBatch);
     }
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
+    }
+    public bool IsClicked()
+    {
+        MouseState mouseState = Mouse.GetState();
+        Rectangle gameObjectRectangle = new Rectangle(
+            (int)Position.X,
+            (int)Position.Y,
+            Viewport.Width,
+            Viewport.Height
+        );
+        Point mouseClickPosition = new Point(mouseState.X, mouseState.Y);
+        return gameObjectRectangle.Contains(mouseClickPosition) && mouseState.LeftButton == ButtonState.Pressed;
     }
 }

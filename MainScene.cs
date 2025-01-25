@@ -187,9 +187,27 @@ public class MainScene
                 Score = 10
             }
         });
-        _gameObjects.Add(new Shop(_ShopTexture){
-            Name = "Shop"
-        });
+
+        //add shop content
+        _shop = new Shop(_ShopTexture){
+            Name = "Shop",
+            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30)
+        };
+        // _shop.AddItems   
+        RedChip redChip = new RedChip(_chipTexture){
+            Viewport = new Rectangle(0, 0, 32, 32),
+        };
+        _shop.AddShopItem(redChip);
+        // _shop.AddShopItem(redChip);
+        // _shop.AddShopItem(redChip);
+        // _shop.AddShopItem(redChip);
+        // _shop.AddShopItem(redChip);
+        // _shop.AddShopItem(redChip);
+        // _shop.AddShopItem(redChip);
+        // _shop.AddShopItem(redChip);
+
+        _gameObjects.Add(_shop);
+
         foreach (GameObject s in _gameObjects)
         {
             s.Reset();
