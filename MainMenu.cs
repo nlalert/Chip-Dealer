@@ -57,7 +57,7 @@ public class MainMenu
 
     public void Update(GameTime gameTime)
     {
-        Console.WriteLine("Update Mainmenu");
+        // Console.WriteLine("Update Mainmenu");
         
         var currentMouseState = Mouse.GetState();
 
