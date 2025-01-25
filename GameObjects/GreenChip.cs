@@ -9,9 +9,11 @@ class GreenChip : Item{
 
     public GreenChip(Texture2D texture) : base(texture)
     {
+        ChipType = ChipType.Green;
     }
-    public override void OnBuy()
+    public override void OnBuy(List<GameObject> gameObjects)
     {
-        base.OnBuy();
+        //change Current Chip to this chip
+        base.OnBuy(gameObjects);
     }
 }

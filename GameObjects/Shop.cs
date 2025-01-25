@@ -45,19 +45,6 @@ class Shop : GameObject
 
     public override void Reset()
     {
-        Console.WriteLine("Shop Reset");
-
-        // Populate the shop with items (4x2 grid)
-        // for (int i = 0; i < _rows * _columns; i++)
-        // {
-        //     // Add new RedChip to the shop
-        //     var redChip = new RedChip(_texture)
-        //     {
-        //         Price = 50 
-        //     };
-        //     _shopItems.Add(redChip);
-        // }
-
         base.Reset();
     }
 
@@ -68,7 +55,7 @@ class Shop : GameObject
         {
             if (Singleton.Instance.CurrentKey.IsKeyDown(item.BuyKey) && Singleton.Instance.PreviousKey.IsKeyUp(item.BuyKey))
             {
-                item.OnBuy();
+                item.OnBuy(gameObjects);
             }
         }
         base.Update(gameTime, gameObjects);

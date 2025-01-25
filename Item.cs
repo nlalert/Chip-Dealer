@@ -13,11 +13,11 @@ class Item : Chip{
     {
         
     }
-    public virtual void OnBuy(){
+    public virtual void OnBuy(List<GameObject> gameObject){
         if (Singleton.Instance.Score >= Price)
         {
             Singleton.Instance.Score -= Price;
-            // Add the item to the player's inventory
+            Singleton.Instance.CurrentChip = this.ChipType;
             Console.WriteLine($"Item bought for {Price}!");
         }
         else
@@ -33,5 +33,8 @@ class Item : Chip{
     {
         spriteBatch.Draw(_texture, Position, Viewport, Color.White);
         base.Draw(spriteBatch);
+    }
+    private void ReplaceCurrentChip(List<GameObject> gameObjects){
+
     }
 }

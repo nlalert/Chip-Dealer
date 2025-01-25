@@ -9,9 +9,10 @@ class RedChip : Item{
 
     public RedChip(Texture2D texture) : base(texture)
     {
+        ChipType = ChipType.Red;
     }
-    public override void OnBuy()
+    public override void OnBuy(List<GameObject> gameObject)
     {
-        base.OnBuy();
+        base.OnBuy(gameObject);
     }
 }
