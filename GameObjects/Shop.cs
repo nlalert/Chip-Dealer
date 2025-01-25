@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 class Shop : GameObject
 {   
@@ -63,7 +64,13 @@ class Shop : GameObject
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
-
+        foreach (var item in _shopItems)
+        {
+            if (Singleton.Instance.CurrentKey.IsKeyDown(item.BuyKey) && Singleton.Instance.PreviousKey.IsKeyUp(item.BuyKey))
+            {
+                item.OnBuy();
+            }
+        }
         base.Update(gameTime, gameObjects);
     }
     public void AddShopItem(Item item){

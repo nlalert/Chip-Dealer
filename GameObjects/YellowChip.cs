@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-class RedChip : Item{
+class YellowChip : Item{
 
-    public RedChip(Texture2D texture) : base(texture)
+    public YellowChip(Texture2D texture) : base(texture)
     {
     }
     public override void OnBuy()

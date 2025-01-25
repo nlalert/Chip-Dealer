@@ -195,16 +195,30 @@ public class MainScene
         };
         // _shop.AddItems   
         RedChip redChip = new RedChip(_chipTexture){
-            Viewport = new Rectangle(0, 0, 32, 32),
+            Viewport = Singleton.GetChipViewPort(ChipType.Red),
+            Price = 50,
+            BuyKey = Keys.A
         };
         _shop.AddShopItem(redChip);
-        // _shop.AddShopItem(redChip);
-        // _shop.AddShopItem(redChip);
-        // _shop.AddShopItem(redChip);
-        // _shop.AddShopItem(redChip);
-        // _shop.AddShopItem(redChip);
-        // _shop.AddShopItem(redChip);
-        // _shop.AddShopItem(redChip);
+        BlueChip blueChip = new BlueChip(_chipTexture){
+            Viewport = Singleton.GetChipViewPort(ChipType.Blue),
+            Price = 50,
+            BuyKey = Keys.S
+        };
+        _shop.AddShopItem(blueChip);
+        GreenChip greenChip = new GreenChip(_chipTexture){
+            Viewport = Singleton.GetChipViewPort(ChipType.Green),
+            Price = 50,
+            BuyKey = Keys.D
+        };
+        _shop.AddShopItem(greenChip);
+        YellowChip yellowChip = new YellowChip(_chipTexture){
+            Viewport = Singleton.GetChipViewPort(ChipType.Yellow),
+            Price = 50,
+            BuyKey = Keys.F
+        };
+        _shop.AddShopItem(yellowChip);
+
 
         _gameObjects.Add(_shop);
 
