@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 class Item : Chip{
     public int Price;
     public Keys BuyKey;
-    private bool _wasMousePressed = false;
     public Item(Texture2D texture) : base(texture)
     {
         

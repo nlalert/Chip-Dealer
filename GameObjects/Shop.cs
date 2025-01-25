@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 class Shop : GameObject
 {   
     private List<Item> _shopItems;
-    private int _rows = 3; // Number of rows
+    // private int _rows = 3; // Number of rows
     private int _columns = 2; // Number of columns
     private int _itemSpacing = 10; // Spacing between items
     private int _itemSize = 50; // Assume each item's size (width/height)
