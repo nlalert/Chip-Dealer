@@ -14,16 +14,6 @@ class Item : GameObject{
         
     }
     public virtual void OnBuy(List<GameObject> gameObject){
-        if (Singleton.Instance.Score >= Price)
-        {
-            Singleton.Instance.Score -= Price;
-            // Singleton.Instance.CurrentChip = this.ChipType;
-            Console.WriteLine($"Item bought for {Price}!");
-        }
-        else
-        {
-            Console.WriteLine("Not enough currency to buy this item!");
-        }
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
