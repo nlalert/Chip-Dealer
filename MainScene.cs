@@ -326,7 +326,7 @@ public class MainScene
             for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
             {
                 //skip last column
-                if (j % 2 == 1 && i == Singleton.CHIP_GRID_WIDTH - 1)
+                if (Singleton.Instance.GameBoard.IsUnUseSpot(j, i))
                     continue;
                 if(Singleton.Instance.GameBoard[j, i] == ChipType.None)
                     continue;
@@ -367,7 +367,7 @@ public class MainScene
         
         if (isOddRow)
         {
-            if(HaveChip( X+1, Y-1)) CheckHighestHangingChips(new Vector2(X+1, Y-1), AdjacentChips);
+            if(HaveChip(X+1, Y-1)) CheckHighestHangingChips(new Vector2(X+1, Y-1), AdjacentChips);
         }
         else
         {

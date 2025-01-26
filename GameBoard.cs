@@ -34,6 +34,11 @@ public class GameBoard
         return row >= 0 && row < Rows && col >= 0 && col < Columns;
     }
 
+    public bool IsUnUseSpot(int row, int col)
+    {
+        return row % 2 == 1 && col == Columns - 1;
+    }
+
     public void ClearBoard(ChipType defaultChip = ChipType.None)
     {
         for (int row = 0; row < Rows; row++)
