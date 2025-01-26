@@ -44,7 +44,6 @@ public class GameManager : Game
         _mainScene = new MainScene();
         _mainScene.Initialize(); // Ensure MainScene has a proper Initialize method
         _mainScene.LoadContent(Content, GraphicsDevice, _spriteBatch);
-
         Singleton.Instance.CurrentGameState = GameState.MainMenu;
     }
 

@@ -98,7 +98,7 @@
 /processorParam:TextureFormat=Color
 /build:GameName.png
 
-#begin GameName.png
+#begin Shop.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -108,7 +108,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GameName.png
+/build:Shop.png
 
 #begin SpaceInvaderSheet.png
 /importer:TextureImporter

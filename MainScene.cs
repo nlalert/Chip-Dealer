@@ -22,10 +22,11 @@ public class MainScene
     Texture2D _chipStickTexture;
     Texture2D _rectTexture;
     Texture2D _cannonTexture;
-
+    Texture2D _ShopTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
     Song _gameMusic;
+    Shop _shop;
 
     public void Initialize()
     {
@@ -43,7 +44,7 @@ public class MainScene
         _chipStickTexture = content.Load<Texture2D>("ChipStick");
 
         _cannonTexture = content.Load<Texture2D>("Cannon");
-        
+        _ShopTexture = content.Load<Texture2D>("Shop");
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
         for (int i = 0; i < data.Length; i++) data[i] = Color.White;
@@ -152,6 +153,8 @@ public class MainScene
             "Score : " + Singleton.Instance.Score.ToString(),
             new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 30),
             Color.White);
+
+
     }
 
     protected void Reset()
@@ -167,7 +170,6 @@ public class MainScene
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
 
         // Texture2D cannonTexture = content.Load<Texture2D>("Cannon");
-
         _gameObjects.Add(new Player(_cannonTexture)
         {
             Name = "Player",
@@ -185,7 +187,41 @@ public class MainScene
                 Score = 10
             }
         });
-        
+
+        //add shop content
+        _shop = new Shop(_ShopTexture){
+            Name = "Shop",
+            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30)
+        };
+        // _shop.AddItems   
+        RedChip redChip = new RedChip(_chipTexture){
+            Viewport = Singleton.GetChipViewPort(ChipType.Red),
+            Price = 50,
+            BuyKey = Keys.A
+        };
+        _shop.AddShopItem(redChip);
+        BlueChip blueChip = new BlueChip(_chipTexture){
+            Viewport = Singleton.GetChipViewPort(ChipType.Blue),
+            Price = 50,
+            BuyKey = Keys.S
+        };
+        _shop.AddShopItem(blueChip);
+        GreenChip greenChip = new GreenChip(_chipTexture){
+            Viewport = Singleton.GetChipViewPort(ChipType.Green),
+            Price = 50,
+            BuyKey = Keys.D
+        };
+        _shop.AddShopItem(greenChip);
+        YellowChip yellowChip = new YellowChip(_chipTexture){
+            Viewport = Singleton.GetChipViewPort(ChipType.Yellow),
+            Price = 50,
+            BuyKey = Keys.F
+        };
+        _shop.AddShopItem(yellowChip);
+
+
+        _gameObjects.Add(_shop);
+
         foreach (GameObject s in _gameObjects)
         {
             s.Reset();
