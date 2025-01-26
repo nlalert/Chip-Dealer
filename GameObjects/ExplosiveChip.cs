@@ -15,8 +15,11 @@ class ExplosiveChip : Chip{
     {
         //find 6 surround chips
         Console.WriteLine("Bob do something");
-        Console.WriteLine("Bob do something");
+        //get current pos on board
+        //BoardCoord cur pos on board
+        int X = (int)BoardCoord.X;
+        int Y = (int)BoardCoord.Y;
+        
 
-        base.CheckAndDestroySameTypeChip(gameObjects);
     }
 }

@@ -381,32 +381,23 @@ public class MainScene
 
         AdjacentChips.Add(new Vector2(X, Y));
 
-        if(HaveChip(X-1, Y)) CheckHighestHangingChips(new Vector2(X-1, Y), AdjacentChips);
-        if(HaveChip(X+1, Y)) CheckHighestHangingChips(new Vector2(X+1, Y), AdjacentChips);
-        if(HaveChip(X, Y-1)) CheckHighestHangingChips(new Vector2(X, Y-1), AdjacentChips);
-        if(HaveChip(X, Y+1)) CheckHighestHangingChips(new Vector2(X, Y+1), AdjacentChips);
+        if(Singleton.Instance.GameBoard.HaveChip(X-1, Y)) CheckHighestHangingChips(new Vector2(X-1, Y), AdjacentChips);
+        if(Singleton.Instance.GameBoard.HaveChip(X+1, Y)) CheckHighestHangingChips(new Vector2(X+1, Y), AdjacentChips);
+        if(Singleton.Instance.GameBoard.HaveChip(X, Y-1)) CheckHighestHangingChips(new Vector2(X, Y-1), AdjacentChips);
+        if(Singleton.Instance.GameBoard.HaveChip(X, Y+1)) CheckHighestHangingChips(new Vector2(X, Y+1), AdjacentChips);
 
         bool isOddRow = (Y % 2 == 1);
         
         if (isOddRow)
         {
-            if(HaveChip(X+1, Y-1)) CheckHighestHangingChips(new Vector2(X+1, Y-1), AdjacentChips);
-            if(HaveChip(X+1, Y+1)) CheckHighestHangingChips(new Vector2(X+1, Y+1), AdjacentChips);
+            if(Singleton.Instance.GameBoard.HaveChip(X+1, Y-1)) CheckHighestHangingChips(new Vector2(X+1, Y-1), AdjacentChips);
+            if(Singleton.Instance.GameBoard.HaveChip(X+1, Y+1)) CheckHighestHangingChips(new Vector2(X+1, Y+1), AdjacentChips);
         }
         else
         {
-            if(HaveChip(X-1, Y-1)) CheckHighestHangingChips(new Vector2(X-1, Y-1), AdjacentChips);
-            if(HaveChip(X-1, Y+1)) CheckHighestHangingChips(new Vector2(X-1, Y+1), AdjacentChips);
+            if(Singleton.Instance.GameBoard.HaveChip(X-1, Y-1)) CheckHighestHangingChips(new Vector2(X-1, Y-1), AdjacentChips);
+            if(Singleton.Instance.GameBoard.HaveChip(X-1, Y+1)) CheckHighestHangingChips(new Vector2(X-1, Y+1), AdjacentChips);
         }
-    }
-
-    protected bool HaveChip(int x, int y)
-    {
-        if (Singleton.Instance.GameBoard.IsInsideBounds(y, x))
-        {
-            return Singleton.Instance.GameBoard[y, x] != ChipType.None;
-        }
-        return false;
     }
 
     protected void DestroyChips(List<Vector2> AdjacentChips)
