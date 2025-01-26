@@ -381,22 +381,22 @@ public class MainScene
 
         AdjacentChips.Add(new Vector2(X, Y));
 
-        if(Singleton.Instance.GameBoard.HaveChip(X-1, Y)) CheckHighestHangingChips(new Vector2(X-1, Y), AdjacentChips);
-        if(Singleton.Instance.GameBoard.HaveChip(X+1, Y)) CheckHighestHangingChips(new Vector2(X+1, Y), AdjacentChips);
-        if(Singleton.Instance.GameBoard.HaveChip(X, Y-1)) CheckHighestHangingChips(new Vector2(X, Y-1), AdjacentChips);
-        if(Singleton.Instance.GameBoard.HaveChip(X, Y+1)) CheckHighestHangingChips(new Vector2(X, Y+1), AdjacentChips);
+        if(Singleton.Instance.GameBoard.HaveChip(Y, X-1)) CheckHighestHangingChips(new Vector2(X-1, Y), AdjacentChips);
+        if(Singleton.Instance.GameBoard.HaveChip(Y, X+1)) CheckHighestHangingChips(new Vector2(X+1, Y), AdjacentChips);
+        if(Singleton.Instance.GameBoard.HaveChip(Y-1, X)) CheckHighestHangingChips(new Vector2(X, Y-1), AdjacentChips);
+        if(Singleton.Instance.GameBoard.HaveChip(Y+1, X)) CheckHighestHangingChips(new Vector2(X, Y+1), AdjacentChips);
 
         bool isOddRow = (Y % 2 == 1);
         
         if (isOddRow)
         {
-            if(Singleton.Instance.GameBoard.HaveChip(X+1, Y-1)) CheckHighestHangingChips(new Vector2(X+1, Y-1), AdjacentChips);
-            if(Singleton.Instance.GameBoard.HaveChip(X+1, Y+1)) CheckHighestHangingChips(new Vector2(X+1, Y+1), AdjacentChips);
+            if(Singleton.Instance.GameBoard.HaveChip(Y-1, X+1)) CheckHighestHangingChips(new Vector2(X+1, Y-1), AdjacentChips);
+            if(Singleton.Instance.GameBoard.HaveChip(Y+1, X+1)) CheckHighestHangingChips(new Vector2(X+1, Y+1), AdjacentChips);
         }
         else
         {
-            if(Singleton.Instance.GameBoard.HaveChip(X-1, Y-1)) CheckHighestHangingChips(new Vector2(X-1, Y-1), AdjacentChips);
-            if(Singleton.Instance.GameBoard.HaveChip(X-1, Y+1)) CheckHighestHangingChips(new Vector2(X-1, Y+1), AdjacentChips);
+            if(Singleton.Instance.GameBoard.HaveChip(Y-1, X-1)) CheckHighestHangingChips(new Vector2(X-1, Y-1), AdjacentChips);
+            if(Singleton.Instance.GameBoard.HaveChip(Y+1, X-1)) CheckHighestHangingChips(new Vector2(X-1, Y+1), AdjacentChips);
         }
     }
 
