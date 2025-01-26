@@ -85,5 +85,13 @@ public class GameBoard
         int randomIndex = Singleton.Instance.Random.Next(nonNoneChipTypes.Count);
         return nonNoneChipTypes[randomIndex];
     }
+    public bool HaveChip(int row, int col)
+    {
+        if (IsInsideBounds(row,col ))
+        {
+            return _board[row, col] != ChipType.None;
+        }
+        return false;
+    }
 
 }
