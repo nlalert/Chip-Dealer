@@ -26,7 +26,7 @@ class Singleton
 
     public int Score;
 
-    public ChipType[,] GameBoard;
+    public GameBoard GameBoard;
 
     public ChipType CurrentChip;
     public ChipType NextChip;

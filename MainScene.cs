@@ -31,6 +31,7 @@ public class MainScene
     public void Initialize()
     {
         _gameObjects = new List<GameObject>();
+        Singleton.Instance.GameBoard = new GameBoard(Singleton.CHIP_GRID_HEIGHT, Singleton.CHIP_GRID_WIDTH);
     }
 
     public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
@@ -67,7 +68,12 @@ public class MainScene
         {
             case Singleton.GameState.SetLevel:
                 SetUpInitalChipsPattern();
+
+                Singleton.Instance.CurrentChip = Singleton.Instance.GameBoard.GetRandomChipColor();
+                Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
+
                 Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
+
                 break;
             case Singleton.GameState.Playing:
                 if (MediaPlayer.State != MediaState.Playing)
@@ -91,6 +97,7 @@ public class MainScene
                 break;
             case Singleton.GameState.CheckChipAndCeiling:
                 CheckAndDestroyHangingChips();
+                Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 CheckAndPushDownCeiling();
                 CheckGameOver();
                 break;
@@ -159,7 +166,7 @@ public class MainScene
 
     protected void Reset()
     {
-        Singleton.Instance.GameBoard = new ChipType[Singleton.CHIP_GRID_HEIGHT, Singleton.CHIP_GRID_WIDTH];
+        Singleton.Instance.GameBoard.ClearBoard();
 
         Singleton.Instance.Random = new System.Random();
 
@@ -370,8 +377,7 @@ public class MainScene
 
     protected bool HaveChip(int x, int y)
     {
-        if (x >= 0 && x < Singleton.CHIP_GRID_WIDTH && 
-            y >= 0 && y < Singleton.CHIP_GRID_HEIGHT)
+        if (Singleton.Instance.GameBoard.IsInsideBounds(y, x))
         {
             return Singleton.Instance.GameBoard[y, x] != ChipType.None;
         }

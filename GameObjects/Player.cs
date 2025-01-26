@@ -42,8 +42,6 @@ class Player : GameObject
     public override void Reset()
     {
         Position = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, 400);
-        Singleton.Instance.CurrentChip = RandomChipColor();
-        Singleton.Instance.NextChip = RandomChipColor();
         LastShotChip = Chip;
         base.Reset();
     }
@@ -66,7 +64,6 @@ class Player : GameObject
         {
             OnShoot(gameTime,gameObjects);
             Singleton.Instance.CurrentChip = Singleton.Instance.NextChip;
-            Singleton.Instance.NextChip = RandomChipColor();
             Singleton.Instance.ChipShotAmount++;
         }
         base.Update(gameTime, gameObjects);
@@ -83,32 +80,6 @@ class Player : GameObject
             newChip.Speed = 1000f;
             gameObjects.Add(newChip);
             LastShotChip = newChip;
-    }
-    private ChipType RandomChipColor(){
-        // Create a list to store non-None chip types
-        List<ChipType> nonNoneChipTypes = new List<ChipType>();
-
-        // Iterate through the GameBoard and collect non-None chip types
-        for (int i = 0; i < Singleton.Instance.GameBoard.GetLength(0); i++)
-        {
-            for (int j = 0; j < Singleton.Instance.GameBoard.GetLength(1); j++)
-            {
-                if (Singleton.Instance.GameBoard[i, j] != ChipType.None)
-                {
-                    nonNoneChipTypes.Add(Singleton.Instance.GameBoard[i, j]);
-                }
-            }
-        }
-
-        // If no non-None chip types are found
-        if (nonNoneChipTypes.Count == 0)
-        {
-            return (ChipType) Singleton.Instance.Random.Next(1, 5);
-        }
-
-        // Randomly select a chip type from the list
-        int randomIndex = Singleton.Instance.Random.Next(nonNoneChipTypes.Count);
-        return nonNoneChipTypes[randomIndex];
     }
 
     private void DrawDottedLine(SpriteBatch spriteBatch, Vector2 start, float rotation, float length, Color color, float dotSize, float gapSize)
