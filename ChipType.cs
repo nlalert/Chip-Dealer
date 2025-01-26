@@ -5,4 +5,5 @@ public enum ChipType
     Green, 
     Blue,
     Yellow,
+    Explosive,
 }

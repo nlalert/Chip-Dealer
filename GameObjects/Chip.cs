@@ -58,6 +58,9 @@ class Chip : GameObject
             case ChipType.Yellow:
                 Viewport = new Rectangle(96, 0, 32, 32);
                 break;
+            case ChipType.Explosive:
+                Viewport  = new Rectangle(0,1 * 48, 32,35);
+                break;
         }
     }
 
@@ -158,7 +161,7 @@ class Chip : GameObject
         }
     }
 
-    private void CheckAndDestroySameTypeChip(List<GameObject> gameObjects)
+    public virtual void CheckAndDestroySameTypeChip(List<GameObject> gameObjects)
     {
         List<Vector2> sameTypeChips = new List<Vector2>();
 

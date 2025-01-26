@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
-    public Chip Chip, LastShotChip;
+    public Chip Chip, LastShotChip,ExplosiveChip;
     public Keys Left, Right, Fire;
     
     public Player(Texture2D texture) : base(texture)
@@ -73,16 +73,37 @@ class Player : GameObject
     }
     
     private void OnShoot(GameTime gameTime, List<GameObject> gameObjects){
-        
-            var newChip = Chip.Clone() as Chip; 
-            newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
-                                            Position.Y + Rectangle.Height / 2);
-            newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
-            newChip.ChipType = Singleton.Instance.CurrentChip;
-            newChip.Reset();
-            newChip.Speed = 1000f;
-            gameObjects.Add(newChip);
-            LastShotChip = newChip;
+        // var newChip = Chip.Clone() as Chip; 
+        // newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
+        //                                 Position.Y + Rectangle.Height / 2);
+        // newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
+        // newChip.ChipType = Singleton.Instance.CurrentChip;
+        // newChip.Reset();
+        // newChip.Speed = 1000f;
+        // gameObjects.Add(newChip);
+        // LastShotChip = newChip;
+        Chip newChip;
+        if (Singleton.Instance.CurrentChip == ChipType.Explosive)
+        {
+            newChip = ExplosiveChip.Clone() as ExplosiveChip; 
+        }
+        else
+        {
+            newChip = Chip.Clone() as Chip;
+        }
+        // Set position and properties
+        newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
+                                    Position.Y + Rectangle.Height / 2);
+        newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
+        newChip.ChipType = Singleton.Instance.CurrentChip;
+        newChip.Reset();
+        newChip.Speed = 1000f;
+
+        // Add to the game objects list
+        gameObjects.Add(newChip);
+
+        // Update the last shot chip
+        LastShotChip = newChip;
     }
     private ChipType RandomChipColor(){
         // Create a list to store non-None chip types
