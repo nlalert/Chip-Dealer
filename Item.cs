@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-class Item : Chip{
+class Item : GameObject{
     public int Price;
     public Keys BuyKey;
     public Item(Texture2D texture) : base(texture)
@@ -17,17 +17,13 @@ class Item : Chip{
         if (Singleton.Instance.Score >= Price)
         {
             Singleton.Instance.Score -= Price;
-            Singleton.Instance.CurrentChip = this.ChipType;
+            // Singleton.Instance.CurrentChip = this.ChipType;
             Console.WriteLine($"Item bought for {Price}!");
         }
         else
         {
             Console.WriteLine("Not enough currency to buy this item!");
         }
-    }
-    public override void Reset()
-    {
-        ResetChipTexture();
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
