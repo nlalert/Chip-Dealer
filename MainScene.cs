@@ -172,7 +172,7 @@ public class MainScene
         _gameObjects.Add(new Player(_handTexture)
         {
             Name = "Player",
-            Viewport = new Rectangle(0, 0, 96, 80),
+            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             Left = Keys.Left,
             Right = Keys.Right,
@@ -181,7 +181,7 @@ public class MainScene
             {
                 Name = "Chip",
                 _isShot = false,
-                Viewport = new Rectangle(Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT), 
+                Viewport = new Rectangle(0, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT), 
                 ChipHitSound = _chipHitSound,
                 Speed = 0
             }
