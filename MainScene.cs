@@ -357,7 +357,7 @@ public class MainScene
 
                 List<Vector2> AdjacentChips = new List<Vector2>();
 
-                CheckHighestHangingChips(new Vector2(i, j), AdjacentChips);
+                Singleton.Instance.GameBoard.GetAllConnectedChips(new Vector2(i, j), AdjacentChips);
                 int highestRow = Singleton.CHIP_GRID_HEIGHT;
 
                 foreach (Vector2 b in AdjacentChips)
@@ -368,35 +368,6 @@ public class MainScene
                 if(highestRow != 0)
                     DestroyChips(AdjacentChips);
             }
-        }
-    }
-
-    private void CheckHighestHangingChips(Vector2 boardCoord, List<Vector2> AdjacentChips)
-    {
-        if(AdjacentChips.Contains(boardCoord))
-            return;
-
-        int X = (int)boardCoord.X;
-        int Y = (int)boardCoord.Y;
-
-        AdjacentChips.Add(new Vector2(X, Y));
-
-        if(Singleton.Instance.GameBoard.HaveChip(Y, X-1)) CheckHighestHangingChips(new Vector2(X-1, Y), AdjacentChips);
-        if(Singleton.Instance.GameBoard.HaveChip(Y, X+1)) CheckHighestHangingChips(new Vector2(X+1, Y), AdjacentChips);
-        if(Singleton.Instance.GameBoard.HaveChip(Y-1, X)) CheckHighestHangingChips(new Vector2(X, Y-1), AdjacentChips);
-        if(Singleton.Instance.GameBoard.HaveChip(Y+1, X)) CheckHighestHangingChips(new Vector2(X, Y+1), AdjacentChips);
-
-        bool isOddRow = (Y % 2 == 1);
-        
-        if (isOddRow)
-        {
-            if(Singleton.Instance.GameBoard.HaveChip(Y-1, X+1)) CheckHighestHangingChips(new Vector2(X+1, Y-1), AdjacentChips);
-            if(Singleton.Instance.GameBoard.HaveChip(Y+1, X+1)) CheckHighestHangingChips(new Vector2(X+1, Y+1), AdjacentChips);
-        }
-        else
-        {
-            if(Singleton.Instance.GameBoard.HaveChip(Y-1, X-1)) CheckHighestHangingChips(new Vector2(X-1, Y-1), AdjacentChips);
-            if(Singleton.Instance.GameBoard.HaveChip(Y+1, X-1)) CheckHighestHangingChips(new Vector2(X-1, Y+1), AdjacentChips);
         }
     }
 

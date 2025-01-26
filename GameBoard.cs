@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 public class GameBoard
 {
@@ -94,4 +95,70 @@ public class GameBoard
         return false;
     }
 
+    public bool IsSameChipType(int row1, int col1, int row2, int col2)
+    {
+        if (IsInsideBounds(row2, col2))
+        {
+            return _board[row1, col1] == _board[row2, col2];
+        }
+        return false;
+    }
+
+    public void GetAllConnectedChips(Vector2 chipCoord, List<Vector2> connectedChips)
+    {
+         if(connectedChips.Contains(chipCoord))
+            return;
+
+        int X = (int)chipCoord.X;
+        int Y = (int)chipCoord.Y;
+
+        connectedChips.Add(new Vector2(X, Y));
+
+        if(HaveChip(Y, X-1)) GetAllConnectedChips(new Vector2(X-1, Y), connectedChips);
+        if(HaveChip(Y, X+1)) GetAllConnectedChips(new Vector2(X+1, Y), connectedChips);
+        if(HaveChip(Y-1, X)) GetAllConnectedChips(new Vector2(X, Y-1), connectedChips);
+        if(HaveChip(Y+1,X)) GetAllConnectedChips(new Vector2(X, Y+1), connectedChips);
+
+        bool isOddRow = (Y % 2 == 1);
+        
+        if (isOddRow)
+        {
+            if(HaveChip(Y-1, X+1)) GetAllConnectedChips(new Vector2(X+1, Y-1), connectedChips);
+            if(HaveChip(Y+1, X+1)) GetAllConnectedChips(new Vector2(X+1, Y+1), connectedChips);
+        }
+        else
+        {
+            if(HaveChip(Y-1, X-1)) GetAllConnectedChips(new Vector2(X-1, Y-1), connectedChips);
+            if(HaveChip(Y+1, X-1)) GetAllConnectedChips(new Vector2(X-1, Y+1), connectedChips);
+        }
+    }
+
+    public void GetAllConnectedSameTypeChips(Vector2 chipCoord, List<Vector2> connectedChips)
+    {
+         if(connectedChips.Contains(chipCoord))
+            return;
+
+        int X = (int)chipCoord.X;
+        int Y = (int)chipCoord.Y;
+
+        connectedChips.Add(new Vector2(X, Y));
+
+        if(IsSameChipType(Y, X, Y, X-1)) GetAllConnectedSameTypeChips(new Vector2(X-1, Y), connectedChips);
+        if(IsSameChipType(Y, X, Y, X+1)) GetAllConnectedSameTypeChips(new Vector2(X+1, Y), connectedChips);
+        if(IsSameChipType(Y, X, Y-1, X)) GetAllConnectedSameTypeChips(new Vector2(X, Y-1), connectedChips);
+        if(IsSameChipType(Y, X, Y+1,X)) GetAllConnectedSameTypeChips(new Vector2(X, Y+1), connectedChips);
+
+        bool isOddRow = (Y % 2 == 1);
+        
+        if (isOddRow)
+        {
+            if(IsSameChipType(Y, X, Y-1, X+1)) GetAllConnectedSameTypeChips(new Vector2(X+1, Y-1), connectedChips);
+            if(IsSameChipType(Y, X, Y+1, X+1)) GetAllConnectedSameTypeChips(new Vector2(X+1, Y+1), connectedChips);
+        }
+        else
+        {
+            if(IsSameChipType(Y, X, Y-1, X-1)) GetAllConnectedSameTypeChips(new Vector2(X-1, Y-1), connectedChips);
+            if(IsSameChipType(Y, X, Y+1, X-1)) GetAllConnectedSameTypeChips(new Vector2(X-1, Y+1), connectedChips);
+        }
+    }
 }

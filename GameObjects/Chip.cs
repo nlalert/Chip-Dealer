@@ -157,40 +157,11 @@ class Chip : GameObject
     {
         List<Vector2> sameTypeChips = new List<Vector2>();
 
-        CheckSameTypeChips(BoardCoord, sameTypeChips);
+        Singleton.Instance.GameBoard.GetAllConnectedSameTypeChips(BoardCoord, sameTypeChips);
 
         if(sameTypeChips.Count >= Singleton.CHIP_BREAK_AMOUNT)
             DestroySameTypeChips(sameTypeChips, gameObjects);
 
-    }
-
-    protected void CheckSameTypeChips(Vector2 gridCoord, List<Vector2> visitedCoord)
-    {
-        if(visitedCoord.Contains(gridCoord))
-            return;
-
-        int X = (int)gridCoord.X;
-        int Y = (int)gridCoord.Y;
-
-        visitedCoord.Add(new Vector2(X, Y));
-
-        if(IsSameChipType(X, Y, X-1, Y)) CheckSameTypeChips(new Vector2(X-1, Y), visitedCoord);
-        if(IsSameChipType(X, Y, X+1, Y)) CheckSameTypeChips(new Vector2(X+1, Y), visitedCoord);
-        if(IsSameChipType(X, Y, X, Y-1)) CheckSameTypeChips(new Vector2(X, Y-1), visitedCoord);
-        if(IsSameChipType(X, Y, X, Y+1)) CheckSameTypeChips(new Vector2(X, Y+1), visitedCoord);
-
-        bool isOddRow = (Y % 2 == 1);
-        
-        if (isOddRow)
-        {
-            if(IsSameChipType(X, Y, X+1, Y-1)) CheckSameTypeChips(new Vector2(X+1, Y-1), visitedCoord);
-            if(IsSameChipType(X, Y, X+1, Y+1)) CheckSameTypeChips(new Vector2(X+1, Y+1), visitedCoord);
-        }
-        else
-        {
-            if(IsSameChipType(X, Y, X-1, Y-1)) CheckSameTypeChips(new Vector2(X-1, Y-1), visitedCoord);
-            if(IsSameChipType(X, Y, X-1, Y+1)) CheckSameTypeChips(new Vector2(X-1, Y+1), visitedCoord);
-        }
     }
 
     protected void DestroySameTypeChips(List<Vector2> visitedCoord, List<GameObject> gameObjects)
@@ -210,15 +181,6 @@ class Chip : GameObject
         }
     }
 
-    protected bool IsSameChipType(int x, int y, int refX, int refY)
-    {
-        if (Singleton.Instance.GameBoard.IsInsideBounds(refY, refX))
-        {
-            return Singleton.Instance.GameBoard[y, x] == Singleton.Instance.GameBoard[refY, refX];
-        }
-        return false;
-    }
-    
     protected bool IsTouchingAsCircle(GameObject g)
     {
         
