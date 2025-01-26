@@ -179,22 +179,22 @@ class Chip : GameObject
 
         visitedCoord.Add(new Vector2(X, Y));
 
-        if(IsValidAndSame(X, Y, X-1, Y)) CheckSameTypeChips(new Vector2(X-1, Y), visitedCoord);
-        if(IsValidAndSame(X, Y, X+1, Y)) CheckSameTypeChips(new Vector2(X+1, Y), visitedCoord);
-        if(IsValidAndSame(X, Y, X, Y-1)) CheckSameTypeChips(new Vector2(X, Y-1), visitedCoord);
-        if(IsValidAndSame(X, Y, X, Y+1)) CheckSameTypeChips(new Vector2(X, Y+1), visitedCoord);
+        if(IsSameChipType(X, Y, X-1, Y)) CheckSameTypeChips(new Vector2(X-1, Y), visitedCoord);
+        if(IsSameChipType(X, Y, X+1, Y)) CheckSameTypeChips(new Vector2(X+1, Y), visitedCoord);
+        if(IsSameChipType(X, Y, X, Y-1)) CheckSameTypeChips(new Vector2(X, Y-1), visitedCoord);
+        if(IsSameChipType(X, Y, X, Y+1)) CheckSameTypeChips(new Vector2(X, Y+1), visitedCoord);
 
         bool isOddRow = (Y % 2 == 1);
         
         if (isOddRow)
         {
-            if(IsValidAndSame(X, Y, X+1, Y-1)) CheckSameTypeChips(new Vector2(X+1, Y-1), visitedCoord);
-            if(IsValidAndSame(X, Y, X+1, Y+1)) CheckSameTypeChips(new Vector2(X+1, Y+1), visitedCoord);
+            if(IsSameChipType(X, Y, X+1, Y-1)) CheckSameTypeChips(new Vector2(X+1, Y-1), visitedCoord);
+            if(IsSameChipType(X, Y, X+1, Y+1)) CheckSameTypeChips(new Vector2(X+1, Y+1), visitedCoord);
         }
         else
         {
-            if(IsValidAndSame(X, Y, X-1, Y-1)) CheckSameTypeChips(new Vector2(X-1, Y-1), visitedCoord);
-            if(IsValidAndSame(X, Y, X-1, Y+1)) CheckSameTypeChips(new Vector2(X-1, Y+1), visitedCoord);
+            if(IsSameChipType(X, Y, X-1, Y-1)) CheckSameTypeChips(new Vector2(X-1, Y-1), visitedCoord);
+            if(IsSameChipType(X, Y, X-1, Y+1)) CheckSameTypeChips(new Vector2(X-1, Y+1), visitedCoord);
         }
     }
 
@@ -215,10 +215,9 @@ class Chip : GameObject
         }
     }
 
-    protected bool IsValidAndSame(int x, int y, int refX, int refY)
+    protected bool IsSameChipType(int x, int y, int refX, int refY)
     {
-        if (refX >= 0 && refX < Singleton.CHIP_GRID_WIDTH && 
-            refY >= 0 && refY < Singleton.CHIP_GRID_HEIGHT)
+        if (Singleton.Instance.GameBoard.IsInsideBounds(refY, refX))
         {
             return Singleton.Instance.GameBoard[y, x] == Singleton.Instance.GameBoard[refY, refX];
         }
