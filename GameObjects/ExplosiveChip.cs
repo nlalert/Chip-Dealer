@@ -15,6 +15,8 @@ class ExplosiveChip : Chip{
     {
         //find 6 surround chips
         Console.WriteLine("Bob do something");
+        Console.WriteLine("Bob do something");
+
         base.CheckAndDestroySameTypeChip(gameObjects);
     }
 }
