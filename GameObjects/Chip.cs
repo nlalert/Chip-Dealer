@@ -30,29 +30,9 @@ class Chip : GameObject
     {
         if (!_isShot){
 
-            Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, Singleton.CHIP_SHOOTING_HEIGHT - (_texture.Height - 3)/2);
-
-            int chipIndex = 0;
-
-            switch (Singleton.Instance.CurrentChip)
-            {
-                    case ChipType.Red: 
-                        chipIndex = 0;
-                        break;
-                    case ChipType.Blue: 
-                        chipIndex = 1;
-                        break;
-                    case ChipType.Green: 
-                        chipIndex = 2;
-                        break;
-                    case ChipType.Yellow: 
-                        chipIndex = 3;
-                        break;
-                    default:
-                        break;
-            }
-
-            Viewport = new Rectangle(chipIndex * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT);
+            Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE/2);
+            //draw current chip on hand
+            Viewport = Singleton.GetChipViewPort(Singleton.Instance.CurrentChip);
 
         }
 
@@ -73,27 +53,7 @@ class Chip : GameObject
 
     public void ResetChipTexture()
     {
-        int chipIndex = 0;
-        
-        switch (ChipType)
-        {
-            case ChipType.Red:
-                chipIndex = 0;
-                break;
-            case ChipType.Blue:
-                chipIndex = 1;
-                break;
-            case ChipType.Green:
-                chipIndex = 2;
-                break;
-            case ChipType.Yellow:
-                chipIndex = 3;
-                break;
-            default:
-                break;
-        }
-
-        Viewport = new Rectangle(chipIndex * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT);
+        Viewport = Singleton.GetChipViewPort(ChipType);
     }
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
@@ -193,7 +153,7 @@ class Chip : GameObject
         }
     }
 
-    private void CheckAndDestroySameTypeChip(List<GameObject> gameObjects)
+    public virtual void CheckAndDestroySameTypeChip(List<GameObject> gameObjects)
     {
         List<Vector2> sameTypeChips = new List<Vector2>();
 

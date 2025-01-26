@@ -68,7 +68,7 @@ public class GameBoard
         {
             for (int col = 0; col < Columns; col++)
             {
-                if (_board[row, col] != ChipType.None)
+                if (_board[row, col] != ChipType.None && (int)_board[row, col] < 5  )
                 {
                     nonNoneChipTypes.Add(_board[row, col]);
                 }

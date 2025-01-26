@@ -13,7 +13,6 @@ class Singleton
 
     public const int CHIP_GRID_WIDTH = 8;
     public const int CHIP_GRID_HEIGHT = 12;
-
     public const int CHIP_SHOOTING_HEIGHT = 430;
     public const int CHIP_SIZE = 32;
     public const int CHIP_SHADOW_HEIGHT = 3;
@@ -101,11 +100,14 @@ class Singleton
             case ChipType.Yellow: 
                 chipIndex = 3;
                 break;
+            case ChipType.Explosive:
+                chipIndex = 4;
+                break;
             default:
                 break;
         }
 
-        return new Rectangle(chipIndex * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE + CHIP_SHADOW_HEIGHT);
+        return new Rectangle((chipIndex%4) * CHIP_SIZE, (chipIndex/4)*48, CHIP_SIZE, CHIP_SIZE + CHIP_SHADOW_HEIGHT);
     }
 }
 
