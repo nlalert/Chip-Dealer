@@ -16,6 +16,7 @@ class Singleton
 
     public const int CHIP_SHOOTING_HEIGHT = 430;
     public const int CHIP_SIZE = 32;
+    public const int CHIP_SHADOW_HEIGHT = 3;
     public const int PLAY_AREA_START_X = (SCREEN_WIDTH - (CHIP_GRID_WIDTH * CHIP_SIZE)) / 2;
     public const int PLAY_AREA_END_X = PLAY_AREA_START_X + (CHIP_GRID_WIDTH * CHIP_SIZE);
     public int PlayAreaStartY = 0;
@@ -82,20 +83,28 @@ class Singleton
         return Color.White;
     }
     public static Rectangle GetChipViewPort(ChipType chipType){
+
+        int chipIndex = 0;
+
         switch (chipType)
         {
             case ChipType.Red: 
-                return new Rectangle(0, 0, 32, 35);//red
+                chipIndex = 0;
+                break;
             case ChipType.Blue: 
-                return new Rectangle(1* 32, 0, 32, 35);
+                chipIndex = 1;
+                break;
             case ChipType.Green: 
-                return new Rectangle(2 * 32, 0, 32, 35);
+                chipIndex = 2;
+                break;
             case ChipType.Yellow: 
-                return new Rectangle(3 * 32, 0, 32, 35);
+                chipIndex = 3;
+                break;
             default:
                 break;
         }
-        return new Rectangle(0, 0, 32, 35);//red
+
+        return new Rectangle(chipIndex * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE + CHIP_SHADOW_HEIGHT);
     }
 }
 

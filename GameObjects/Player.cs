@@ -16,7 +16,7 @@ class Player : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        Vector2 Origin = new Vector2(48, 0);
+        Vector2 Origin = new Vector2(_texture.Width/2, 0);
         
         //draw aim line
         float DotLinelength = 100f;
@@ -35,7 +35,7 @@ class Player : GameObject
             Viewport,
             Color.White,
             Rotation, 
-            new Vector2(0, 0), 
+            Vector2.Zero,
             Scale,
             SpriteEffects.None,
             0f
@@ -81,7 +81,7 @@ class Player : GameObject
         
             var newChip = Chip.Clone() as Chip; 
             newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
-                                            425 - 16);
+                                            Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE/2);
             newChip._isShot = true;
             newChip.Rotation = Rotation;
             newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
