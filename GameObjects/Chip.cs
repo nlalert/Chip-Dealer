@@ -11,6 +11,7 @@ class Chip : GameObject
     public float Speed;
 
     public float Radius;
+    public bool _isShot;
 
     public int Score;
 
@@ -27,6 +28,34 @@ class Chip : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
+        if (!_isShot){
+
+            Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, Singleton.CHIP_SHOOTING_HEIGHT - (_texture.Height - 3)/2);
+
+            int chipIndex = 0;
+
+            switch (Singleton.Instance.CurrentChip)
+            {
+                    case ChipType.Red: 
+                        chipIndex = 0;
+                        break;
+                    case ChipType.Blue: 
+                        chipIndex = 1;
+                        break;
+                    case ChipType.Green: 
+                        chipIndex = 2;
+                        break;
+                    case ChipType.Yellow: 
+                        chipIndex = 3;
+                        break;
+                    default:
+                        break;
+            }
+
+            Viewport = new Rectangle(chipIndex * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT);
+
+        }
+
         spriteBatch.Draw(_texture, Position, Viewport, Color.White);
         base.Draw(spriteBatch);
     }
@@ -44,21 +73,27 @@ class Chip : GameObject
 
     public void ResetChipTexture()
     {
+        int chipIndex = 0;
+        
         switch (ChipType)
         {
             case ChipType.Red:
-                Viewport = new Rectangle(0, 0, 32, 32);
+                chipIndex = 0;
                 break;
             case ChipType.Blue:
-                Viewport = new Rectangle(32, 0, 32, 32);
+                chipIndex = 1;
                 break;
             case ChipType.Green:
-                Viewport = new Rectangle(64, 0, 32, 32);
+                chipIndex = 2;
                 break;
             case ChipType.Yellow:
-                Viewport = new Rectangle(96, 0, 32, 32);
+                chipIndex = 3;
+                break;
+            default:
                 break;
         }
+
+        Viewport = new Rectangle(chipIndex * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT);
     }
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)

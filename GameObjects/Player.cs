@@ -16,32 +16,37 @@ class Player : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        Vector2 Origin = new Vector2(36, 55);
+        Vector2 Origin = new Vector2(_texture.Width/2, 0);
         
         //draw aim line
         float DotLinelength = 100f;
         float DotSize = 4f;
         float DotGap = 8f;
-        DrawDottedLine(spriteBatch, Position + Origin, Rotation, DotLinelength, Color.White, DotSize, DotGap);
+        DrawDottedLine(spriteBatch, Position + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
+
+        if (!Chip._isShot){
+            Chip.Draw(spriteBatch);
+        }
 
         // Draw the sprite with rotation around its center
         spriteBatch.Draw(
             _texture,
             Position + Origin, // Position adjusted to account for origin
             Viewport,
-            Singleton.GetChipColor(Singleton.Instance.CurrentChip),
+            Color.White,
             Rotation, 
-            Origin, 
+            Vector2.Zero,
             Scale,
             SpriteEffects.None,
             0f
         );
+
         base.Draw(spriteBatch);
     }
 
     public override void Reset()
     {
-        Position = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, 400);
+        Position = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, Singleton.CHIP_SHOOTING_HEIGHT);
         LastShotChip = Chip;
         base.Reset();
     }
@@ -73,7 +78,9 @@ class Player : GameObject
         
             var newChip = Chip.Clone() as Chip; 
             newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
-                                            Position.Y + Rectangle.Height / 2);
+                                            Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE/2);
+            newChip._isShot = true;
+            newChip.Rotation = Rotation;
             newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
             newChip.ChipType = Singleton.Instance.CurrentChip;
             newChip.Reset();
