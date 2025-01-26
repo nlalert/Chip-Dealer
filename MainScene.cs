@@ -217,38 +217,41 @@ public class MainScene
             Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30)
         };
         // _shop.AddItems   
-        RedChip redChip = new RedChip(_chipTexture){
+        ShopChip redChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Red,
             Viewport = Singleton.GetChipViewPort(ChipType.Red),
             Price = 0,
             BuyKey = Keys.A
         };
-        _shop.AddShopItem(redChip);
-        BlueChip blueChip = new BlueChip(_chipTexture){
+        ShopChip blueChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Blue,
             Viewport = Singleton.GetChipViewPort(ChipType.Blue),
             Price = 0,
             BuyKey = Keys.S
         };
-        _shop.AddShopItem(blueChip);
-        GreenChip greenChip = new GreenChip(_chipTexture){
+        ShopChip greenChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Green,
             Viewport = Singleton.GetChipViewPort(ChipType.Green),
             Price = 0,
             BuyKey = Keys.D
         };
-        _shop.AddShopItem(greenChip);
-        YellowChip yellowChip = new YellowChip(_chipTexture){
+        ShopChip yellowChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Yellow,
             Viewport = Singleton.GetChipViewPort(ChipType.Yellow),
             Price = 0,
             BuyKey = Keys.F
         };
-        _shop.AddShopItem(yellowChip);
-        ExplosiveChipItem ExplosiveChip = new ExplosiveChipItem(_chipTexture){
+        ShopChip ExplosiveChip = new ShopChip(_chipTexture){
             Viewport = Singleton.GetChipViewPort(ChipType.Explosive),
             Price = 0,
             BuyKey = Keys.Q
         };
+
+        _shop.AddShopItem(redChip);
+        _shop.AddShopItem(blueChip);
+        _shop.AddShopItem(greenChip);
+        _shop.AddShopItem(yellowChip);
         _shop.AddShopItem(ExplosiveChip);
-
-
 
         _gameObjects.Add(_shop);
 
