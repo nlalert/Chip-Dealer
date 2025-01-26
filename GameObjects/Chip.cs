@@ -91,9 +91,6 @@ class Chip : GameObject
                 break;
             default:
                 break;
-            case ChipType.Explosive:
-                Viewport  = new Rectangle(0,1 * 48, 32,35);
-                break;
         }
 
         Viewport = new Rectangle(chipIndex * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT);
@@ -196,7 +193,7 @@ class Chip : GameObject
         }
     }
 
-    public virtual void CheckAndDestroySameTypeChip(List<GameObject> gameObjects)
+    private void CheckAndDestroySameTypeChip(List<GameObject> gameObjects)
     {
         List<Vector2> sameTypeChips = new List<Vector2>();
 

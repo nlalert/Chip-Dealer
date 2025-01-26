@@ -55,17 +55,7 @@ class Shop : GameObject
         {
             if (Singleton.Instance.CurrentKey.IsKeyDown(item.BuyKey) && Singleton.Instance.PreviousKey.IsKeyUp(item.BuyKey))
             {
-                if (Singleton.Instance.Score >= item.Price)
-                {
-                    Singleton.Instance.Score -= item.Price;
-                    // Singleton.Instance.CurrentChip = this.ChipType;
-                    Console.WriteLine($"Item bought for {item.Price}!");
-                    item.OnBuy(gameObjects);
-                }
-                else
-                {
-                    Console.WriteLine("Not enough currency to buy this item!");
-                }
+                item.OnBuy(gameObjects);
             }
         }
         base.Update(gameTime, gameObjects);

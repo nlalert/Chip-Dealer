@@ -199,13 +199,6 @@ public class MainScene
                 ChipHitSound = _chipHitSound,
                 Speed = 0,
                 Score = 10
-            },
-            ExplosiveChip = new ExplosiveChip(_chipTexture){
-                Name = "ExplosiveChip",
-                Viewport = new Rectangle(0, 0, 32, 32),
-                ChipHitSound = _chipHitSound,
-                Speed = 0,
-                Score = 10
             }
         });
 
@@ -240,12 +233,6 @@ public class MainScene
         };
         _shop.AddShopItem(yellowChip);
 
-        ExplosiveChipItem ExplosiveChipItem = new ExplosiveChipItem(_chipTexture){
-            Viewport = Singleton.GetChipViewPort(ChipType.Explosive),
-            Price = 50,
-            BuyKey = Keys.Q
-        };
-        _shop.AddShopItem(ExplosiveChipItem);
 
         _gameObjects.Add(_shop);
 

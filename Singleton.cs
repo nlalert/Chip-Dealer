@@ -90,15 +90,17 @@ class Singleton
         switch (chipType)
         {
             case ChipType.Red: 
-                return new Rectangle(0, 0, 32, 35);//red
+                chipIndex = 0;
+                break;
             case ChipType.Blue: 
-                return new Rectangle(1* 32, 0, 32, 35);
+                chipIndex = 1;
+                break;
             case ChipType.Green: 
-                return new Rectangle(2 * 32, 0, 32, 35);
+                chipIndex = 2;
+                break;
             case ChipType.Yellow: 
-                return new Rectangle(3 * 32, 0, 32, 35);
-            case ChipType.Explosive:
-                return new Rectangle(0,1 * 48, 32,35);
+                chipIndex = 3;
+                break;
             default:
                 break;
         }
