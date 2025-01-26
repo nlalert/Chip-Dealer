@@ -219,31 +219,31 @@ public class MainScene
         // _shop.AddItems   
         RedChip redChip = new RedChip(_chipTexture){
             Viewport = Singleton.GetChipViewPort(ChipType.Red),
-            Price = 50,
+            Price = 0,
             BuyKey = Keys.A
         };
         _shop.AddShopItem(redChip);
         BlueChip blueChip = new BlueChip(_chipTexture){
             Viewport = Singleton.GetChipViewPort(ChipType.Blue),
-            Price = 50,
+            Price = 0,
             BuyKey = Keys.S
         };
         _shop.AddShopItem(blueChip);
         GreenChip greenChip = new GreenChip(_chipTexture){
             Viewport = Singleton.GetChipViewPort(ChipType.Green),
-            Price = 50,
+            Price = 0,
             BuyKey = Keys.D
         };
         _shop.AddShopItem(greenChip);
         YellowChip yellowChip = new YellowChip(_chipTexture){
             Viewport = Singleton.GetChipViewPort(ChipType.Yellow),
-            Price = 50,
+            Price = 0,
             BuyKey = Keys.F
         };
         _shop.AddShopItem(yellowChip);
         ExplosiveChipItem ExplosiveChip = new ExplosiveChipItem(_chipTexture){
             Viewport = Singleton.GetChipViewPort(ChipType.Explosive),
-            Price = 50,
+            Price = 0,
             BuyKey = Keys.Q
         };
         _shop.AddShopItem(ExplosiveChip);
