@@ -355,41 +355,23 @@ public class MainScene
                 if(Singleton.Instance.GameBoard[j, i] == ChipType.None)
                     continue;
 
-                List<Vector2> AdjacentChips = new List<Vector2>();
+                List<Vector2> ConnectedChips = new List<Vector2>();
 
-                Singleton.Instance.GameBoard.GetAllConnectedChips(new Vector2(i, j), AdjacentChips);
+                Singleton.Instance.GameBoard.GetAllConnectedChips(new Vector2(i, j), ConnectedChips);
                 int highestRow = Singleton.CHIP_GRID_HEIGHT;
 
-                foreach (Vector2 b in AdjacentChips)
+                foreach (Vector2 b in ConnectedChips)
                 {
                     if(b.Y < highestRow) highestRow = (int) b.Y;
                 }
 
                 if(highestRow != 0)
-                    DestroyChips(AdjacentChips);
-            }
-        }
-    }
-
-    protected void DestroyChips(List<Vector2> AdjacentChips)
-    {
-        for (int i = 0; i < AdjacentChips.Count; i++)
-        {
-            Singleton.Instance.GameBoard[(int)AdjacentChips[i].Y, (int)AdjacentChips[i].X] = ChipType.None;
-            _numObject = _gameObjects.Count;
-            for (int j = 0; j < _numObject; j++)
-            {
-                if(_gameObjects[j] is Chip && (_gameObjects[j] as Chip).BoardCoord == AdjacentChips[i])
                 {
-                    _gameObjects[j].IsActive = false;
-                    break;
+                    Singleton.Instance.GameBoard.DestroyChips(ConnectedChips, _gameObjects);
+                    Singleton.Instance.Score += (int)(10 * Math.Pow(2, ConnectedChips.Count));
                 }
             }
         }
-        //Score
-        Console.WriteLine(AdjacentChips.Count);
-        Singleton.Instance.Score += (int)(10 * Math.Pow(2, AdjacentChips.Count));
-        Console.WriteLine((int)(10 * Math.Pow(2, AdjacentChips.Count)));
     }
 
     protected void CheckGameOver()

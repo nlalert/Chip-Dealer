@@ -160,25 +160,7 @@ class Chip : GameObject
         Singleton.Instance.GameBoard.GetAllConnectedSameTypeChips(BoardCoord, sameTypeChips);
 
         if(sameTypeChips.Count >= Singleton.CHIP_BREAK_AMOUNT)
-            DestroySameTypeChips(sameTypeChips, gameObjects);
-
-    }
-
-    protected void DestroySameTypeChips(List<Vector2> visitedCoord, List<GameObject> gameObjects)
-    {
-        for (int i = 0; i < visitedCoord.Count; i++)
-        {
-            Singleton.Instance.GameBoard[(int)visitedCoord[i].Y, (int)visitedCoord[i].X] = ChipType.None;
-            foreach (GameObject s in gameObjects)
-            {
-                if(s is Chip && (s as Chip).BoardCoord == visitedCoord[i])
-                {
-                    Singleton.Instance.Score += (s as Chip).Score;//Temp
-                    s.IsActive = false;
-                    break;
-                }
-            }
-        }
+            Singleton.Instance.GameBoard.DestroyChips(sameTypeChips, gameObjects);
     }
 
     protected bool IsTouchingAsCircle(GameObject g)

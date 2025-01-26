@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-class GameObject : ICloneable
+public class GameObject : ICloneable
 {
     protected Texture2D _texture;
 
