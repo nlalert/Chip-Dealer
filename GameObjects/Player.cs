@@ -16,13 +16,14 @@ class Player : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        Vector2 Origin = new Vector2(_texture.Width/2, 0);
+        Vector2 Origin = new Vector2(0, 0);
+        Vector2 PositionXOffset = new Vector2(_texture.Width/2, 0);
         
         //draw aim line
         float DotLinelength = 100f;
         float DotSize = 4f;
         float DotGap = 8f;
-        DrawDottedLine(spriteBatch, Position + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
+        DrawDottedLine(spriteBatch, Position + PositionXOffset + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
 
         if (!Chip._isShot){
             Chip.Draw(spriteBatch);
@@ -31,11 +32,11 @@ class Player : GameObject
         // Draw the sprite with rotation around its center
         spriteBatch.Draw(
             _texture,
-            Position + Origin, // Position adjusted to account for origin
+            Position + PositionXOffset + Origin, // Position adjusted to account for origin
             Viewport,
             Color.White,
             Rotation, 
-            Vector2.Zero,
+            Origin,
             Scale,
             SpriteEffects.None,
             0f
