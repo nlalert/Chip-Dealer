@@ -334,7 +334,7 @@ public class MainScene
             for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
             {
                 //skip last column
-                if (Singleton.Instance.GameBoard.IsUnUseSpot(j, i))
+                if(Singleton.Instance.GameBoard.IsUnUseSpot(j, i))
                     continue;
                 if(Singleton.Instance.GameBoard[j, i] == ChipType.None)
                     continue;
@@ -342,7 +342,6 @@ public class MainScene
                 List<Vector2> AdjacentChips = new List<Vector2>();
 
                 CheckHighestHangingChips(new Vector2(i, j), AdjacentChips);
-                Console.WriteLine(AdjacentChips.Count);
                 int highestRow = Singleton.CHIP_GRID_HEIGHT;
 
                 foreach (Vector2 b in AdjacentChips)
@@ -354,7 +353,6 @@ public class MainScene
                     DestroyChips(AdjacentChips);
             }
         }
-        Console.WriteLine("============");
     }
 
     private void CheckHighestHangingChips(Vector2 boardCoord, List<Vector2> AdjacentChips)
@@ -370,16 +368,19 @@ public class MainScene
         if(HaveChip(X-1, Y)) CheckHighestHangingChips(new Vector2(X-1, Y), AdjacentChips);
         if(HaveChip(X+1, Y)) CheckHighestHangingChips(new Vector2(X+1, Y), AdjacentChips);
         if(HaveChip(X, Y-1)) CheckHighestHangingChips(new Vector2(X, Y-1), AdjacentChips);
+        if(HaveChip(X, Y+1)) CheckHighestHangingChips(new Vector2(X, Y+1), AdjacentChips);
 
         bool isOddRow = (Y % 2 == 1);
         
         if (isOddRow)
         {
             if(HaveChip(X+1, Y-1)) CheckHighestHangingChips(new Vector2(X+1, Y-1), AdjacentChips);
+            if(HaveChip(X+1, Y+1)) CheckHighestHangingChips(new Vector2(X+1, Y+1), AdjacentChips);
         }
         else
         {
             if(HaveChip(X-1, Y-1)) CheckHighestHangingChips(new Vector2(X-1, Y-1), AdjacentChips);
+            if(HaveChip(X-1, Y+1)) CheckHighestHangingChips(new Vector2(X-1, Y+1), AdjacentChips);
         }
     }
 
@@ -408,9 +409,9 @@ public class MainScene
             }
         }
         //Score
-        // Console.WriteLine(AdjacentChips.Count);
-        // Singleton.Instance.Score += (int)(10 * Math.Pow(2, AdjacentChips.Count));
-        // Console.WriteLine((int)(10 * Math.Pow(2, AdjacentChips.Count)));
+        Console.WriteLine(AdjacentChips.Count);
+        Singleton.Instance.Score += (int)(10 * Math.Pow(2, AdjacentChips.Count));
+        Console.WriteLine((int)(10 * Math.Pow(2, AdjacentChips.Count)));
     }
 
     protected void CheckGameOver()
