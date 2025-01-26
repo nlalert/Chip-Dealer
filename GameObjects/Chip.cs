@@ -67,7 +67,7 @@ class Chip : GameObject
             if (Position.Y < Singleton.Instance.CeilingPosition){
                 Position.Y = Singleton.Instance.CeilingPosition;
                 SnapToGrid();
-                CheckAndDestroySameTypeChip(gameObjects);
+                Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
                 Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
             }
 
@@ -87,10 +87,14 @@ class Chip : GameObject
                 if (s is Chip && IsTouching(s) && IsTouchingAsCircle(s))
                 {
                     SnapToGrid();
-                    CheckAndDestroySameTypeChip(gameObjects);
+                    Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
                     Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
                 }
             }
+        }
+        else if(ChipType == ChipType.Explosive)
+        {
+            Singleton.Instance.GameBoard.DestroyAdjacentChips(BoardCoord, gameObjects);
         }
 
         Velocity = Vector2.Zero;
@@ -150,15 +154,5 @@ class Chip : GameObject
                 break;
             }
         }
-    }
-
-    public virtual void CheckAndDestroySameTypeChip(List<GameObject> gameObjects)
-    {
-        List<Vector2> sameTypeChips = new List<Vector2>();
-
-        Singleton.Instance.GameBoard.GetAllConnectedSameTypeChips(BoardCoord, sameTypeChips);
-
-        if(sameTypeChips.Count >= Singleton.CHIP_BREAK_AMOUNT)
-            Singleton.Instance.GameBoard.DestroyChips(sameTypeChips, gameObjects);
     }
 }

@@ -106,7 +106,7 @@ public class GameBoard
 
     public void GetAllConnectedChips(Vector2 chipCoord, List<Vector2> connectedChips)
     {
-         if(connectedChips.Contains(chipCoord))
+        if(connectedChips.Contains(chipCoord))
             return;
 
         int X = (int)chipCoord.X;
@@ -135,7 +135,7 @@ public class GameBoard
 
     public void GetAllConnectedSameTypeChips(Vector2 chipCoord, List<Vector2> connectedChips)
     {
-         if(connectedChips.Contains(chipCoord))
+        if(connectedChips.Contains(chipCoord))
             return;
 
         int X = (int)chipCoord.X;
@@ -161,7 +161,17 @@ public class GameBoard
             if(IsSameChipType(Y, X, Y+1, X-1)) GetAllConnectedSameTypeChips(new Vector2(X-1, Y+1), connectedChips);
         }
     }
-    
+
+    public void DestroyConnectedSameTypeChips(Vector2 chipCoord, List<GameObject> gameObjects)
+    {
+        List<Vector2> sameTypeChips = new List<Vector2>();
+
+        GetAllConnectedSameTypeChips(chipCoord, sameTypeChips);
+
+        if(sameTypeChips.Count >= Singleton.CHIP_BREAK_AMOUNT)
+            DestroyChips(sameTypeChips, gameObjects);
+    }
+
     public void DestroyChips(List<Vector2> chips, List<GameObject> gameObjects)
     {
         for (int i = 0; i < chips.Count; i++)
@@ -177,5 +187,33 @@ public class GameBoard
                 }
             }
         }
+    }
+
+    public void DestroyAdjacentChips(Vector2 chipCoord, List<GameObject> gameObjects)
+    {   
+        List<Vector2> adjacentChips = new List<Vector2>();
+        adjacentChips.Add(chipCoord);
+
+        int X = (int)chipCoord.X;
+        int Y = (int)chipCoord.Y;
+
+        if(HaveChip(Y, X-1)) adjacentChips.Add(new Vector2(X-1, Y));
+        if(HaveChip(Y, X+1)) adjacentChips.Add(new Vector2(X+1, Y));
+        if(HaveChip(Y-1, X)) adjacentChips.Add(new Vector2(X, Y-1));
+        if(HaveChip(Y+1,X)) adjacentChips.Add(new Vector2(X, Y+1));
+
+        bool isOddRow = (Y % 2 == 1);
+        
+        if (isOddRow)
+        {
+            if(HaveChip(Y-1, X+1)) adjacentChips.Add(new Vector2(X+1, Y-1));
+            if(HaveChip(Y+1, X+1)) adjacentChips.Add(new Vector2(X+1, Y+1));
+        }
+        else
+        {
+            if(HaveChip(Y-1, X-1)) adjacentChips.Add(new Vector2(X-1, Y-1));
+            if(HaveChip(Y+1, X-1)) adjacentChips.Add(new Vector2(X-1, Y+1));
+        }
+        DestroyChips(adjacentChips, gameObjects);
     }
 }
