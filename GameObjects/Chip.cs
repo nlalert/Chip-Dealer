@@ -95,6 +95,7 @@ class Chip : GameObject
         else if(ChipType == ChipType.Explosive)
         {
             Singleton.Instance.GameBoard.DestroyAdjacentChips(BoardCoord, gameObjects);
+            Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
         }
 
         Velocity = Vector2.Zero;

@@ -202,7 +202,7 @@ public class MainScene
             },
             ExplosiveChip = new ExplosiveChip(_chipTexture)
             {
-                Name = "ExplosiveChi[]",
+                Name = "ExplosiveChip",
                 _isShot = false,
                 Viewport = new Rectangle(0, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT), 
                 ChipHitSound = _chipHitSound,
