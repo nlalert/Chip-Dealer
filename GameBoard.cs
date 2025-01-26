@@ -161,6 +161,7 @@ public class GameBoard
             if(IsSameChipType(Y, X, Y+1, X-1)) GetAllConnectedSameTypeChips(new Vector2(X-1, Y+1), connectedChips);
         }
     }
+    
     public void DestroyChips(List<Vector2> chips, List<GameObject> gameObjects)
     {
         for (int i = 0; i < chips.Count; i++)

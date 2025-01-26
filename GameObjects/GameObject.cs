@@ -13,6 +13,8 @@ public class GameObject : ICloneable
 
     public Vector2 Position;
 
+    public int Radius;
+
     public float Rotation;
     public Vector2 Scale;
 
@@ -107,5 +109,12 @@ public class GameObject : ICloneable
                 this.Rectangle.Bottom > g.Rectangle.Bottom  &&
                 this.Rectangle.Top < g.Rectangle.Bottom;
     }
+
+    protected bool IsTouchingAsCircle(GameObject g)
+    {
+        float distance = Vector2.Distance(this.Position, g.Position);
+        return distance < this.Radius + g.Radius;
+    }
+
     #endregion
 }

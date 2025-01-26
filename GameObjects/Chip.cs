@@ -10,7 +10,6 @@ class Chip : GameObject
     public float Angle;
     public float Speed;
 
-    public float Radius;
     public bool _isShot;
 
     public int Score;
@@ -85,7 +84,7 @@ class Chip : GameObject
             
             foreach (GameObject s in gameObjects)
             {
-                if (IsTouching(s) && IsTouchingAsCircle(s) && s is Chip)
+                if (s is Chip && IsTouching(s) && IsTouchingAsCircle(s))
                 {
                     SnapToGrid();
                     CheckAndDestroySameTypeChip(gameObjects);
@@ -162,17 +161,4 @@ class Chip : GameObject
         if(sameTypeChips.Count >= Singleton.CHIP_BREAK_AMOUNT)
             Singleton.Instance.GameBoard.DestroyChips(sameTypeChips, gameObjects);
     }
-
-    protected bool IsTouchingAsCircle(GameObject g)
-    {
-        
-        if (g is Chip otherChip && this is Chip)
-        {
-            float distance = Vector2.Distance(this.Position, otherChip.Position);
-            // Console.WriteLine($"distace : {distance}");
-            return distance < this.Radius + otherChip.Radius;
-        }
-        return false;
-    }
-
 }
