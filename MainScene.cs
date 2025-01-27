@@ -182,6 +182,8 @@ public class MainScene
 
     protected void Reset()
     {
+        // _gameObjects = new List<GameObject>();
+        _gameObjects.Clear();
         Singleton.Instance.GameBoard.ClearBoard();
 
         Singleton.Instance.Random = new System.Random();
