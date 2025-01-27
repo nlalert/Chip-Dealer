@@ -59,7 +59,7 @@ public class MainScene
         _chipHitSound = content.Load<SoundEffect>("ChipHit");
         _gameMusic = content.Load<Song>("A Night Alone - TrackTribe");
 
-        Reset();
+        ResetGame();
     }
 
     public void Update(GameTime gameTime)
@@ -70,9 +70,8 @@ public class MainScene
         switch (Singleton.Instance.CurrentGameState)
         {
             case Singleton.GameState.SetLevel:
-                Reset();
+                ResetLevel();
                 SetUpInitalChipsPattern();
-
                 Singleton.Instance.CurrentChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
 
@@ -127,7 +126,7 @@ public class MainScene
                     MediaPlayer.Stop();
                 }
                 if(Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape)){
-                    Reset();
+                    ResetGame();
                 }
                 break;
         }
@@ -181,7 +180,7 @@ public class MainScene
 
     }
 
-    protected void Reset()
+    protected void ResetGame()
     {
         // _gameObjects = new List<GameObject>();
         _gameObjects.Clear();
@@ -195,8 +194,6 @@ public class MainScene
         Singleton.Instance.Stage = 1;
 
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
-
-        // Texture2D cannonTexture = content.Load<Texture2D>("Cannon");
 
         _gameObjects.Add(new Player(_handTexture)
         {
@@ -225,6 +222,57 @@ public class MainScene
             s.Reset();
         }
     }
+
+    protected void ResetLevel()
+    {
+
+        Singleton.Instance.Random = new System.Random();
+
+        Singleton.Instance.CeilingPosition = 0;
+        Singleton.Instance.ChipShotAmount = 0;
+
+        DestroyAllChips();
+
+        _gameObjects.Clear();
+
+        _gameObjects.Add(new Player(_handTexture)
+        {
+            Name = "Player",
+            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
+            Left = Keys.Left,
+            Right = Keys.Right,
+            Fire = Keys.Space,
+            Chip = new Chip(_chipTexture)
+            {
+                Name = "Chip",
+                _isShot = false,
+                Viewport = new Rectangle(0, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT), 
+                ChipHitSound = _chipHitSound,
+                Speed = 0,
+                Score = 10
+            }
+        });
+
+        SetUpShop();
+
+        foreach (GameObject s in _gameObjects)
+        {
+            s.Reset();
+        }
+    }
+
+    protected void DestroyAllChips()
+    {
+        for (int j = 0; j < Singleton.CHIP_GRID_HEIGHT; j++)
+        {
+            for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
+            {
+                Singleton.Instance.GameBoard.DestroySingleChip(j, i, _gameObjects);
+            }
+        }
+    }
+
     protected void SetUpShop(){
         
         _shop = new Shop(_ShopTexture){
