@@ -2,8 +2,11 @@ public enum ChipType
 {
     None, 
     Red, 
-    Green, 
     Blue,
+    Green, 
     Yellow,
+    Purple,
+    White,
+    Black,
     Explosive,
 }

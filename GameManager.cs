@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static Singleton;
 
 namespace MidtermComGame;
 
@@ -44,7 +43,7 @@ public class GameManager : Game
         _mainScene = new MainScene();
         _mainScene.Initialize(); // Ensure MainScene has a proper Initialize method
         _mainScene.LoadContent(Content, GraphicsDevice, _spriteBatch);
-        Singleton.Instance.CurrentGameState = GameState.MainMenu;
+        Singleton.Instance.CurrentGameState = Singleton.GameState.MainMenu;
     }
 
     protected override void Update(GameTime gameTime)
@@ -53,16 +52,12 @@ public class GameManager : Game
 
         switch (Singleton.Instance.CurrentGameState)
         {
-            case GameState.MainMenu:
+            case Singleton.GameState.MainMenu:
                 // UpdateMainMenu();
                 _mainMenu.Update(gameTime);
                 break;
 
-            case GameState.SetLevel:
-            case GameState.Playing:
-            case GameState.CheckChipAndCeiling:
-            case GameState.Pause:
-            case GameState.GameOver:
+            default:
                 _mainScene.Update(gameTime);
                 break;
         }
@@ -78,15 +73,10 @@ public class GameManager : Game
 
         switch (Singleton.Instance.CurrentGameState)
         {
-            case GameState.MainMenu:
+            case Singleton.GameState.MainMenu:
                 _mainMenu.Draw(gameTime);
                 break;
-
-            case GameState.SetLevel:
-            case GameState.Playing:
-            case GameState.CheckChipAndCeiling:
-            case GameState.Pause:
-            case GameState.GameOver:
+            default:
                 _mainScene.Draw(gameTime);
                 break;
         }
