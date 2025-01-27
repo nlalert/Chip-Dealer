@@ -22,7 +22,6 @@ public class MainScene
     Texture2D _chipStickTexture;
     Texture2D _handTexture;
     Texture2D _rectTexture;
-    Texture2D _cannonTexture;
     Texture2D _ShopTexture;
     Texture2D _GameOverTexture;
     Texture2D _PauseTexture;
@@ -43,12 +42,9 @@ public class MainScene
         _font = content.Load<SpriteFont>("GameFont");
 
         _backgroundTexture = content.Load<Texture2D>("Background");
-
         _chipTexture = content.Load<Texture2D>("Chips");
         _chipStickTexture = content.Load<Texture2D>("ChipStick");
         _handTexture = content.Load<Texture2D>("Hand");
-
-        _cannonTexture = content.Load<Texture2D>("Cannon");
         _ShopTexture = content.Load<Texture2D>("Shop");
         _GameOverTexture = content.Load<Texture2D>("GameOver1");
         _PauseTexture = content.Load<Texture2D>("GameOver1");
