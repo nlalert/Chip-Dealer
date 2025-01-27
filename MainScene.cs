@@ -322,6 +322,12 @@ public class MainScene
             Price = 0,
             BuyKey = Keys.J
         };
+        ShopChip orangeChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Orange,
+            Viewport = Singleton.GetChipViewPort(ChipType.Orange),
+            Price = 0,
+            BuyKey = Keys.K
+        };
         ShopChip ExplosiveChip = new ShopChip(_chipTexture){
             ChipType = ChipType.Explosive,
             Viewport = Singleton.GetChipViewPort(ChipType.Explosive),
@@ -336,6 +342,7 @@ public class MainScene
         _shop.AddShopItem(purpleChip);
         _shop.AddShopItem(whiteChip);
         _shop.AddShopItem(blackChip);
+        _shop.AddShopItem(orangeChip);
         _shop.AddShopItem(ExplosiveChip);
         _gameObjects.Add(_shop);
     }
