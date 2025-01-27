@@ -69,7 +69,7 @@ public class GameBoard
         {
             for (int col = 0; col < Columns; col++)
             {
-                if (_board[row, col] != ChipType.None && (int)_board[row, col] < 5  )
+                if(HaveChip(row, col) && _board[row, col] != ChipType.Explosive)
                 {
                     nonNoneChipTypes.Add(_board[row, col]);
                 }
@@ -79,13 +79,14 @@ public class GameBoard
         // If no non-None chip types are found
         if (nonNoneChipTypes.Count == 0)
         {
-            return (ChipType) Singleton.Instance.Random.Next(1, 5);
+            return ChipType.Red;
         }
 
         // Randomly select a chip type from the list
         int randomIndex = Singleton.Instance.Random.Next(nonNoneChipTypes.Count);
         return nonNoneChipTypes[randomIndex];
     }
+
     public bool HaveChip(int row, int col)
     {
         if (IsInsideBounds(row,col ))

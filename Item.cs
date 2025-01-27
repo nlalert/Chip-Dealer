@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-class Item : GameObject{
+public class Item : GameObject{
     public int Price;
     public Keys BuyKey;
     public Item(Texture2D texture) : base(texture)

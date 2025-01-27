@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
-    public Chip Chip, LastShotChip, ExplosiveChip;
+    public Chip Chip, LastShotChip;
     public Keys Left, Right, Fire;
     
     public Player(Texture2D texture) : base(texture)
@@ -16,13 +16,14 @@ class Player : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        Vector2 Origin = new Vector2(_texture.Width/2, 0);
+        Vector2 Origin = new Vector2(0, 0);
+        Vector2 PositionXOffset = new Vector2(_texture.Width/2, 0);
         
         //draw aim line
         float DotLinelength = 100f;
         float DotSize = 4f;
         float DotGap = 8f;
-        DrawDottedLine(spriteBatch, Position + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
+        DrawDottedLine(spriteBatch, Position + PositionXOffset + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
 
         if (!Chip._isShot){
             Chip.Draw(spriteBatch);
@@ -31,11 +32,11 @@ class Player : GameObject
         // Draw the sprite with rotation around its center
         spriteBatch.Draw(
             _texture,
-            Position + Origin, // Position adjusted to account for origin
+            Position + PositionXOffset + Origin, // Position adjusted to account for origin
             Viewport,
             Color.White,
             Rotation, 
-            Vector2.Zero,
+            Origin,
             Scale,
             SpriteEffects.None,
             0f
@@ -78,9 +79,6 @@ class Player : GameObject
         
         var newChip = Chip.Clone() as Chip; 
 
-        if(Singleton.Instance.CurrentChip == ChipType.Explosive){
-            newChip = ExplosiveChip.Clone() as ExplosiveChip;
-        }
         newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
                                         Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE/2);
         newChip._isShot = true;
