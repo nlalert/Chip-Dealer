@@ -25,6 +25,7 @@ public class MainScene
     Texture2D _cannonTexture;
     Texture2D _ShopTexture;
     Texture2D _GameOverTexture;
+    Texture2D _PauseTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
     Song _gameMusic;
@@ -50,6 +51,8 @@ public class MainScene
         _cannonTexture = content.Load<Texture2D>("Cannon");
         _ShopTexture = content.Load<Texture2D>("Shop");
         _GameOverTexture = content.Load<Texture2D>("GameOver1");
+        _PauseTexture = content.Load<Texture2D>("GameOver1");
+
 
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
@@ -68,7 +71,6 @@ public class MainScene
         Singleton.Instance.CurrentKey = Keyboard.GetState();
 
         _numObject = _gameObjects.Count;
-
         switch (Singleton.Instance.CurrentGameState)
         {
             case Singleton.GameState.SetLevel:
@@ -99,12 +101,24 @@ public class MainScene
                     _numObject--;
                     }
                 }
+                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.P) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.P))
+                {
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
+                }
                 break;
             case Singleton.GameState.CheckChipAndCeiling:
                 CheckAndDestroyHangingChips();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 CheckAndPushDownCeiling();
                 CheckGameOver();
+                break;
+            case Singleton.GameState.Pause: 
+                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) 
+                ||  (Singleton.Instance.CurrentKey.IsKeyDown(Keys.P) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.P))
+                )
+                {
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
+                }
                 break;
             case Singleton.GameState.GameOver:
                 if (MediaPlayer.State == MediaState.Playing)
@@ -175,6 +189,11 @@ public class MainScene
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
             _spriteBatch.Draw(_GameOverTexture, new Vector2((Singleton.SCREEN_WIDTH - _GameOverTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _GameOverTexture.Height) / 2), Color.White);
+            return;
+        }
+        if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
+        {
+            _spriteBatch.Draw(_PauseTexture, new Vector2((Singleton.SCREEN_WIDTH - _PauseTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _PauseTexture.Height) / 2), Color.White);
             return;
         }
 
