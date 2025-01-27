@@ -70,13 +70,13 @@ public class MainScene
         switch (Singleton.Instance.CurrentGameState)
         {
             case Singleton.GameState.SetLevel:
+                Reset();
                 SetUpInitalChipsPattern();
 
                 Singleton.Instance.CurrentChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
 
                 Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
-
                 break;
             case Singleton.GameState.Playing:
                 if (MediaPlayer.State != MediaState.Playing)
@@ -107,6 +107,7 @@ public class MainScene
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 CheckAndPushDownCeiling();
                 CheckGameOver();
+                CheckLevelClear();
                 break;
             case Singleton.GameState.Pause: 
                 if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) 
@@ -381,12 +382,27 @@ public class MainScene
         {
             for (int j = Singleton.CHIP_GRID_HEIGHT - ceilingPushedAmount; j < Singleton.CHIP_GRID_HEIGHT; j++)
             {
-                if(Singleton.Instance.GameBoard[j, i] != ChipType.None)
+                if(Singleton.Instance.GameBoard.HaveChip(j, i))
                 {
                     Singleton.Instance.CurrentGameState = Singleton.GameState.GameOver;
                     return;
                 }
             }
         }
+    }
+
+    protected void CheckLevelClear()
+    {
+        for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
+        {
+            for (int j = 0; j < Singleton.CHIP_GRID_HEIGHT; j++)
+            {
+                if(Singleton.Instance.GameBoard.HaveChip(j, i))
+                {
+                    return;
+                }
+            }
+        }
+        Singleton.Instance.CurrentGameState = Singleton.GameState.PassingLevel;
     }
 }
