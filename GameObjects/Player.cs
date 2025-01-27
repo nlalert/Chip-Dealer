@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
-    public Chip Chip, LastShotChip, ExplosiveChip;
+    public Chip Chip, LastShotChip;
     public Keys Left, Right, Fire;
     
     public Player(Texture2D texture) : base(texture)
@@ -79,9 +79,6 @@ class Player : GameObject
         
         var newChip = Chip.Clone() as Chip; 
 
-        if(Singleton.Instance.CurrentChip == ChipType.Explosive){
-            newChip = ExplosiveChip.Clone() as ExplosiveChip;
-        }
         newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
                                         Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE/2);
         newChip._isShot = true;
