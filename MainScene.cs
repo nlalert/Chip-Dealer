@@ -25,10 +25,13 @@ public class MainScene
     Texture2D _ShopTexture;
     Texture2D _GameOverTexture;
     Texture2D _PauseTexture;
+    Texture2D _ButtonTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
     Song _gameMusic;
     Shop _shop;
+    private Button _volumeUpButton;
+    private Button _volumeDownButton;
 
     public void Initialize()
     {
@@ -48,7 +51,7 @@ public class MainScene
         _ShopTexture = content.Load<Texture2D>("Shop");
         _GameOverTexture = content.Load<Texture2D>("GameOver1");
         _PauseTexture = content.Load<Texture2D>("Pause1");
-
+        _ButtonTexture = content.Load<Texture2D>("Hand");
 
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
@@ -65,7 +68,7 @@ public class MainScene
     public void Update(GameTime gameTime)
     {
         Singleton.Instance.CurrentKey = Keyboard.GetState();
-
+        Singleton.Instance._mouseState = Mouse.GetState();
         _numObject = _gameObjects.Count;
         switch (Singleton.Instance.CurrentGameState)
         {
@@ -116,7 +119,7 @@ public class MainScene
                 {
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
                 }
-
+            
                 // Adjust volume with Up/Down arrow keys
                 if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Up) && Singleton.Instance.Volume < 1.0f)
                 {
@@ -126,8 +129,15 @@ public class MainScene
                 {
                     Singleton.Instance.Volume -= 0.01f; 
                 }
-                Singleton.Instance.Volume = MathHelper.Clamp(Singleton.Instance.Volume, 0.0f, 1.0f);
+                //mouse adjust
+                if(_volumeUpButton.IsClicked(Singleton.Instance._mouseState)&& Singleton.Instance.Volume < 1.0f){
+                    Singleton.Instance.Volume += 0.1f; 
+                }else if(_volumeDownButton.IsClicked(Singleton.Instance._mouseState)&& Singleton.Instance.Volume < 1.0f){
+                    Singleton.Instance.Volume -= 0.1f;
+                }
 
+                Singleton.Instance.Volume = MathHelper.Clamp(Singleton.Instance.Volume, 0.0f, 1.0f);
+                
                 //TODO check this please
                 MediaPlayer.Volume = Singleton.Instance.Volume; 
                 SoundEffect.MasterVolume = Singleton.Instance.Volume;
@@ -197,7 +207,7 @@ public class MainScene
             _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
             return;
         }
-
+        
     }
 
     protected void Reset()
@@ -235,7 +245,20 @@ public class MainScene
                 Score = 10
             }
         });
-
+        _volumeDownButton = new Button(_ButtonTexture){
+            Name = "DownButton",
+            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT-100),
+            IsActive = true,
+        };
+        _volumeUpButton = new Button(_ButtonTexture){
+            Name = "UpButton",
+            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 +200, Singleton.CHIP_SHOOTING_HEIGHT),
+            IsActive = true,
+        };
+        _gameObjects.Add(_volumeDownButton);
+        _gameObjects.Add(_volumeUpButton);
         //add shop content
         SetUpShop();
 
