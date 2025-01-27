@@ -68,22 +68,7 @@ class Singleton
             return instance;
         }
     }
-    
-    public static Color GetChipColor(ChipType chipType){
-        switch (chipType)
-        {
-            case ChipType.Red:
-                return Color.Red;
-            case ChipType.Green:
-                return Color.LimeGreen;
-            case ChipType.Blue:
-                return Color.Blue;
-            case ChipType.Yellow:
-                return Color.Yellow;
-        }
-        // if somehow not have color 
-        return Color.White;
-    }
+
     public static Rectangle GetChipViewPort(ChipType chipType){
 
         int chipIndex = 0;

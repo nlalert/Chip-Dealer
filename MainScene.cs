@@ -154,29 +154,10 @@ public class MainScene
         // Red blue green Yellow
         // 0 1 2 3
         // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetChipColor(Singleton.Instance.NextChip));
-
-        int chipIndex =0;
-        switch (Singleton.Instance.NextChip)
-        {
-            case ChipType.Red: 
-                chipIndex =0;
-                break;
-            case ChipType.Blue: 
-                chipIndex =1;
-                break;
-            case ChipType.Green: 
-                chipIndex =2;
-                break;
-            case ChipType.Yellow: 
-                chipIndex =3;
-                break;
-            default:
-                break;
-        }
         
         // Draw the chip using the sourceRectangle
         _spriteBatch.Draw(_chipTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400), 
-            new Rectangle(chipIndex * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
+            new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
 
         //Game Over Line
         //_spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.CHIP_GRID_HEIGHT * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
@@ -275,6 +256,24 @@ public class MainScene
             Price = 0,
             BuyKey = Keys.F
         };
+        ShopChip purpleChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Purple,
+            Viewport = Singleton.GetChipViewPort(ChipType.Purple),
+            Price = 0,
+            BuyKey = Keys.G
+        };
+        ShopChip whiteChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.White,
+            Viewport = Singleton.GetChipViewPort(ChipType.White),
+            Price = 0,
+            BuyKey = Keys.H
+        };
+        ShopChip blackChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Black,
+            Viewport = Singleton.GetChipViewPort(ChipType.Black),
+            Price = 0,
+            BuyKey = Keys.J
+        };
         ShopChip ExplosiveChip = new ShopChip(_chipTexture){
             ChipType = ChipType.Explosive,
             Viewport = Singleton.GetChipViewPort(ChipType.Explosive),
@@ -286,6 +285,9 @@ public class MainScene
         _shop.AddShopItem(blueChip);
         _shop.AddShopItem(greenChip);
         _shop.AddShopItem(yellowChip);
+        _shop.AddShopItem(purpleChip);
+        _shop.AddShopItem(whiteChip);
+        _shop.AddShopItem(blackChip);
         _shop.AddShopItem(ExplosiveChip);
         _gameObjects.Add(_shop);
     }
