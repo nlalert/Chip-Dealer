@@ -158,8 +158,8 @@ public class MainScene
         _spriteBatch.Draw(_chipTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400), 
             new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
 
-        //Game Over Line
-        //_spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.CHIP_GRID_HEIGHT * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
+        // //Game Over Line
+        // _spriteBatch.Draw(_rectTexture, new Vector2(0, (Singleton.CHIP_GRID_HEIGHT - 1) * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
         Vector2 fontSize = _font.MeasureString("Score : " + Singleton.Instance.Score.ToString());
         _spriteBatch.DrawString(_font,
@@ -285,7 +285,7 @@ public class MainScene
         {
             if(chipType == ChipType.None)
                 continue;
-                
+
             // Map keys for each ChipType
             Keys buyKey = chipType switch
             {
@@ -408,7 +408,7 @@ public class MainScene
 
         for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
         {
-            for (int j = Singleton.CHIP_GRID_HEIGHT - ceilingPushedAmount; j < Singleton.CHIP_GRID_HEIGHT; j++)
+            for (int j = Singleton.CHIP_GRID_HEIGHT - ceilingPushedAmount - 1; j < Singleton.CHIP_GRID_HEIGHT; j++)
             {
                 if(Singleton.Instance.GameBoard.HaveChip(j, i))
                 {
