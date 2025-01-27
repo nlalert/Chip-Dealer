@@ -25,6 +25,7 @@ class Singleton
 
     public int CeilingPosition;
     public int ChipShotAmount;
+    public int Stage;
 
     public int Score;
 
@@ -42,6 +43,7 @@ class Singleton
         Playing,
         CheckChipAndCeiling,
         Pause,
+        PassingLevel,
         GameOver,
     }
 

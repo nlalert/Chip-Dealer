@@ -92,9 +92,9 @@ public class MainScene
                 {
                     if(!_gameObjects[i].IsActive)
                     {
-                    _gameObjects.RemoveAt(i);
-                    i--;
-                    _numObject--;
+                        _gameObjects.RemoveAt(i);
+                        i--;
+                        _numObject--;
                     }
                 }
                 if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.P) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.P))
@@ -115,6 +115,10 @@ public class MainScene
                 {
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
                 }
+                break;
+            case Singleton.GameState.PassingLevel:
+                Singleton.Instance.Stage++;
+                Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
                 break;
             case Singleton.GameState.GameOver:
                 if (MediaPlayer.State == MediaState.Playing)
@@ -206,6 +210,7 @@ public class MainScene
         Singleton.Instance.CeilingPosition = 0;
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
+        Singleton.Instance.Stage = 1;
 
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
 
@@ -285,40 +290,7 @@ public class MainScene
     }
     protected void SetUpInitalChipsPattern()
     {
-        //temp pattern
-        Singleton.Instance.GameBoard[0, 0] = ChipType.Red;
-        Singleton.Instance.GameBoard[0, 1] = ChipType.Red;
-        Singleton.Instance.GameBoard[0, 2] = ChipType.Yellow;
-        Singleton.Instance.GameBoard[0, 3] = ChipType.Yellow;
-        Singleton.Instance.GameBoard[0, 4] = ChipType.Blue;
-        Singleton.Instance.GameBoard[0, 5] = ChipType.Blue;
-        Singleton.Instance.GameBoard[0, 6] = ChipType.Green;
-        Singleton.Instance.GameBoard[0, 7] = ChipType.Green;
-
-        Singleton.Instance.GameBoard[1, 0] = ChipType.Red;
-        Singleton.Instance.GameBoard[1, 1] = ChipType.Red;
-        Singleton.Instance.GameBoard[1, 2] = ChipType.Yellow;
-        Singleton.Instance.GameBoard[1, 3] = ChipType.Yellow;
-        Singleton.Instance.GameBoard[1, 4] = ChipType.Blue;
-        Singleton.Instance.GameBoard[1, 5] = ChipType.Blue;
-        Singleton.Instance.GameBoard[1, 6] = ChipType.Green;
-
-        Singleton.Instance.GameBoard[2, 0] = ChipType.Blue;
-        Singleton.Instance.GameBoard[2, 1] = ChipType.Blue;
-        Singleton.Instance.GameBoard[2, 2] = ChipType.Green;
-        Singleton.Instance.GameBoard[2, 3] = ChipType.Green;
-        Singleton.Instance.GameBoard[2, 4] = ChipType.Red;
-        Singleton.Instance.GameBoard[2, 5] = ChipType.Red;
-        Singleton.Instance.GameBoard[2, 6] = ChipType.Yellow;
-        Singleton.Instance.GameBoard[2, 7] = ChipType.Yellow;
-
-        Singleton.Instance.GameBoard[3, 0] = ChipType.Blue;
-        Singleton.Instance.GameBoard[3, 1] = ChipType.Green;
-        Singleton.Instance.GameBoard[3, 2] = ChipType.Green;
-        Singleton.Instance.GameBoard[3, 3] = ChipType.Red;
-        Singleton.Instance.GameBoard[3, 4] = ChipType.Red;
-        Singleton.Instance.GameBoard[3, 5] = ChipType.Yellow;
-        Singleton.Instance.GameBoard[3, 6] = ChipType.Yellow;
+        Stage.SetUpBoard();
 
         for (int j = 0; j < Singleton.CHIP_GRID_HEIGHT; j++)
         {
