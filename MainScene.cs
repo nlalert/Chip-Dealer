@@ -47,7 +47,7 @@ public class MainScene
         _handTexture = content.Load<Texture2D>("Hand");
         _ShopTexture = content.Load<Texture2D>("Shop");
         _GameOverTexture = content.Load<Texture2D>("GameOver1");
-        _PauseTexture = content.Load<Texture2D>("GameOver1");
+        _PauseTexture = content.Load<Texture2D>("Pause1");
 
 
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
@@ -115,6 +115,21 @@ public class MainScene
                 {
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
                 }
+
+                // Adjust volume with Up/Down arrow keys
+                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Up) && Singleton.Instance.Volume < 1.0f)
+                {
+                    Singleton.Instance.Volume += 0.01f; 
+                }
+                else if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Down) && Singleton.Instance.Volume > 0.0f)
+                {
+                    Singleton.Instance.Volume -= 0.01f; 
+                }
+                Singleton.Instance.Volume = MathHelper.Clamp(Singleton.Instance.Volume, 0.0f, 1.0f);
+
+                //TODO check this please
+                MediaPlayer.Volume = Singleton.Instance.Volume; 
+                SoundEffect.MasterVolume = Singleton.Instance.Volume;
                 break;
             case Singleton.GameState.PassingLevel:
                 Singleton.Instance.Stage++;
@@ -175,6 +190,10 @@ public class MainScene
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
         {
             _spriteBatch.Draw(_PauseTexture, new Vector2((Singleton.SCREEN_WIDTH - _PauseTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _PauseTexture.Height) / 2), Color.White);
+            // Display the volume percentage
+            string volumeText = $"Volume: {(int)(Singleton.Instance.Volume * 100)}%";
+            Vector2 textSize = _font.MeasureString(volumeText);
+            _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
             return;
         }
 

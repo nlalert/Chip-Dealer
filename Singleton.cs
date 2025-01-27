@@ -52,7 +52,7 @@ class Singleton
     public KeyboardState PreviousKey, CurrentKey;
 
     private static Singleton instance;
-
+    public float Volume = 1.0f;
     private Singleton() { 
         Random = new Random();
     }
