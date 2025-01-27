@@ -24,6 +24,7 @@ public class MainScene
     Texture2D _rectTexture;
     Texture2D _cannonTexture;
     Texture2D _ShopTexture;
+    Texture2D _GameOverTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
     Song _gameMusic;
@@ -48,6 +49,8 @@ public class MainScene
 
         _cannonTexture = content.Load<Texture2D>("Cannon");
         _ShopTexture = content.Load<Texture2D>("Shop");
+        _GameOverTexture = content.Load<Texture2D>("GameOver1");
+
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
         for (int i = 0; i < data.Length; i++) data[i] = Color.White;
@@ -108,6 +111,9 @@ public class MainScene
                 {
                     MediaPlayer.Stop();
                 }
+                if(Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape)){
+                    Reset();
+                }
                 break;
         }
 
@@ -166,6 +172,11 @@ public class MainScene
             new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 30),
             Color.White);
 
+        if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
+        {
+            _spriteBatch.Draw(_GameOverTexture, new Vector2((Singleton.SCREEN_WIDTH - _GameOverTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _GameOverTexture.Height) / 2), Color.White);
+            return;
+        }
 
     }
 
@@ -212,6 +223,15 @@ public class MainScene
         });
 
         //add shop content
+        SetUpShop();
+
+        foreach (GameObject s in _gameObjects)
+        {
+            s.Reset();
+        }
+    }
+    protected void SetUpShop(){
+        
         _shop = new Shop(_ShopTexture){
             Name = "Shop",
             Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30)
@@ -247,17 +267,8 @@ public class MainScene
             BuyKey = Keys.Q
         };
         _shop.AddShopItem(ExplosiveChip);
-
-
-
         _gameObjects.Add(_shop);
-
-        foreach (GameObject s in _gameObjects)
-        {
-            s.Reset();
-        }
     }
-
     protected void SetUpInitalChipsPattern()
     {
         //temp pattern
