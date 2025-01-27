@@ -279,71 +279,42 @@ public class MainScene
             Name = "Shop",
             Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30)
         };
-        // _shop.AddItems   
-        ShopChip redChip = new ShopChip(_chipTexture){
-            ChipType = ChipType.Red,
-            Viewport = Singleton.GetChipViewPort(ChipType.Red),
-            Price = 0,
-            BuyKey = Keys.A
-        };
-        ShopChip blueChip = new ShopChip(_chipTexture){
-            ChipType = ChipType.Blue,
-            Viewport = Singleton.GetChipViewPort(ChipType.Blue),
-            Price = 0,
-            BuyKey = Keys.S
-        };
-        ShopChip greenChip = new ShopChip(_chipTexture){
-            ChipType = ChipType.Green,
-            Viewport = Singleton.GetChipViewPort(ChipType.Green),
-            Price = 0,
-            BuyKey = Keys.D
-        };
-        ShopChip yellowChip = new ShopChip(_chipTexture){
-            ChipType = ChipType.Yellow,
-            Viewport = Singleton.GetChipViewPort(ChipType.Yellow),
-            Price = 0,
-            BuyKey = Keys.F
-        };
-        ShopChip purpleChip = new ShopChip(_chipTexture){
-            ChipType = ChipType.Purple,
-            Viewport = Singleton.GetChipViewPort(ChipType.Purple),
-            Price = 0,
-            BuyKey = Keys.G
-        };
-        ShopChip whiteChip = new ShopChip(_chipTexture){
-            ChipType = ChipType.White,
-            Viewport = Singleton.GetChipViewPort(ChipType.White),
-            Price = 0,
-            BuyKey = Keys.H
-        };
-        ShopChip blackChip = new ShopChip(_chipTexture){
-            ChipType = ChipType.Black,
-            Viewport = Singleton.GetChipViewPort(ChipType.Black),
-            Price = 0,
-            BuyKey = Keys.J
-        };
-        ShopChip orangeChip = new ShopChip(_chipTexture){
-            ChipType = ChipType.Orange,
-            Viewport = Singleton.GetChipViewPort(ChipType.Orange),
-            Price = 0,
-            BuyKey = Keys.K
-        };
-        ShopChip ExplosiveChip = new ShopChip(_chipTexture){
-            ChipType = ChipType.Explosive,
-            Viewport = Singleton.GetChipViewPort(ChipType.Explosive),
-            Price = 0,
-            BuyKey = Keys.Q
-        };
+        // _shop.AddItems
 
-        _shop.AddShopItem(redChip);
-        _shop.AddShopItem(blueChip);
-        _shop.AddShopItem(greenChip);
-        _shop.AddShopItem(yellowChip);
-        _shop.AddShopItem(purpleChip);
-        _shop.AddShopItem(whiteChip);
-        _shop.AddShopItem(blackChip);
-        _shop.AddShopItem(orangeChip);
-        _shop.AddShopItem(ExplosiveChip);
+        foreach (ChipType chipType in Enum.GetValues(typeof(ChipType)))
+        {
+            if(chipType == ChipType.None)
+                continue;
+                
+            // Map keys for each ChipType
+            Keys buyKey = chipType switch
+            {
+                ChipType.Red => Keys.A,
+                ChipType.Blue => Keys.S,
+                ChipType.Green => Keys.D,
+                ChipType.Yellow => Keys.F,
+                ChipType.Purple => Keys.G,
+                ChipType.White => Keys.H,
+                ChipType.Black => Keys.J,
+                ChipType.Orange => Keys.K,
+                ChipType.Explosive => Keys.Q,
+                _ => Keys.None // Default case for safety
+            };
+
+            // Create and configure ShopChip
+            ShopChip shopChip = new ShopChip(_chipTexture)
+            {
+                ChipType = chipType,
+                Viewport = Singleton.GetChipViewPort(chipType),
+                Price = 0,
+                BuyKey = buyKey
+            };
+
+            // Add to shop
+            _shop.AddShopItem(shopChip);
+        }
+
+        // Add the shop to the game objects
         _gameObjects.Add(_shop);
     }
     protected void SetUpInitalChipsPattern()
