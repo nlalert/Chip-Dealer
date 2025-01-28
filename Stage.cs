@@ -1,62 +1,164 @@
+using System;
+using System.Collections.Generic;
+
 public class Stage
 {
+    private static readonly Dictionary<int, string[]> StageLayouts = new Dictionary<int, string[]>
+    {
+        {
+            1, new[]
+            {
+                "RRYYBBGG",
+                "RRYYBBG-",
+                "BBGGRRYY",
+                "BGGRRYY-"
+            }
+        },
+        {
+            2, new[]
+            {
+                "---KK---",
+                "---B----",
+                "---G----",
+                "---B----",
+                "---P----",
+                "---G----",
+                "---B----",
+                "---W----"
+            }
+        },
+        {
+            3, new[]
+            {
+                "G------G",
+                "RGBYRGB-",
+                "Y-------Y",
+                "BYRGBYR-",
+                "---R----",
+                "---G----",
+                "---R----"
+            }
+        },
+        {
+            4, new[]
+            {
+                "-KK--BB-",
+                "-W---P--",
+                "-B---G--",
+                "-W---G--",
+                "-W---G--",
+                "-R---W--",
+                "-W---B--",
+                "-R---G--"
+            }
+        },
+        {
+            5, new[]
+            {
+                "-Y-Y-Y-P",
+                "G-P-B-R-",
+                "R-B-Y-P-",
+                "-G-Y-B--",
+                "-R-P-O--",
+                "B-G-G---",
+                "--P-Y---",
+                "---R----"
+            }
+        },
+        {
+            6, new[]
+            {
+                "RRGRYRPG",
+                "G-P-R-R-",
+                "-PBRBYW-",
+                "-G-Y-R--",
+                "-RWYYYR-",
+                "W-B-R-R-",
+                "GWYYGBGP"
+            }
+        },
+        {
+            7, new[]
+            {
+                "---GY---",
+                "--GYG---",
+                "---BY---",
+                "-PY-OY--",
+                "-BOGBPP-",
+                "-BG-GB--"
+            }
+        },
+        {
+            8, new[]
+            {
+                "RGBYPWRG",
+                "PWRGBYP-",
+                "RGBYPWRG",
+                "PWRGBYP-"
+            }
+        },
+        {
+            9, new[]
+            {
+                "OOOOOOOO",
+                "O-----O-",
+                "O--GYKBP",
+                "O---BYP-",
+                "O-----GR",
+                "BK------",
+                "GBBY----",
+                "RYBYG---"
+            }
+        },
+        {
+            10, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        }
+    };
+
     public static void SetUpBoard()
     {
-        switch (Singleton.Instance.Stage)
+        if (!StageLayouts.ContainsKey(Singleton.Instance.Stage))
         {
-            case 1:
-                Singleton.Instance.GameBoard[0, 0] = ChipType.Red;
-                Singleton.Instance.GameBoard[0, 1] = ChipType.Red;
-                Singleton.Instance.GameBoard[0, 2] = ChipType.Yellow;
-                Singleton.Instance.GameBoard[0, 3] = ChipType.Yellow;
-                Singleton.Instance.GameBoard[0, 4] = ChipType.Blue;
-                Singleton.Instance.GameBoard[0, 5] = ChipType.Blue;
-                Singleton.Instance.GameBoard[0, 6] = ChipType.Green;
-                Singleton.Instance.GameBoard[0, 7] = ChipType.Green;
-
-                Singleton.Instance.GameBoard[1, 0] = ChipType.Red;
-                Singleton.Instance.GameBoard[1, 1] = ChipType.Red;
-                Singleton.Instance.GameBoard[1, 2] = ChipType.Yellow;
-                Singleton.Instance.GameBoard[1, 3] = ChipType.Yellow;
-                Singleton.Instance.GameBoard[1, 4] = ChipType.Blue;
-                Singleton.Instance.GameBoard[1, 5] = ChipType.Blue;
-                Singleton.Instance.GameBoard[1, 6] = ChipType.Green;
-
-                Singleton.Instance.GameBoard[2, 0] = ChipType.Blue;
-                Singleton.Instance.GameBoard[2, 1] = ChipType.Blue;
-                Singleton.Instance.GameBoard[2, 2] = ChipType.Green;
-                Singleton.Instance.GameBoard[2, 3] = ChipType.Green;
-                Singleton.Instance.GameBoard[2, 4] = ChipType.Red;
-                Singleton.Instance.GameBoard[2, 5] = ChipType.Red;
-                Singleton.Instance.GameBoard[2, 6] = ChipType.Yellow;
-                Singleton.Instance.GameBoard[2, 7] = ChipType.Yellow;
-
-                Singleton.Instance.GameBoard[3, 0] = ChipType.Blue;
-                Singleton.Instance.GameBoard[3, 1] = ChipType.Green;
-                Singleton.Instance.GameBoard[3, 2] = ChipType.Green;
-                Singleton.Instance.GameBoard[3, 3] = ChipType.Red;
-                Singleton.Instance.GameBoard[3, 4] = ChipType.Red;
-                Singleton.Instance.GameBoard[3, 5] = ChipType.Yellow;
-                Singleton.Instance.GameBoard[3, 6] = ChipType.Yellow;
-                break;
-            case 2:
-                Singleton.Instance.GameBoard[0, 3] = ChipType.Black;
-                Singleton.Instance.GameBoard[0, 4] = ChipType.Black;
-
-                Singleton.Instance.GameBoard[1, 3] = ChipType.Blue;
-
-                Singleton.Instance.GameBoard[2, 3] = ChipType.Green;
-
-                Singleton.Instance.GameBoard[3, 3] = ChipType.Blue;
-
-                Singleton.Instance.GameBoard[4, 3] = ChipType.Purple;
-
-                Singleton.Instance.GameBoard[5, 3] = ChipType.Green;
-                
-                Singleton.Instance.GameBoard[6, 3] = ChipType.Blue;
-
-                Singleton.Instance.GameBoard[7, 3] = ChipType.White;
-                break;
+            Console.WriteLine("No more stage : Replaying");
+            Singleton.Instance.Stage = 1;
         }
+
+        string[] layout = StageLayouts[Singleton.Instance.Stage];
+        int rows = layout.Length;
+        int cols = layout[0].Length;
+
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                char chipChar = layout[row][col];
+                Singleton.Instance.GameBoard[row, col] = ChipTypeFromChar(chipChar);
+            }
+        }
+    }
+
+    private static ChipType ChipTypeFromChar(char chipChar)
+    {
+        return chipChar switch
+        {
+            'R' => ChipType.Red,
+            'Y' => ChipType.Yellow,
+            'B' => ChipType.Blue,
+            'G' => ChipType.Green,
+            'P' => ChipType.Purple,
+            'W' => ChipType.White,
+            'K' => ChipType.Black,
+            'O' => ChipType.Orange,
+            '-' => ChipType.None,
+             _  => ChipType.None
+        };
     }
 }
