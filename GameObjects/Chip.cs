@@ -107,53 +107,66 @@ class Chip : GameObject
     {
         Speed = 0;
 
-        List<(float Distance, Vector2 GridPosition)> closestPositions = new List<(float, Vector2)>();
+        Vector2 gridPosition = CalculateApproxGridPosition();
 
-        // Find all grid positions and calculate their distances
-        for (int j = 0; j < Singleton.CHIP_GRID_HEIGHT; j++)
+        Vector2 closestSpot = FindClosestEmptySpot(gridPosition);
+
+        PlaceChipOnGrid(closestSpot);
+    }
+
+    protected Vector2 CalculateApproxGridPosition()
+    {
+        int approxY = (int)Math.Round((Position.Y - Singleton.Instance.CeilingPosition) / Singleton.CHIP_SIZE);
+        int offset = (approxY % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
+        int approxX = (int)Math.Round((Position.X - offset - Singleton.PLAY_AREA_START_X) / Singleton.CHIP_SIZE);
+        return new Vector2(approxX, approxY);
+    }
+
+    protected Vector2 FindClosestEmptySpot(Vector2 gridPosition)
+    {
+        int x = (int) gridPosition.X;
+        int y = (int) gridPosition.Y;
+        
+        float closestDistance = float.MaxValue;
+        Vector2 closestSpot = Vector2.Zero;
+
+        for (int j = y - 1; j <= y + 1; j++)
         {
-            int Xoffset = (j % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
-
-            for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
+            int xOffset = (y % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
+            for (int i = x - 1; i <= x + 1; i++)
             {
-                //skip last column
-                if (Xoffset != 0 && i == Singleton.CHIP_GRID_WIDTH - 1)
+                if (Singleton.Instance.GameBoard.HaveChip(j, i))
                     continue;
 
-                float targetX = i * Singleton.CHIP_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
+                float targetX = i * Singleton.CHIP_SIZE + Singleton.PLAY_AREA_START_X + xOffset;
                 float targetY = j * Singleton.CHIP_SIZE + Singleton.Instance.CeilingPosition;
-
                 float distance = Vector2.Distance(new Vector2(targetX, targetY), Position);
 
-                closestPositions.Add((distance, new Vector2(i, j)));
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestSpot = new Vector2(i, j);
+                }
             }
         }
 
-        closestPositions = closestPositions.OrderBy(p => p.Distance).ToList();
+        return closestSpot;
+    }
 
-        for (int i = 0; i < closestPositions.Count; i++)
-        {
-            int X = (int) closestPositions[i].GridPosition.X;
-            int Y = (int) closestPositions[i].GridPosition.Y;
-            int Xoffset = (Y % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
+    protected void PlaceChipOnGrid(Vector2 closestSpot)
+    {
+        int approxX = (int)closestSpot.X;
+        int approxY = (int)closestSpot.Y;
 
-            //skip last column
-            if (Xoffset != 0 && X == Singleton.CHIP_GRID_WIDTH - 1)
-                continue;
 
-            float targetX = X * Singleton.CHIP_SIZE + Singleton.PLAY_AREA_START_X + Xoffset;
-            float targetY = Y * Singleton.CHIP_SIZE + Singleton.Instance.CeilingPosition;
+        Singleton.Instance.GameBoard[approxY, approxX] = ChipType;
+        BoardCoord = new Vector2(approxX, approxY);
 
-            if(Singleton.Instance.GameBoard[Y, X] == ChipType.None)
-            {
-                Singleton.Instance.GameBoard[Y, X] = ChipType;
-                Position = new Vector2(targetX, targetY);
+        int xOffset = (approxY % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
+        float targetX = approxX * Singleton.CHIP_SIZE + Singleton.PLAY_AREA_START_X + xOffset;
+        float targetY = approxY * Singleton.CHIP_SIZE + Singleton.Instance.CeilingPosition;
+        Position = new Vector2(targetX, targetY);
 
-                BoardCoord = new Vector2(X, Y);
-
-                ChipHitSound.Play();
-                break;
-            }
-        }
+        ChipHitSound.Play();
     }
 }
