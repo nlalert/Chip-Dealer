@@ -21,8 +21,10 @@ class Button : GameObject
 
     public bool IsClicked(MouseState mouseState)
     {
-        Console.WriteLine(mouseState);
-        return Viewport.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed;
+        //have to add obj pos to make it know where it have to check for click
+        // if not will origin at 0,0
+        Rectangle buttonBounds = new Rectangle((int)Position.X, (int)Position.Y, Viewport.Width, Viewport.Height);
+        return buttonBounds.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed;
     }
     
 }

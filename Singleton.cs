@@ -50,7 +50,7 @@ class Singleton
 
     public KeyboardState PreviousKey, CurrentKey;
     
-    public MouseState _mouseState;
+    public MouseState PreviousMouseState,CurrentMouseState;
     private static Singleton instance;
     public float Volume = 1.0f;
     private Singleton() { 

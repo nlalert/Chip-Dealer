@@ -68,7 +68,7 @@ public class MainScene
     public void Update(GameTime gameTime)
     {
         Singleton.Instance.CurrentKey = Keyboard.GetState();
-        Singleton.Instance._mouseState = Mouse.GetState();
+        Singleton.Instance.CurrentMouseState = Mouse.GetState();
         _numObject = _gameObjects.Count;
         switch (Singleton.Instance.CurrentGameState)
         {
@@ -129,11 +129,16 @@ public class MainScene
                 {
                     Singleton.Instance.Volume -= 0.01f; 
                 }
-                //mouse adjust
-                if(_volumeUpButton.IsClicked(Singleton.Instance._mouseState)&& Singleton.Instance.Volume < 1.0f){
+                if(_volumeUpButton.IsClicked(Singleton.Instance.CurrentMouseState)
+                && Singleton.Instance.CurrentMouseState != Singleton.Instance.PreviousMouseState
+                && Singleton.Instance.Volume < 1.0f){
                     Singleton.Instance.Volume += 0.1f; 
-                }else if(_volumeDownButton.IsClicked(Singleton.Instance._mouseState)&& Singleton.Instance.Volume < 1.0f){
+                    Console.WriteLine("increase volume" + Singleton.Instance.Volume);
+                }else if(_volumeDownButton.IsClicked(Singleton.Instance.CurrentMouseState)
+                && Singleton.Instance.CurrentMouseState != Singleton.Instance.PreviousMouseState
+                && Singleton.Instance.Volume > 0.0f){
                     Singleton.Instance.Volume -= 0.1f;
+                    Console.WriteLine("reduce volume" + Singleton.Instance.Volume);
                 }
 
                 Singleton.Instance.Volume = MathHelper.Clamp(Singleton.Instance.Volume, 0.0f, 1.0f);
@@ -158,6 +163,7 @@ public class MainScene
         }
 
         Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
+        Singleton.Instance.PreviousMouseState = Singleton.Instance.CurrentMouseState;
 
     }
 
@@ -248,13 +254,13 @@ public class MainScene
         _volumeDownButton = new Button(_ButtonTexture){
             Name = "DownButton",
             Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT-100),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 + 100, Singleton.CHIP_SHOOTING_HEIGHT-150),
             IsActive = true,
         };
         _volumeUpButton = new Button(_ButtonTexture){
             Name = "UpButton",
             Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 +200, Singleton.CHIP_SHOOTING_HEIGHT),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 +100, Singleton.CHIP_SHOOTING_HEIGHT-50),
             IsActive = true,
         };
         _gameObjects.Add(_volumeDownButton);
