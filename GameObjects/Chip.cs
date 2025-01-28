@@ -67,7 +67,16 @@ class Chip : GameObject
             if (Position.Y < Singleton.Instance.CeilingPosition){
                 Position.Y = Singleton.Instance.CeilingPosition;
                 SnapToGrid();
-                Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
+                
+                switch (ChipType)
+                {
+                    case ChipType.Explosive:
+                        Singleton.Instance.GameBoard.DestroyAdjacentChips(BoardCoord, gameObjects);
+                        break;
+                    default:
+                        Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
+                        break;
+                }
                 Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
             }
 
@@ -87,7 +96,7 @@ class Chip : GameObject
                 if (s is Chip && IsTouching(s) && IsTouchingAsCircle(s))
                 {
                     SnapToGrid();
-                    
+
                     switch (ChipType)
                     {
                         case ChipType.Explosive:
