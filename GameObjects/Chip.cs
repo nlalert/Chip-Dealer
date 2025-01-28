@@ -119,6 +119,7 @@ class Chip : GameObject
         int approxY = (int)Math.Round((Position.Y - Singleton.Instance.CeilingPosition) / Singleton.CHIP_SIZE);
         int offset = (approxY % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
         int approxX = (int)Math.Round((Position.X - offset - Singleton.PLAY_AREA_START_X) / Singleton.CHIP_SIZE);
+        
         return new Vector2(approxX, approxY);
     }
 
@@ -135,6 +136,8 @@ class Chip : GameObject
             int xOffset = (y % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
             for (int i = x - 1; i <= x + 1; i++)
             {
+                if (!Singleton.Instance.GameBoard.IsInsideBounds(j, i))
+                    continue;
                 if (Singleton.Instance.GameBoard.HaveChip(j, i))
                     continue;
 
