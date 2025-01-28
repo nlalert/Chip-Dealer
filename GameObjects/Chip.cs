@@ -42,7 +42,7 @@ class Chip : GameObject
     public override void Reset()
     {
         Speed = 0;
-        Radius = (int)(Singleton.CHIP_SIZE / 1.5f);
+        Radius = Singleton.CHIP_SIZE / 2;
         BoardCoord = new Vector2(Singleton.CHIP_GRID_WIDTH, Singleton.CHIP_GRID_HEIGHT);
 
         ResetChipTexture();
