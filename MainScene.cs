@@ -62,7 +62,7 @@ public class MainScene
         _chipHitSound = content.Load<SoundEffect>("ChipHit");
         _gameMusic = content.Load<Song>("A Night Alone - TrackTribe");
 
-        ResetGame();
+        Reset();
     }
 
     public void Update(GameTime gameTime)
@@ -73,8 +73,9 @@ public class MainScene
         switch (Singleton.Instance.CurrentGameState)
         {
             case Singleton.GameState.SetLevel:
-                ResetLevel();
+                Reset();
                 SetUpInitalChipsPattern();
+
                 Singleton.Instance.CurrentChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
 
@@ -142,7 +143,6 @@ public class MainScene
 
                 Singleton.Instance.Volume = MathHelper.Clamp(Singleton.Instance.Volume, 0.0f, 1.0f);
                 
-                //TODO check this please
                 MediaPlayer.Volume = Singleton.Instance.Volume; 
                 SoundEffect.MasterVolume = Singleton.Instance.Volume;
                 break;
@@ -156,7 +156,7 @@ public class MainScene
                     MediaPlayer.Stop();
                 }
                 if(Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape)){
-                    ResetGame();
+                    Reset();
                 }
                 break;
         }
@@ -189,8 +189,8 @@ public class MainScene
         _spriteBatch.Draw(_chipTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400), 
             new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
 
-        // //Game Over Line
-        // _spriteBatch.Draw(_rectTexture, new Vector2(0, (Singleton.CHIP_GRID_HEIGHT - 1) * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
+        //Game Over Line
+        //_spriteBatch.Draw(_rectTexture, new Vector2(0, Singleton.CHIP_GRID_HEIGHT * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
         Vector2 fontSize = _font.MeasureString("Score : " + Singleton.Instance.Score.ToString());
         _spriteBatch.DrawString(_font,
@@ -215,7 +215,7 @@ public class MainScene
         
     }
 
-    protected void ResetGame()
+    protected void Reset()
     {
         // _gameObjects = new List<GameObject>();
         _gameObjects.Clear();
@@ -229,6 +229,8 @@ public class MainScene
         Singleton.Instance.Stage = 1;
 
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+
+        // Texture2D cannonTexture = content.Load<Texture2D>("Cannon");
 
         _gameObjects.Add(new Player(_handTexture)
         {
@@ -270,99 +272,70 @@ public class MainScene
             s.Reset();
         }
     }
-
-    protected void ResetLevel()
-    {
-
-        Singleton.Instance.Random = new System.Random();
-
-        Singleton.Instance.CeilingPosition = 0;
-        Singleton.Instance.ChipShotAmount = 0;
-
-        DestroyAllChips();
-
-        _gameObjects.Clear();
-
-        _gameObjects.Add(new Player(_handTexture)
-        {
-            Name = "Player",
-            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
-            Left = Keys.Left,
-            Right = Keys.Right,
-            Fire = Keys.Space,
-            Chip = new Chip(_chipTexture)
-            {
-                Name = "Chip",
-                _isShot = false,
-                Viewport = new Rectangle(0, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT), 
-                ChipHitSound = _chipHitSound,
-                Speed = 0,
-                Score = 10
-            }
-        });
-
-        SetUpShop();
-
-        foreach (GameObject s in _gameObjects)
-        {
-            s.Reset();
-        }
-    }
-
-    protected void DestroyAllChips()
-    {
-        for (int j = 0; j < Singleton.CHIP_GRID_HEIGHT; j++)
-        {
-            for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
-            {
-                Singleton.Instance.GameBoard.DestroySingleChip(j, i, _gameObjects);
-            }
-        }
-    }
-
     protected void SetUpShop(){
         
         _shop = new Shop(_ShopTexture){
             Name = "Shop",
             Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30)
         };
-        // _shop.AddItems
+        // _shop.AddItems   
+        ShopChip redChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Red,
+            Viewport = Singleton.GetChipViewPort(ChipType.Red),
+            Price = 0,
+            BuyKey = Keys.A
+        };
+        ShopChip blueChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Blue,
+            Viewport = Singleton.GetChipViewPort(ChipType.Blue),
+            Price = 0,
+            BuyKey = Keys.S
+        };
+        ShopChip greenChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Green,
+            Viewport = Singleton.GetChipViewPort(ChipType.Green),
+            Price = 0,
+            BuyKey = Keys.D
+        };
+        ShopChip yellowChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Yellow,
+            Viewport = Singleton.GetChipViewPort(ChipType.Yellow),
+            Price = 0,
+            BuyKey = Keys.F
+        };
+        ShopChip purpleChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Purple,
+            Viewport = Singleton.GetChipViewPort(ChipType.Purple),
+            Price = 0,
+            BuyKey = Keys.G
+        };
+        ShopChip whiteChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.White,
+            Viewport = Singleton.GetChipViewPort(ChipType.White),
+            Price = 0,
+            BuyKey = Keys.H
+        };
+        ShopChip blackChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Black,
+            Viewport = Singleton.GetChipViewPort(ChipType.Black),
+            Price = 0,
+            BuyKey = Keys.J
+        };
+        ShopChip ExplosiveChip = new ShopChip(_chipTexture){
+            ChipType = ChipType.Explosive,
+            Viewport = Singleton.GetChipViewPort(ChipType.Explosive),
+            Price = 0,
+            BuyKey = Keys.Q
+        };
 
-        foreach (ChipType chipType in Enum.GetValues(typeof(ChipType)))
-        {
-            if(chipType == ChipType.None)
-                continue;
-
-            // Map keys for each ChipType
-            Keys buyKey = chipType switch
-            {
-                ChipType.Red => Keys.A,
-                ChipType.Blue => Keys.S,
-                ChipType.Green => Keys.D,
-                ChipType.Yellow => Keys.F,
-                ChipType.Purple => Keys.G,
-                ChipType.White => Keys.H,
-                ChipType.Black => Keys.J,
-                ChipType.Orange => Keys.K,
-                ChipType.Explosive => Keys.Q,
-                _ => Keys.None // Default case for safety
-            };
-
-            // Create and configure ShopChip
-            ShopChip shopChip = new ShopChip(_chipTexture)
-            {
-                ChipType = chipType,
-                Viewport = Singleton.GetChipViewPort(chipType),
-                Price = 0,
-                BuyKey = buyKey
-            };
-
-            // Add to shop
-            _shop.AddShopItem(shopChip);
-        }
-
-        // Add the shop to the game objects
+        _shop.AddShopItem(redChip);
+        _shop.AddShopItem(blueChip);
+        _shop.AddShopItem(greenChip);
+        _shop.AddShopItem(yellowChip);
+        _shop.AddShopItem(purpleChip);
+        _shop.AddShopItem(whiteChip);
+        _shop.AddShopItem(blackChip);
+        _shop.AddShopItem(ExplosiveChip);
         _gameObjects.Add(_shop);
     }
     protected void SetUpInitalChipsPattern()
@@ -456,7 +429,7 @@ public class MainScene
 
         for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
         {
-            for (int j = Singleton.CHIP_GRID_HEIGHT - ceilingPushedAmount - 1; j < Singleton.CHIP_GRID_HEIGHT; j++)
+            for (int j = Singleton.CHIP_GRID_HEIGHT - ceilingPushedAmount; j < Singleton.CHIP_GRID_HEIGHT; j++)
             {
                 if(Singleton.Instance.GameBoard.HaveChip(j, i))
                 {
