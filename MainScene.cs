@@ -226,7 +226,7 @@ public class MainScene
         Singleton.Instance.CeilingPosition = 0;
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
-        Singleton.Instance.Stage = 3;
+        Singleton.Instance.Stage = 1;
 
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
 
