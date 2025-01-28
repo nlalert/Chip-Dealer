@@ -87,15 +87,19 @@ class Chip : GameObject
                 if (s is Chip && IsTouching(s) && IsTouchingAsCircle(s))
                 {
                     SnapToGrid();
-                    Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
+                    
+                    switch (ChipType)
+                    {
+                        case ChipType.Explosive:
+                            Singleton.Instance.GameBoard.DestroyAdjacentChips(BoardCoord, gameObjects);
+                            break;
+                        default:
+                            Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
+                            break;
+                    }
                     Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
                 }
             }
-        }
-        else if(ChipType == ChipType.Explosive)
-        {
-            Singleton.Instance.GameBoard.DestroyAdjacentChips(BoardCoord, gameObjects);
-            Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
         }
 
         Velocity = Vector2.Zero;
