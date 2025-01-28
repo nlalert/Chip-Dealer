@@ -67,7 +67,7 @@ public class MainMenu
             _startButtonRectangle.Contains(currentMouseState.Position))
         {
             // Transition to the game scene
-            Singleton.Instance.CurrentGameState = GameState.SetLevel;
+            Singleton.Instance.CurrentGameState = GameState.StartingGame;
         }
 
         // Update chip positions

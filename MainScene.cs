@@ -67,11 +67,17 @@ public class MainScene
 
     public void Update(GameTime gameTime)
     {
-        Singleton.Instance.CurrentKey = Keyboard.GetState();
-        Singleton.Instance.CurrentMouseState = Mouse.GetState();
         _numObject = _gameObjects.Count;
         switch (Singleton.Instance.CurrentGameState)
         {
+            case Singleton.GameState.StartingGame:
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
+                ResetGame();
+                Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+                break;
             case Singleton.GameState.SetLevel:
                 ResetLevel();
                 SetUpInitalChipsPattern();
@@ -99,7 +105,7 @@ public class MainScene
                         _numObject--;
                     }
                 }
-                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.P) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.P))
+                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.Escape))
                 {
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
                 }
@@ -159,11 +165,13 @@ public class MainScene
                     ResetGame();
                 }
                 break;
+            case Singleton.GameState.MainMenu:
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
+                break;
         }
-
-        Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
-        Singleton.Instance.PreviousMouseState = Singleton.Instance.CurrentMouseState;
-
     }
 
     public void Draw(GameTime gameTime)
@@ -200,22 +208,25 @@ public class MainScene
 
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
+            _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
             _spriteBatch.Draw(_GameOverTexture, new Vector2((Singleton.SCREEN_WIDTH - _GameOverTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _GameOverTexture.Height) / 2), Color.White);
             return;
         }
-        if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
-        {
-            _spriteBatch.Draw(_PauseTexture, new Vector2((Singleton.SCREEN_WIDTH - _PauseTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _PauseTexture.Height) / 2), Color.White);
-            // Display the volume percentage
-            string volumeText = $"Volume: {Math.Round((decimal)(Singleton.Instance.Volume * 100))}%";
-            Vector2 textSize = _font.MeasureString(volumeText);
-            _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
-            return;
-        }
+        // if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
+        // {
+        //     _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
+        //     _spriteBatch.Draw(_PauseTexture, new Vector2((Singleton.SCREEN_WIDTH - _PauseTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _PauseTexture.Height) / 2), Color.White);
+        //     // Display the volume percentage
+        //     string volumeText = $"Volume: {Math.Round((decimal)(Singleton.Instance.Volume * 100))}%";
+        //     Vector2 textSize = _font.MeasureString(volumeText);
+        //     _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
+        //     return;
+        // }
         
     }
 
     protected void ResetGame()
+
     {
         // _gameObjects = new List<GameObject>();
         _gameObjects.Clear();
