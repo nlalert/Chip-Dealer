@@ -69,32 +69,16 @@ class Singleton
         }
     }
 
-    public static Rectangle GetChipViewPort(ChipType chipType){
-
-        int chipIndex = 0;
-
+    public static Rectangle GetChipViewPort(ChipType chipType)
+    {
         switch (chipType)
         {
-            case ChipType.Red: 
-                chipIndex = 0;
-                break;
-            case ChipType.Blue: 
-                chipIndex = 1;
-                break;
-            case ChipType.Green: 
-                chipIndex = 2;
-                break;
-            case ChipType.Yellow: 
-                chipIndex = 3;
-                break;
             case ChipType.Explosive:
-                chipIndex = 4;
-                break;
+                return new Rectangle(0, 48, CHIP_SIZE, CHIP_SIZE + CHIP_SHADOW_HEIGHT);
             default:
-                break;
+                return new Rectangle(((int)chipType - 1) * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE + CHIP_SHADOW_HEIGHT);
         }
 
-        return new Rectangle((chipIndex%4) * CHIP_SIZE, (chipIndex/4)*48, CHIP_SIZE, CHIP_SIZE + CHIP_SHADOW_HEIGHT);
     }
 }
 

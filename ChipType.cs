@@ -8,5 +8,6 @@ public enum ChipType
     Purple,
     White,
     Black,
+    Orange,
     Explosive,
 }
