@@ -32,7 +32,7 @@ public class Stage
             {
                 "G------G",
                 "RGBYRGB-",
-                "Y-------Y",
+                "Y------Y",
                 "BYRGBYR-",
                 "---R----",
                 "---G----",
@@ -130,6 +130,8 @@ public class Stage
             Console.WriteLine("No more stage : Replaying");
             Singleton.Instance.Stage = 1;
         }
+
+        Console.WriteLine(Singleton.Instance.Stage);
 
         string[] layout = StageLayouts[Singleton.Instance.Stage];
         int rows = layout.Length;
