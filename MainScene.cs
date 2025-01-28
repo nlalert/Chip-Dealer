@@ -130,12 +130,12 @@ public class MainScene
                     Singleton.Instance.Volume -= 0.01f; 
                 }
                 if(_volumeUpButton.IsClicked(Singleton.Instance.CurrentMouseState)
-                && Singleton.Instance.CurrentMouseState != Singleton.Instance.PreviousMouseState
+                && Singleton.Instance.CurrentMouseState.LeftButton != Singleton.Instance.PreviousMouseState.LeftButton
                 && Singleton.Instance.Volume < 1.0f){
                     Singleton.Instance.Volume += 0.1f; 
                     Console.WriteLine("increase volume" + Singleton.Instance.Volume);
                 }else if(_volumeDownButton.IsClicked(Singleton.Instance.CurrentMouseState)
-                && Singleton.Instance.CurrentMouseState != Singleton.Instance.PreviousMouseState
+                && Singleton.Instance.CurrentMouseState.LeftButton != Singleton.Instance.PreviousMouseState.LeftButton
                 && Singleton.Instance.Volume > 0.0f){
                     Singleton.Instance.Volume -= 0.1f;
                     Console.WriteLine("reduce volume" + Singleton.Instance.Volume);
@@ -208,7 +208,7 @@ public class MainScene
         {
             _spriteBatch.Draw(_PauseTexture, new Vector2((Singleton.SCREEN_WIDTH - _PauseTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _PauseTexture.Height) / 2), Color.White);
             // Display the volume percentage
-            string volumeText = $"Volume: {(int)(Singleton.Instance.Volume * 100)}%";
+            string volumeText = $"Volume: {Math.Round((decimal)(Singleton.Instance.Volume * 100))}%";
             Vector2 textSize = _font.MeasureString(volumeText);
             _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
             return;
