@@ -26,7 +26,6 @@ class Singleton
     public int CeilingPosition;
     public int ChipShotAmount;
     public int Stage;
-
     public int Score;
 
     public GameBoard GameBoard;
@@ -50,7 +49,8 @@ class Singleton
     public GameState CurrentGameState;
 
     public KeyboardState PreviousKey, CurrentKey;
-
+    
+    public MouseState PreviousMouseState,CurrentMouseState;
     private static Singleton instance;
     public float Volume = 1.0f;
     private Singleton() { 
