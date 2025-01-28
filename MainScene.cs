@@ -253,13 +253,13 @@ public class MainScene
         _volumeDownButton = new Button(_ButtonTexture){
             Name = "DownButton",
             Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 + 100, Singleton.CHIP_SHOOTING_HEIGHT-150),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 + 100, Singleton.CHIP_SHOOTING_HEIGHT-50),
             IsActive = true,
         };
         _volumeUpButton = new Button(_ButtonTexture){
             Name = "UpButton",
             Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 +100, Singleton.CHIP_SHOOTING_HEIGHT-50),
+            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 +100, Singleton.CHIP_SHOOTING_HEIGHT-150),
             IsActive = true,
         };
         _gameObjects.Add(_volumeDownButton);
