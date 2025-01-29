@@ -72,6 +72,7 @@ class Player : GameObject
             Singleton.Instance.CurrentChip = Singleton.Instance.NextChip;
             Singleton.Instance.ChipShotAmount++;
         }
+        Chip.Update(gameTime,gameObjects);
         base.Update(gameTime, gameObjects);
     }
     
