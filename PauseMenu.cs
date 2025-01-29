@@ -23,6 +23,14 @@ public class PauseMenu
     private Rectangle _mainmenu_viewport;
     private Rectangle _mainmenu_hovered_viewport;
 
+    private Rectangle _music_label_viewport;
+    private Rectangle _sfx_label_viewport;
+
+    private Rectangle _back_label_viewport;
+    private Rectangle _back_label_hovered_viewport;
+    private Rectangle _back_button_viewport;
+    private Rectangle _back_button_hovered_viewport;
+
     private Rectangle _settings_box_0_viewport;
     private Rectangle _settings_box_1_viewport;
     private Rectangle _slide_bar_viewport;
@@ -39,6 +47,8 @@ public class PauseMenu
     private Rectangle _settingsBoundingBox;
     private Rectangle _restartBoundingBox;
     private Rectangle _mainmenuBoundingBox;
+
+    private Rectangle _backButtonBoundingBox;
     private Rectangle _slideChip0BoundingBox;
     private Rectangle _slideChip1BoundingBox;
 
@@ -47,14 +57,18 @@ public class PauseMenu
     private int _settingsButtonHeight;
     private int _restartButtonHeight;
     private int _mainmenuButtonHeight;
+
+    private int _musicLabelHeight;
+    private int _sfxLabelHeight;
+    private int _backButtonHeight;
+
     private float _slideChip0Position;
     private float _slideChip1Position;
 
-
-    private int _slideBarMinValue;
     private int _slideBarMaxValue;
     private int buttonGap;
     private int labelGap;
+    private int backlabelGap;
 
     private bool _settings;
     private bool _slideChip0Dragging;
@@ -87,6 +101,15 @@ public class PauseMenu
         _settings_box_0_viewport = new Rectangle(0, 1552, 448, 352);
         _settings_box_1_viewport = new Rectangle(448, 1552, 448, 352);
 
+        _music_label_viewport = new Rectangle(448, 1984, 176, 32);
+        _sfx_label_viewport = new Rectangle(624, 1984, 112, 32);
+
+        _back_label_viewport = new Rectangle(608, 1264, 160 ,32);
+        _back_label_hovered_viewport = new Rectangle(608, 1312, 160 ,32);
+
+        _back_button_viewport = new Rectangle(608, 1136, 160 ,48);
+        _back_button_hovered_viewport = new Rectangle(608, 1200, 160 ,48);
+
         _slide_bar_viewport = new Rectangle(0, 1920, 448, 80);
 
         _slide_chip_0_viewport = new Rectangle(448, 1920, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT);
@@ -94,13 +117,7 @@ public class PauseMenu
         _slide_chip_2_viewport = new Rectangle(512, 1920, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT);
         _slide_chip_3_viewport = new Rectangle(544, 1920, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT);
 
-        _slideBarMinValue = 0;
         _slideBarMaxValue = 320;
-
-        _slideChip0Position = Singleton.Instance.Volume * _slideBarMaxValue;
-
-        _slideChip0BoundingBox = new Rectangle((Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) + _slideBarMaxValue - (_slideBarMaxValue/2), 
-            (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (_settings_box_0_viewport.Height/5), _slide_chip_0_viewport.Width, _slide_chip_0_viewport.Height);
 
         // Y positon of the pause sign
         _pauseSignHeight = 70;
@@ -110,8 +127,10 @@ public class PauseMenu
 
         // a gap between each button
         buttonGap = 5;
-        // a gap between label and button border
+
+        // a gap between labels and button border
         labelGap = 16;
+        backlabelGap = 8;
 
         // Calculating Y position of other buttons
         for (int i = 0; i < 4; i++){
@@ -131,12 +150,23 @@ public class PauseMenu
             }
         }
 
-        // Create bounding box for eachh button
+        _musicLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (_settings_box_0_viewport.Height/4) - (_slide_bar_viewport.Height/2) - buttonGap;
+        _sfxLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (_settings_box_0_viewport.Height/12) - (_slide_bar_viewport.Height/2) - buttonGap;
+        _backButtonHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (_settings_box_0_viewport.Height*2/5);
+
+        // Create bounding box for each button
         _resumeBoundingBox = new Rectangle((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _resumeButtonHeight - (_button_viewport.Height / 2), _button_viewport.Width, _button_viewport.Height);
         _settingsBoundingBox = new Rectangle((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _settingsButtonHeight - (_button_viewport.Height / 2), _button_viewport.Width, _button_viewport.Height);
         _restartBoundingBox = new Rectangle((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _restartButtonHeight - (_button_viewport.Height / 2), _button_viewport.Width, _button_viewport.Height);
         _mainmenuBoundingBox = new Rectangle((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _mainmenuButtonHeight - (_button_viewport.Height / 2), _button_viewport.Width, _button_viewport.Height);
+
+        _backButtonBoundingBox = new Rectangle((Singleton.SCREEN_WIDTH / 2) - (_back_button_viewport.Width/ 2), _backButtonHeight - (_back_button_viewport.Height / 2), _back_button_viewport.Width, _back_button_viewport.Height);
         
+        _slideChip0BoundingBox = new Rectangle((Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) + (int)(Singleton.Instance.Volume*_slideBarMaxValue) - (_slideBarMaxValue/2), 
+            (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (_settings_box_0_viewport.Height/4) + buttonGap, _slide_chip_0_viewport.Width, _slide_chip_0_viewport.Height);
+
+        _slideChip1BoundingBox = new Rectangle((Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) + (int)(Singleton.Instance.Volume*_slideBarMaxValue) - (_slideBarMaxValue/2), 
+            (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (_settings_box_1_viewport.Height/12) + buttonGap, _slide_chip_1_viewport.Width, _slide_chip_1_viewport.Height);
     }
 
     public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
@@ -186,11 +216,12 @@ public class PauseMenu
                 Singleton.Instance.CurrentGameState = Singleton.GameState.MainMenu;
             }
         }
+
         else
         {
 
-
-            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.CurrentKey != Singleton.Instance.PreviousKey)
+            if (_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton == ButtonState.Released && IsMouseHovering(_backButtonBoundingBox)
+            || Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.CurrentKey != Singleton.Instance.PreviousKey)
             {
                 _settings = false;
             }
@@ -200,18 +231,25 @@ public class PauseMenu
                 _slideChip0Dragging = true;
 
                 int newX = Math.Clamp(_currentmousestate.X - (_slideChip0BoundingBox.Width / 2), (Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) - _slideBarMaxValue/2, (Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) + _slideBarMaxValue/2);
-
                 _slideChip0BoundingBox.X = newX;
 
                 float _slideBarMinPossition = (Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) - (_slideBarMaxValue/2);
-
                 _slideChip0Position = _slideChip0BoundingBox.X - _slideBarMinPossition;
-
                 Singleton.Instance.Volume = _slideChip0Position / _slideBarMaxValue;
 
-                Console.WriteLine(Singleton.Instance.Volume);
+                if(_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton == ButtonState.Released)  
+                    _slideChip0Dragging = false;
+            }
 
-                if(_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton == ButtonState.Released) _slideChip0Dragging = false;
+            if ((_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton != ButtonState.Released && IsMouseHovering(_slideChip1BoundingBox)) || _slideChip1Dragging){
+
+                _slideChip1Dragging = true;
+
+                int newX = Math.Clamp(_currentmousestate.X - (_slideChip1BoundingBox.Width / 2), (Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) - _slideBarMaxValue/2, (Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) + _slideBarMaxValue/2);
+                _slideChip1BoundingBox.X = newX;
+
+                if(_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton == ButtonState.Released)  
+                    _slideChip1Dragging = false;
             }
         }
     }
@@ -275,10 +313,22 @@ public class PauseMenu
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_settings_box_0_viewport.Width/ 2), (Singleton.SCREEN_HEIGHT / 2) - (_settings_box_0_viewport.Height/ 2)), _settings_box_0_viewport, Color.White);
             
             // Music
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_slide_bar_viewport.Width/ 2), (Singleton.SCREEN_HEIGHT / 2) - (_slide_bar_viewport.Height / 2) - (_settings_box_0_viewport.Height/5)), _slide_bar_viewport, Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_music_label_viewport.Width/ 2), _musicLabelHeight), _music_label_viewport, Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_slide_bar_viewport.Width/ 2), (Singleton.SCREEN_HEIGHT / 2) - (_slide_bar_viewport.Height / 2) - (_settings_box_0_viewport.Height/4) + buttonGap), _slide_bar_viewport, Color.White);
             
             // SFX
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_slide_bar_viewport.Width/ 2), (Singleton.SCREEN_HEIGHT / 2) - (_slide_bar_viewport.Height / 2) + (_settings_box_0_viewport.Height/5)), _slide_bar_viewport, Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_sfx_label_viewport.Width/ 2), _sfxLabelHeight), _sfx_label_viewport, Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_slide_bar_viewport.Width/ 2), (Singleton.SCREEN_HEIGHT / 2) - (_slide_bar_viewport.Height / 2) + (_settings_box_0_viewport.Height/12) + buttonGap), _slide_bar_viewport, Color.White);
+            
+            // Back button
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_back_button_viewport.Width/ 2), _backButtonHeight - (_back_button_viewport.Height / 2)), _back_button_viewport, Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_back_label_viewport.Width/ 2), _backButtonHeight - (_back_button_viewport.Height / 2) + backlabelGap), _back_label_viewport, Color.White);
+
+            if (IsMouseHovering(_backButtonBoundingBox))
+            {
+                _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_back_button_viewport.Width/ 2), _backButtonHeight - (_back_button_viewport.Height / 2)), _back_button_hovered_viewport, Color.White);
+                _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_back_label_viewport.Width/ 2), _backButtonHeight - (_back_button_viewport.Height / 2) + backlabelGap), _back_label_hovered_viewport, Color.White);
+            }
             
             Rectangle slide_chip_viewport;
 
@@ -296,11 +346,8 @@ public class PauseMenu
                 slide_chip_viewport = _slide_chip_3_viewport;                
             }
 
-
-            _spriteBatch.Draw(_texture, new Vector2(_slideChip0BoundingBox.X, (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (_settings_box_0_viewport.Height/5)), slide_chip_viewport, Color.White);
-
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) + (Singleton.Instance.Volume * _slideBarMaxValue) - (_slideBarMaxValue/2), 
-            (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (_settings_box_0_viewport.Height/5)), slide_chip_viewport, Color.White);
+            _spriteBatch.Draw(_texture, new Vector2(_slideChip0BoundingBox.X, (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (_settings_box_0_viewport.Height/4) + buttonGap), slide_chip_viewport, Color.White);
+            _spriteBatch.Draw(_texture, new Vector2(_slideChip1BoundingBox.X, (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (_settings_box_1_viewport.Height/12) + buttonGap), slide_chip_viewport, Color.White);
         }
     }
 

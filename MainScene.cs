@@ -119,26 +119,6 @@ public class MainScene
                 break;
             case Singleton.GameState.Pause:    
                 // Adjust volume with Up/Down arrow keys
-                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Up) && Singleton.Instance.Volume < 1.0f)
-                {
-                    Singleton.Instance.Volume += 0.01f; 
-                }
-                else if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Down) && Singleton.Instance.Volume > 0.0f)
-                {
-                    Singleton.Instance.Volume -= 0.01f; 
-                }
-                if(_volumeUpButton.IsClicked(Singleton.Instance.CurrentMouseState)
-                && Singleton.Instance.CurrentMouseState.LeftButton != Singleton.Instance.PreviousMouseState.LeftButton
-                && Singleton.Instance.Volume < 1.0f){
-                    Singleton.Instance.Volume += 0.1f; 
-                    Console.WriteLine("increase volume" + Singleton.Instance.Volume);
-                }else if(_volumeDownButton.IsClicked(Singleton.Instance.CurrentMouseState)
-                && Singleton.Instance.CurrentMouseState.LeftButton != Singleton.Instance.PreviousMouseState.LeftButton
-                && Singleton.Instance.Volume > 0.0f){
-                    Singleton.Instance.Volume -= 0.1f;
-                    Console.WriteLine("reduce volume" + Singleton.Instance.Volume);
-                }
-
                 Singleton.Instance.Volume = MathHelper.Clamp(Singleton.Instance.Volume, 0.0f, 1.0f);
                 
                 //TODO check this please
