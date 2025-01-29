@@ -117,14 +117,7 @@ public class MainScene
                 CheckGameOver();
                 CheckLevelClear();
                 break;
-            case Singleton.GameState.Pause: 
-                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) 
-                ||  (Singleton.Instance.CurrentKey.IsKeyDown(Keys.P) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.P))
-                )
-                {
-                    Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
-                }
-            
+            case Singleton.GameState.Pause:    
                 // Adjust volume with Up/Down arrow keys
                 if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Up) && Singleton.Instance.Volume < 1.0f)
                 {
@@ -152,6 +145,7 @@ public class MainScene
                 MediaPlayer.Volume = Singleton.Instance.Volume; 
                 SoundEffect.MasterVolume = Singleton.Instance.Volume;
                 break;
+                
             case Singleton.GameState.PassingLevel:
                 Singleton.Instance.Stage++;
                 Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;

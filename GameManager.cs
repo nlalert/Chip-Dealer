@@ -59,10 +59,11 @@ public class GameManager : Game
         switch (Singleton.Instance.CurrentGameState)
         {
             case Singleton.GameState.MainMenu:
-                _mainMenu.Update(gameTime);
                 _mainScene.Update(gameTime);
+                _mainMenu.Update(gameTime);
                 break;
             case Singleton.GameState.Pause:
+                _mainScene.Update(gameTime);
                 _pauseMenu.Update(gameTime);
                 break;
             default:
