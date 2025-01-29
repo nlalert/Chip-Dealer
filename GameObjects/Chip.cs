@@ -19,6 +19,9 @@ class Chip : GameObject
     public ChipType ChipType;
 
     public SoundEffect ChipHitSound;
+    private float _explosiveTimer = 0f;
+    private bool _explosiveFrameToggle = false;
+
 
     public Chip(Texture2D texture) : base(texture)
     {
@@ -28,13 +31,19 @@ class Chip : GameObject
     public override void Draw(SpriteBatch spriteBatch)
     {
         if (!_isShot){
-
             Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE/2);
             //draw current chip on hand
             Viewport = Singleton.GetChipViewPort(Singleton.Instance.CurrentChip);
-
+            // if (ChipType == ChipType.Explosive) Hand Chip never be any chip but it use singleton to know what chip it is
+            if(Singleton.Instance.CurrentChip == ChipType.Explosive)
+            {
+                if (_explosiveFrameToggle)
+                    Viewport = Singleton.GetChipViewPort(ChipType.Explosive);
+                else
+                    Viewport.X = Singleton.GetChipViewPort(ChipType.Explosive).X + Singleton.CHIP_SIZE;
+            }
         }
-
+        
         spriteBatch.Draw(_texture, Position, Viewport, Color.White);
         base.Draw(spriteBatch);
     }
@@ -109,6 +118,16 @@ class Chip : GameObject
                     Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
                 }
             }
+        }
+
+        if(!_isShot){
+            _explosiveTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (_explosiveTimer >= 1f)
+            {
+                _explosiveTimer = 0f;
+                _explosiveFrameToggle = !_explosiveFrameToggle;
+            }
+            Console.WriteLine(_explosiveTimer);
         }
 
         Velocity = Vector2.Zero;

@@ -26,13 +26,15 @@ public class MainScene
     Texture2D _GameOverTexture;
     Texture2D _PauseTexture;
     Texture2D _ButtonTexture;
+    Texture2D _LevelPassTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
     Song _gameMusic;
     Shop _shop;
     private Button _volumeUpButton;
     private Button _volumeDownButton;
-
+    private double _levelPassTimer = 0;
+    private bool _showLevelPass = false;
     public void Initialize()
     {
         _gameObjects = new List<GameObject>();
@@ -52,6 +54,8 @@ public class MainScene
         _GameOverTexture = content.Load<Texture2D>("GameOver1");
         _PauseTexture = content.Load<Texture2D>("Pause1");
         _ButtonTexture = content.Load<Texture2D>("Hand");
+        _LevelPassTexture = content.Load<Texture2D>("Pause1");
+
 
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
@@ -147,8 +151,16 @@ public class MainScene
                 SoundEffect.MasterVolume = Singleton.Instance.Volume;
                 break;
             case Singleton.GameState.PassingLevel:
-                Singleton.Instance.Stage++;
-                Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+                _levelPassTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (_levelPassTimer <= 0)
+                {
+                    _showLevelPass = false;
+                    Singleton.Instance.Stage++;
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+                    _levelPassTimer = 3.0f;
+                }else{
+                    _showLevelPass = true;
+                }
                 break;
             case Singleton.GameState.GameOver:
                 if (MediaPlayer.State == MediaState.Playing)
@@ -212,7 +224,14 @@ public class MainScene
             _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
             return;
         }
-        
+        if (Singleton.Instance.CurrentGameState == Singleton.GameState.PassingLevel && _showLevelPass)
+        {
+            Vector2 position = new Vector2(
+                (Singleton.SCREEN_WIDTH - _LevelPassTexture.Width) / 2,
+                (Singleton.SCREEN_HEIGHT - _LevelPassTexture.Height) / 2
+            );
+            _spriteBatch.Draw(_LevelPassTexture, position, Color.White);
+        }
     }
 
     protected void ResetGame()
@@ -227,8 +246,8 @@ public class MainScene
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
         Singleton.Instance.Stage = 1;
-
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+        _levelPassTimer =3.0f;
 
         _gameObjects.Add(new Player(_handTexture)
         {
@@ -325,7 +344,8 @@ public class MainScene
         
         _shop = new Shop(_ShopTexture){
             Name = "Shop",
-            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30)
+            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30),
+            font = _font
         };
         // _shop.AddItems
 
