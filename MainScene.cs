@@ -344,7 +344,8 @@ public class MainScene
         
         _shop = new Shop(_ShopTexture){
             Name = "Shop",
-            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30)
+            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30),
+            font = _font
         };
         // _shop.AddItems
 

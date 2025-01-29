@@ -13,6 +13,7 @@ class Shop : GameObject
     private int _columns = 2; // Number of columns
     private int _itemSpacing = 10; // Spacing between items
     private int _itemSize = 50; // Assume each item's size (width/height)
+    public SpriteFont font;
 
     public Shop(Texture2D texture) : base(texture)
     {
@@ -24,20 +25,26 @@ class Shop : GameObject
         spriteBatch.Draw(_texture, Position, Color.White);
         for (int i = 0; i < _shopItems.Count; i++)
         {
-            int row = i / _columns; // Determine the row
-            int col = i % _columns; // Determine the column
+            int row = i / _columns; 
+            int col = i % _columns; 
 
-            // Calculate item's position
             Vector2 itemPosition = new Vector2(
                 Position.X + col * (_itemSize + _itemSpacing),
                 Position.Y + _texture.Height + row * (_itemSize + _itemSpacing)
             );
 
-            // Set the position for the item
             _shopItems[i].Position = itemPosition;
 
             // Draw the item
             _shopItems[i].Draw(spriteBatch);
+            //draw keys font
+            Vector2 KeyOffSetPos = _shopItems[i].Position + new Vector2(Singleton.CHIP_SIZE,0);
+            Vector2 PriceOffSetPos = _shopItems[i].Position + new Vector2(Singleton.CHIP_SIZE,Singleton.CHIP_SIZE/2);
+
+            spriteBatch.DrawString(font,_shopItems[i].BuyKey.ToString(),KeyOffSetPos,Color.White);
+            //draw prices font
+            spriteBatch.DrawString(font,_shopItems[i].Price.ToString(),PriceOffSetPos,Color.White);
+            
         }
 
         base.Draw(spriteBatch);
