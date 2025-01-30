@@ -127,7 +127,7 @@ class Chip : GameObject
                 _explosiveTimer = 0f;
                 _explosiveFrameToggle = !_explosiveFrameToggle;
             }
-            Console.WriteLine(_explosiveTimer);
+            // Console.WriteLine(_explosiveTimer);
         }
 
         Velocity = Vector2.Zero;

@@ -374,10 +374,12 @@ public class MainScene
             {
                 ChipType = chipType,
                 Viewport = Singleton.GetChipViewPort(chipType),
-                Price = 0,
+                Price = 100,
                 BuyKey = buyKey
             };
-
+            if(chipType == ChipType.Explosive){
+                shopChip.Price = 300;
+            }
             // Add to shop
             _shop.AddShopItem(shopChip);
         }
