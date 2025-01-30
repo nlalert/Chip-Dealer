@@ -31,8 +31,6 @@ public class MainScene
     SoundEffect _chipHitSound;
     Song _gameMusic;
     Shop _shop;
-    private Button _volumeUpButton;
-    private Button _volumeDownButton;
     private double _levelPassTimer = 0;
     private bool _showLevelPass = false;
     public void Initialize()
@@ -261,20 +259,6 @@ public class MainScene
                 Score = 10
             }
         });
-        _volumeDownButton = new Button(_ButtonTexture){
-            Name = "DownButton",
-            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 + 100, Singleton.CHIP_SHOOTING_HEIGHT-50),
-            IsActive = true,
-        };
-        _volumeUpButton = new Button(_ButtonTexture){
-            Name = "UpButton",
-            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 +100, Singleton.CHIP_SHOOTING_HEIGHT-150),
-            IsActive = true,
-        };
-        _gameObjects.Add(_volumeDownButton);
-        _gameObjects.Add(_volumeUpButton);
         //add shop content
         SetUpShop();
 
