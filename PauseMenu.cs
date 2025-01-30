@@ -192,7 +192,7 @@ public class PauseMenu
 
         if (!_settings)
         {
-            // Unpause when clicked & released "left mouse button" on resume button or pressed & released "Escape key"
+            // Unpause when left clicked & released on resume button or pressed & released "Escape key"
             if ((_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton == ButtonState.Released && IsMouseHovering(_resumeBoundingBox)) 
             || (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.CurrentKey != Singleton.Instance.PreviousKey))
             {
@@ -205,6 +205,7 @@ public class PauseMenu
                 Singleton.Instance.CurrentGameState = Singleton.GameState.StartingGame;
             }
 
+            // Show settings when left clicked & released on settings button
             if (_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton == ButtonState.Released && IsMouseHovering(_settingsBoundingBox))
             {
                 _settings = true;
@@ -220,12 +221,14 @@ public class PauseMenu
         else
         {
 
+            // Exit to pause menu when left clicked & released on back cutton or pressed & released "Escape key"
             if (_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton == ButtonState.Released && IsMouseHovering(_backButtonBoundingBox)
             || Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.CurrentKey != Singleton.Instance.PreviousKey)
             {
                 _settings = false;
             }
 
+            // Adjust music volume by left click an drag the music slide chip
             if ((_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton != ButtonState.Released && IsMouseHovering(_slideChip0BoundingBox)) || _slideChip0Dragging){
 
                 _slideChip0Dragging = true;
@@ -241,6 +244,7 @@ public class PauseMenu
                     _slideChip0Dragging = false;
             }
 
+            // Adjust sfx volume by left click an drag the sfx slide chip
             if ((_previousmousestate.LeftButton == ButtonState.Pressed && _currentmousestate.LeftButton != ButtonState.Released && IsMouseHovering(_slideChip1BoundingBox)) || _slideChip1Dragging){
 
                 _slideChip1Dragging = true;
@@ -256,52 +260,52 @@ public class PauseMenu
 
     public void Draw(GameTime gameTime)
     {
-        // Draw tranparent background
+        // Tranparent background
         _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 150));
 
         if (!_settings)
         {         
-            // Draw pause sign
+            // Pause sign
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_pause_0_viewport.Width / 2), _pauseSignHeight - (_pause_0_viewport.Height / 2)), _pause_0_viewport, Color.White);
 
-            // Draw resume button
+            // Resume button
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _resumeButtonHeight - (_button_viewport.Height / 2)), _button_viewport, Color.White);
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _resumeButtonHeight + labelGap - (_button_viewport.Height / 2)), _resume_viewport, Color.White);
 
-            // Draw restart button
+            // Restart button
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _restartButtonHeight - (_button_viewport.Height / 2)), _button_viewport, Color.White);
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _restartButtonHeight + labelGap - (_button_viewport.Height / 2)), _restart_viewport, Color.White);
             
-            // Draw settings button
+            // Settings button
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _settingsButtonHeight - (_button_viewport.Height / 2)), _button_viewport, Color.White);
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _settingsButtonHeight + labelGap - (_button_viewport.Height / 2)), _settings_viewport, Color.White);
             
-            //Draw main-menu button
+            // Main-menu button
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _mainmenuButtonHeight - (_button_viewport.Height / 2)), _button_viewport, Color.White);
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _mainmenuButtonHeight + labelGap - (_button_viewport.Height / 2)), _mainmenu_viewport, Color.White);
 
-            //Draw highlighted resume button when hovered
+            // Highlighted resume button when hovered
             if (IsMouseHovering(_resumeBoundingBox))
             {
                 _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _resumeButtonHeight - (_button_viewport.Height / 2)), _button_hovered_viewport, Color.White);
                 _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _resumeButtonHeight + labelGap - (_button_viewport.Height / 2)), _resume_hovered_viewport, Color.White);
             }
 
-            //Draw highlighted restart button when hovered
+            // Highlighted restart button when hovered
             else if (IsMouseHovering(_restartBoundingBox))
             {
                 _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _restartButtonHeight - (_button_viewport.Height / 2)), _button_hovered_viewport, Color.White);
                 _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _restartButtonHeight + labelGap - (_button_viewport.Height / 2)), _restart_hovered_viewport, Color.White);
             }
 
-            //Draw highlighted settings button when hovered
+            // Highlighted settings button when hovered
             else if (IsMouseHovering(_settingsBoundingBox))
             {
                 _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _settingsButtonHeight - (_button_viewport.Height / 2)), _button_hovered_viewport, Color.White);
                 _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _settingsButtonHeight + labelGap - (_button_viewport.Height / 2)), _settings_hovered_viewport, Color.White);
             }
 
-            //Draw highlighted main-menu button when hovered
+            // Highlighted main-menu button when hovered
             else if (IsMouseHovering(_mainmenuBoundingBox))
             {   
                 _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_button_viewport.Width/ 2), _mainmenuButtonHeight - (_button_viewport.Height / 2)), _button_hovered_viewport, Color.White);
@@ -310,6 +314,7 @@ public class PauseMenu
         }
 
         else {
+            // Setting Border
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (_settings_box_0_viewport.Width/ 2), (Singleton.SCREEN_HEIGHT / 2) - (_settings_box_0_viewport.Height/ 2)), _settings_box_0_viewport, Color.White);
             
             // Music
@@ -332,6 +337,7 @@ public class PauseMenu
             
             Rectangle slide_chip_viewport;
 
+            // Slide chip baso on music volume
             if (Singleton.Instance.Volume <= 0){
                 slide_chip_viewport = _slide_chip_0_viewport;
             }
@@ -346,6 +352,7 @@ public class PauseMenu
                 slide_chip_viewport = _slide_chip_3_viewport;                
             }
 
+            // Slide Chip
             _spriteBatch.Draw(_texture, new Vector2(_slideChip0BoundingBox.X, (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (_settings_box_0_viewport.Height/4) + buttonGap), slide_chip_viewport, Color.White);
             _spriteBatch.Draw(_texture, new Vector2(_slideChip1BoundingBox.X, (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (_settings_box_1_viewport.Height/12) + buttonGap), slide_chip_viewport, Color.White);
         }
