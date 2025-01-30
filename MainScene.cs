@@ -17,7 +17,7 @@ public class MainScene
 
     List<GameObject> _gameObjects;
     int _numObject;
-    Texture2D _backgroundTexture;
+    Texture2D _SpriteTexture;
     Texture2D _chipTexture;
     Texture2D _chipStickTexture;
     Texture2D _handTexture;
@@ -44,7 +44,6 @@ public class MainScene
         _spriteBatch = spriteBatch;
         _font = content.Load<SpriteFont>("GameFont");
 
-        _backgroundTexture = content.Load<Texture2D>("Background");
         _chipTexture = content.Load<Texture2D>("Chips");
         _chipStickTexture = content.Load<Texture2D>("ChipStick");
         _handTexture = content.Load<Texture2D>("Hand");
@@ -53,6 +52,7 @@ public class MainScene
         _PauseTexture = content.Load<Texture2D>("Pause1");
         _ButtonTexture = content.Load<Texture2D>("Hand");
         _LevelPassTexture = content.Load<Texture2D>("Pause1");
+        _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
 
 
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
@@ -163,8 +163,9 @@ public class MainScene
     {
         _numObject = _gameObjects.Count;
 
-        _spriteBatch.Draw(_backgroundTexture, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-
+        _spriteBatch.Draw(_SpriteTexture,
+new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("PlayArea").Width)/2 ,0),
+            Singleton.GetRectangleFromSpriteSheet("PlayArea"), Color.White);
         _spriteBatch.Draw(_chipStickTexture, new Vector2(Singleton.PLAY_AREA_START_X, -_chipStickTexture.Height + Singleton.Instance.CeilingPosition),
         null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
 
