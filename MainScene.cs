@@ -26,13 +26,15 @@ public class MainScene
     Texture2D _GameOverTexture;
     Texture2D _PauseTexture;
     Texture2D _ButtonTexture;
+    Texture2D _LevelPassTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
     Song _gameMusic;
     Shop _shop;
     private Button _volumeUpButton;
     private Button _volumeDownButton;
-
+    private double _levelPassTimer = 0;
+    private bool _showLevelPass = false;
     public void Initialize()
     {
         _gameObjects = new List<GameObject>();
@@ -52,6 +54,8 @@ public class MainScene
         _GameOverTexture = content.Load<Texture2D>("GameOver1");
         _PauseTexture = content.Load<Texture2D>("Pause1");
         _ButtonTexture = content.Load<Texture2D>("Hand");
+        _LevelPassTexture = content.Load<Texture2D>("Pause1");
+
 
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
@@ -127,8 +131,16 @@ public class MainScene
                 break;
                 
             case Singleton.GameState.PassingLevel:
-                Singleton.Instance.Stage++;
-                Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+                _levelPassTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (_levelPassTimer <= 0)
+                {
+                    _showLevelPass = false;
+                    Singleton.Instance.Stage++;
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+                    _levelPassTimer = 3.0f;
+                }else{
+                    _showLevelPass = true;
+                }
                 break;
             case Singleton.GameState.GameOver:
                 if (MediaPlayer.State == MediaState.Playing)
@@ -136,6 +148,7 @@ public class MainScene
                     MediaPlayer.Stop();
                 }
                 if(Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape)){
+                    Singleton.SaveScore();
                     ResetGame();
                 }
                 break;
@@ -186,6 +199,23 @@ public class MainScene
             _spriteBatch.Draw(_GameOverTexture, new Vector2((Singleton.SCREEN_WIDTH - _GameOverTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _GameOverTexture.Height) / 2), Color.White);
             return;
         }
+        if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
+        {
+            _spriteBatch.Draw(_PauseTexture, new Vector2((Singleton.SCREEN_WIDTH - _PauseTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _PauseTexture.Height) / 2), Color.White);
+            // Display the volume percentage
+            string volumeText = $"Volume: {Math.Round((decimal)(Singleton.Instance.Volume * 100))}%";
+            Vector2 textSize = _font.MeasureString(volumeText);
+            _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
+            return;
+        }
+        if (Singleton.Instance.CurrentGameState == Singleton.GameState.PassingLevel && _showLevelPass)
+        {
+            Vector2 position = new Vector2(
+                (Singleton.SCREEN_WIDTH - _LevelPassTexture.Width) / 2,
+                (Singleton.SCREEN_HEIGHT - _LevelPassTexture.Height) / 2
+            );
+            _spriteBatch.Draw(_LevelPassTexture, position, Color.White);
+        }
         // if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
         // {
         //     _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
@@ -205,15 +235,13 @@ public class MainScene
         // _gameObjects = new List<GameObject>();
         _gameObjects.Clear();
         Singleton.Instance.GameBoard.ClearBoard();
-
         Singleton.Instance.Random = new System.Random();
-
         Singleton.Instance.CeilingPosition = 0;
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
         Singleton.Instance.Stage = 1;
-
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+        _levelPassTimer =3.0f;
 
         _gameObjects.Add(new Player(_handTexture)
         {
@@ -310,7 +338,8 @@ public class MainScene
         
         _shop = new Shop(_ShopTexture){
             Name = "Shop",
-            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30)
+            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30),
+            font = _font
         };
         // _shop.AddItems
 
@@ -339,10 +368,12 @@ public class MainScene
             {
                 ChipType = chipType,
                 Viewport = Singleton.GetChipViewPort(chipType),
-                Price = 0,
+                Price = 100,
                 BuyKey = buyKey
             };
-
+            if(chipType == ChipType.Explosive){
+                shopChip.Price = 300;
+            }
             // Add to shop
             _shop.AddShopItem(shopChip);
         }

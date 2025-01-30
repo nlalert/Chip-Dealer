@@ -120,6 +120,13 @@ public class Stage
                 "K------R",
                 "RBYGOPK-"
             }
+        },
+        {
+            11, new[]
+            {
+                "---K-K--",
+                "--K-K---",
+            }
         }
     };
 
