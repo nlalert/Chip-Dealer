@@ -41,10 +41,12 @@ class Singleton
     public enum GameState
     {
         MainMenu,
+        StartingGame,
         SetLevel,
         Playing,
         CheckChipAndCeiling,
         Pause,
+        Setting,
         PassingLevel,
         GameOver,
     }
@@ -56,6 +58,7 @@ class Singleton
     public MouseState PreviousMouseState,CurrentMouseState;
     private static Singleton instance;
     public float Volume = 1.0f;
+    
     private Singleton() { 
         Random = new Random();
     }

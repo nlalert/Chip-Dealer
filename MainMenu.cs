@@ -82,6 +82,8 @@ public class MainMenu
         {
             // Load Main scene
             Singleton.Instance.CurrentGameState = GameState.SetLevel;
+            // Transition to the game scene
+            Singleton.Instance.CurrentGameState = GameState.StartingGame;
         }
         if (Singleton.Instance.CurrentMouseState.LeftButton == ButtonState.Pressed &&
             Singleton.Instance.PreviousMouseState.LeftButton == ButtonState.Released &&
@@ -89,6 +91,7 @@ public class MainMenu
             && !IsShowScore)
         {
             IsShowScore = true;
+            _scores = Singleton.LoadScores();
         }
         if(IsShowScore){
             if(Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.Escape))
