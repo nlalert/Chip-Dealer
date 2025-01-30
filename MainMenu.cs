@@ -13,11 +13,6 @@ namespace MidtermComGame;
 public class MainMenu
 {
     private Texture2D _SpriteTexture;
-    // private Texture2D _startButtonTexture;
-    // private Texture2D _ScoreboardTexture;
-    // private Texture2D _BackGroundTexture;
-    // private Texture2D _GameNameTexture;
-    // private Texture2D _chipTexture;
     private List<Vector3> _ChipPos;// z is type of Chips
     private const float CHIP_FALL_SPEED = 1.5f;
     private SpriteBatch _spriteBatch;
