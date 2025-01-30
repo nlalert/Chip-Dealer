@@ -168,6 +168,7 @@ public class MainScene
                     MediaPlayer.Stop();
                 }
                 if(Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape)){
+                    Singleton.SaveScore();
                     ResetGame();
                 }
                 break;
@@ -239,9 +240,7 @@ public class MainScene
         // _gameObjects = new List<GameObject>();
         _gameObjects.Clear();
         Singleton.Instance.GameBoard.ClearBoard();
-
         Singleton.Instance.Random = new System.Random();
-
         Singleton.Instance.CeilingPosition = 0;
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
