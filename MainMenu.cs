@@ -91,6 +91,7 @@ public class MainMenu
             && !IsShowScore)
         {
             IsShowScore = true;
+            _scores = Singleton.LoadScores();
         }
         if(IsShowScore){
             if(Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.Escape))
