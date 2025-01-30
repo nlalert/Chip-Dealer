@@ -135,12 +135,16 @@ class Singleton
         _spriteRects.Add("Button",new Rectangle( 640, 912, 176, 48));
         _spriteRects.Add("StartButton",new Rectangle( 640, 912, 176, 48));
         _spriteRects.Add("StartButtonHighlight",new Rectangle( 816, 912, 176, 48));
-        _spriteRects.Add("GameName",new Rectangle( 640, 720, 352, 80));
+        _spriteRects.Add("GameName",new Rectangle( 640, 720, 352, 80));//TODO
         _spriteRects.Add("ScoreBoardButton",new Rectangle( 608, 1360, 336, 48));
         _spriteRects.Add("ScoreBoardButtonHighlight",new Rectangle( 608, 1424, 336, 48));
         _spriteRects.Add("BackButton",new Rectangle( 608, 1264, 160, 32));
         _spriteRects.Add("BackButtonHighlight",new Rectangle( 608, 1312, 160, 32));
-        
+        _spriteRects.Add("NextChipBox",new Rectangle( 112, 144, 64, 64));
+        _spriteRects.Add("NextChipText",new Rectangle( 176, 144, 64, 16));
+        _spriteRects.Add("GameOver",new Rectangle( 0, 720, 320, 256));
+        _spriteRects.Add("Player",new Rectangle( 0, 144, 96, 80));
+        _spriteRects.Add("Shop",new Rectangle( 640, 912, 176, 48));//TODO
 
 
         return _spriteRects[name];

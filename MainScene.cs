@@ -18,14 +18,8 @@ public class MainScene
     List<GameObject> _gameObjects;
     int _numObject;
     Texture2D _SpriteTexture;
-    Texture2D _chipTexture;
     Texture2D _chipStickTexture;
-    Texture2D _handTexture;
     Texture2D _rectTexture;
-    Texture2D _ShopTexture;
-    Texture2D _GameOverTexture;
-    Texture2D _PauseTexture;
-    Texture2D _ButtonTexture;
     Texture2D _LevelPassTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
@@ -44,14 +38,10 @@ public class MainScene
         _spriteBatch = spriteBatch;
         _font = content.Load<SpriteFont>("GameFont");
 
-        _chipTexture = content.Load<Texture2D>("Chips");
+        //TODO REMOVE THIS AFTER ADD NEW TEXTURE
         _chipStickTexture = content.Load<Texture2D>("ChipStick");
-        _handTexture = content.Load<Texture2D>("Hand");
-        _ShopTexture = content.Load<Texture2D>("Shop");
-        _GameOverTexture = content.Load<Texture2D>("GameOver1");
-        _PauseTexture = content.Load<Texture2D>("Pause1");
-        _ButtonTexture = content.Load<Texture2D>("Hand");
         _LevelPassTexture = content.Load<Texture2D>("Pause1");
+
         _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
 
 
@@ -162,10 +152,11 @@ public class MainScene
     public void Draw(GameTime gameTime)
     {
         _numObject = _gameObjects.Count;
-
-        _spriteBatch.Draw(_SpriteTexture,
-new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("PlayArea").Width)/2 ,0),
+        //draw background
+        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("PlayArea").Width)/2 ,0),
             Singleton.GetRectangleFromSpriteSheet("PlayArea"), Color.White);
+
+            
         _spriteBatch.Draw(_chipStickTexture, new Vector2(Singleton.PLAY_AREA_START_X, -_chipStickTexture.Height + Singleton.Instance.CeilingPosition),
         null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
 
@@ -178,11 +169,19 @@ new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("Pla
         // Red blue green Yellow
         // 0 1 2 3
         // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetChipColor(Singleton.Instance.NextChip));
-        
-        // Draw the chip using the sourceRectangle
-        _spriteBatch.Draw(_chipTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400), 
+        //draw NextChip Box
+        _spriteBatch.Draw(_SpriteTexture,
+            new Vector2(Singleton.SCREEN_WIDTH / 8 - Singleton.GetRectangleFromSpriteSheet("NextChipBox").Width/4 , 
+            400 - Singleton.GetRectangleFromSpriteSheet("NextChipBox").Height/4),
+            Singleton.GetRectangleFromSpriteSheet("NextChipBox"),Color.White);
+        _spriteBatch.Draw(_SpriteTexture,
+            new Vector2(Singleton.SCREEN_WIDTH / 8 - Singleton.GetRectangleFromSpriteSheet("NextChipText").Width/4 , 
+            400 + Singleton.GetRectangleFromSpriteSheet("NextChipText").Height*3.2f),//this magic number is gonna cooked
+            Singleton.GetRectangleFromSpriteSheet("NextChipText"),Color.White);
+        //draw Next Chip Display
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400), 
             new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
-
+        
         // //Game Over Line
         // _spriteBatch.Draw(_rectTexture, new Vector2(0, (Singleton.CHIP_GRID_HEIGHT - 1) * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
@@ -195,16 +194,15 @@ new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("Pla
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
-            _spriteBatch.Draw(_GameOverTexture, new Vector2((Singleton.SCREEN_WIDTH - _GameOverTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _GameOverTexture.Height) / 2), Color.White);
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("GameOver").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetRectangleFromSpriteSheet("GameOver").Height) / 2),
+                Singleton.GetRectangleFromSpriteSheet("GameOver"), Color.White);
             return;
         }
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
         {
-            _spriteBatch.Draw(_PauseTexture, new Vector2((Singleton.SCREEN_WIDTH - _PauseTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _PauseTexture.Height) / 2), Color.White);
-            // Display the volume percentage
-            string volumeText = $"Volume: {Math.Round((decimal)(Singleton.Instance.Volume * 100))}%";
-            Vector2 textSize = _font.MeasureString(volumeText);
-            _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
+            //idk what to put in here
+            //hehe 
             return;
         }
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.PassingLevel && _showLevelPass)
@@ -215,17 +213,6 @@ new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("Pla
             );
             _spriteBatch.Draw(_LevelPassTexture, position, Color.White);
         }
-        // if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
-        // {
-        //     _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
-        //     _spriteBatch.Draw(_PauseTexture, new Vector2((Singleton.SCREEN_WIDTH - _PauseTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _PauseTexture.Height) / 2), Color.White);
-        //     // Display the volume percentage
-        //     string volumeText = $"Volume: {Math.Round((decimal)(Singleton.Instance.Volume * 100))}%";
-        //     Vector2 textSize = _font.MeasureString(volumeText);
-        //     _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
-        //     return;
-        // }
-        
     }
 
     protected void ResetGame()
@@ -242,15 +229,15 @@ new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("Pla
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
         _levelPassTimer =3.0f;
 
-        _gameObjects.Add(new Player(_handTexture)
+        _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
+            Viewport = Singleton.GetRectangleFromSpriteSheet("Player"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
-            Chip = new Chip(_chipTexture)
+            Chip = new Chip(_SpriteTexture)
             {
                 Name = "Chip",
                 _isShot = false,
@@ -281,15 +268,15 @@ new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("Pla
 
         _gameObjects.Clear();
 
-        _gameObjects.Add(new Player(_handTexture)
+        _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
+            Viewport = Singleton.GetRectangleFromSpriteSheet("Player"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
-            Chip = new Chip(_chipTexture)
+            Chip = new Chip(_SpriteTexture)
             {
                 Name = "Chip",
                 _isShot = false,
@@ -321,8 +308,9 @@ new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("Pla
 
     protected void SetUpShop(){
         
-        _shop = new Shop(_ShopTexture){
+        _shop = new Shop(_SpriteTexture){
             Name = "Shop",
+            Viewport = Singleton.GetRectangleFromSpriteSheet("Button"),
             Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30),
             font = _font
         };
@@ -349,7 +337,7 @@ new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("Pla
             };
 
             // Create and configure ShopChip
-            ShopChip shopChip = new ShopChip(_chipTexture)
+            ShopChip shopChip = new ShopChip(_SpriteTexture)
             {
                 ChipType = chipType,
                 Viewport = Singleton.GetChipViewPort(chipType),
@@ -383,7 +371,7 @@ new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("Pla
     protected void AddChipToBoard(int i, int j)
     {
         int offSetX = (j % 2 == 1) ? Singleton.CHIP_SIZE / 2 : 0;
-        Chip newChip = new Chip(_chipTexture)
+        Chip newChip = new Chip(_SpriteTexture)
         {
             Name = "Chip",
             _isShot = true,

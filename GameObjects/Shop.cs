@@ -22,7 +22,7 @@ class Shop : GameObject
     public override void Draw(SpriteBatch spriteBatch)
     {
         //Display Shop
-        spriteBatch.Draw(_texture, Position, Color.White);
+        spriteBatch.Draw(_texture, Position,Viewport, Color.White);
         for (int i = 0; i < _shopItems.Count; i++)
         {
             int row = i / _columns; 
@@ -30,7 +30,7 @@ class Shop : GameObject
             Vector2 SpaceOffSet = new Vector2(0,10);
             Vector2 itemPosition = new Vector2(
                 Position.X + col * (_itemSize + _itemSpacing),
-                Position.Y + _texture.Height + row * (_itemSize + _itemSpacing)
+                Position.Y + Singleton.GetRectangleFromSpriteSheet("Button").Height + row * (_itemSize + _itemSpacing)
             ) + SpaceOffSet;
 
             _shopItems[i].Position = itemPosition;
