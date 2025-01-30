@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.IO;
+
 
 class Singleton
 {
@@ -79,6 +82,38 @@ class Singleton
                 return new Rectangle(((int)chipType - 1) * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE + CHIP_SHADOW_HEIGHT);
         }
 
+    }
+    //score
+    public class ScoreEntry
+    {
+        public string Timestamp { get; set; }
+        public int Score { get; set; }
+    }
+    private static string ScoreFilePath => "../scores.json";
+
+    public static void SaveScore()
+    {
+        List<ScoreEntry> scores = LoadScores();
+        Console.WriteLine("Saving score ");
+        scores.Add(new ScoreEntry
+        {
+            Score = Instance.Score,
+            Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+        });
+        string json = JsonSerializer.Serialize(scores, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(ScoreFilePath, json);
+    }
+
+    public static List<ScoreEntry> LoadScores()
+    {
+        if (!File.Exists(ScoreFilePath)) 
+            return new List<ScoreEntry>();
+        else{
+            Console.WriteLine(File.Exists(ScoreFilePath));
+            Console.WriteLine("Found Scores");
+        }
+        string json = File.ReadAllText(ScoreFilePath);
+        return JsonSerializer.Deserialize<List<ScoreEntry>>(json) ?? new List<ScoreEntry>();
     }
 }
 

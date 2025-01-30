@@ -81,7 +81,7 @@ public class MainMenu
                 chip.Y = -_chipTexture.Height; // Reset Y to top
                 chip.X = new Random().Next(0, Singleton.SCREEN_WIDTH - _chipTexture.Width/4); // Random X position
                 // Optionally change the Z value to switch chip type randomly
-                chip.Z = new Random().Next(1, 5);
+                chip.Z = new Random().Next(1, Enum.GetValues(typeof(ChipType)).Length-1);
             }
             _ChipPos[i] = chip; 
         }
