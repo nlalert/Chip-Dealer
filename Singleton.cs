@@ -89,7 +89,7 @@ class Singleton
         public string Timestamp { get; set; }
         public int Score { get; set; }
     }
-    private static string ScoreFilePath => "../scores.json";
+    private static string ScoreFilePath => "scores.json";
 
     public static void SaveScore()
     {
