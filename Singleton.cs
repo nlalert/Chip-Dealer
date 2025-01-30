@@ -112,11 +112,38 @@ class Singleton
         if (!File.Exists(ScoreFilePath)) 
             return new List<ScoreEntry>();
         else{
-            Console.WriteLine(File.Exists(ScoreFilePath));
             Console.WriteLine("Found Scores");
         }
         string json = File.ReadAllText(ScoreFilePath);
         return JsonSerializer.Deserialize<List<ScoreEntry>>(json) ?? new List<ScoreEntry>();
+    }
+    public static Rectangle GetRectangleFromSpriteSheet(String name){
+        Dictionary<string, Rectangle> _spriteRects = new Dictionary<string, Rectangle>();
+        // Chips (Top row)
+        _spriteRects.Add("ChipRed",new Rectangle( 0, 0, 32, 32));
+        _spriteRects.Add("ChipBlue",new Rectangle( 32, 0, 32, 32));
+        _spriteRects.Add("ChipGreen",new Rectangle( 64, 0, 32, 32));
+        _spriteRects.Add("ChipPurple",new Rectangle( 96, 0, 32, 32));
+        _spriteRects.Add("ChipGray",new Rectangle( 128, 0, 32, 32));
+        _spriteRects.Add("ChipOrange",new Rectangle( 160, 0, 32, 32));
+        _spriteRects.Add("BombChip",new Rectangle( 0, 40, 32, 32));
+        _spriteRects.Add("SpikeChip",new Rectangle( 32, 40, 32, 32));
+        _spriteRects.Add("IronChip",new Rectangle( 64, 40, 32, 32));
+        _spriteRects.Add("GoldenChip",new Rectangle( 96, 40, 32, 32));
+
+        _spriteRects.Add("PlayArea", new Rectangle(0,224,288,488));
+        _spriteRects.Add("Button",new Rectangle( 640, 912, 176, 48));
+        _spriteRects.Add("StartButton",new Rectangle( 640, 912, 176, 48));
+        _spriteRects.Add("StartButtonHighlight",new Rectangle( 816, 912, 176, 48));
+        _spriteRects.Add("GameName",new Rectangle( 640, 720, 352, 80));
+        _spriteRects.Add("ScoreBoardButton",new Rectangle( 608, 1360, 336, 48));
+        _spriteRects.Add("ScoreBoardButtonHighlight",new Rectangle( 608, 1424, 336, 48));
+        _spriteRects.Add("BackButton",new Rectangle( 608, 1264, 160, 32));
+        _spriteRects.Add("BackButtonHighlight",new Rectangle( 608, 1312, 160, 32));
+        
+
+
+        return _spriteRects[name];
     }
 }
 

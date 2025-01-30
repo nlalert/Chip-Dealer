@@ -79,7 +79,7 @@ public class GameManager : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(new Color(64, 28, 4));
 
         _spriteBatch.Begin();
 
