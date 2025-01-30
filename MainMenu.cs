@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using static Singleton;
+using System.Linq;
 namespace MidtermComGame;
 
 public class MainMenu
@@ -22,6 +23,8 @@ public class MainMenu
     private const float CHIP_FALL_SPEED = 1.5f;
     private SpriteBatch _spriteBatch;
     private bool IsShowScore;
+    private SpriteFont _font;
+    private List<ScoreEntry> _scores;
 
     public void Initialize()
     {
@@ -39,6 +42,8 @@ public class MainMenu
         _GameNameTexture = content.Load<Texture2D>("GameName"); 
         _chipTexture = content.Load<Texture2D>("Chips");
         _ScoreboardTexture = content.Load<Texture2D>("ScoreboardButton");
+        _font = content.Load<SpriteFont>("GameFont");
+        _scores = Singleton.LoadScores();
 
         int buttonWidth = _startButtonTexture.Width;
         int buttonHeight = _startButtonTexture.Height;
@@ -67,6 +72,7 @@ public class MainMenu
     public void Update(GameTime gameTime)
     {
         // Console.WriteLine("Update Mainmenu");
+        Singleton.Instance.CurrentKey = Keyboard.GetState();
         Singleton.Instance.CurrentMouseState = Mouse.GetState();
 
         if (Singleton.Instance.CurrentMouseState.LeftButton == ButtonState.Pressed &&
@@ -84,6 +90,10 @@ public class MainMenu
         {
             IsShowScore = true;
         }
+        if(IsShowScore){
+            if(Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.Escape))
+            IsShowScore= false;
+        }   
         // Update chip positions
         for (int i = 0; i < _ChipPos.Count; i++)
         {
@@ -93,20 +103,23 @@ public class MainMenu
             if (chip.Y > Singleton.SCREEN_HEIGHT+_chipTexture.Height)
             {
                 chip.Y = -_chipTexture.Height; // Reset Y to top
-                chip.X = Singleton.Instance.Random.Next(0, Singleton.SCREEN_WIDTH - _chipTexture.Width/8); // Random X position
                 if(IsShowScore){// will not block the view
                     do
                     {
                         chip.X = Singleton.Instance.Random.Next(0, Singleton.SCREEN_WIDTH - _chipTexture.Width / 8);
                     } while (chip.X  >= Singleton.SCREEN_WIDTH / 4 
                             && chip.X  <= Singleton.SCREEN_WIDTH * 3 / 4 - _chipTexture.Width / 8); 
-                }
+                    //this is cool shit WWW
+                }else
+                chip.X = Singleton.Instance.Random.Next(0, Singleton.SCREEN_WIDTH - _chipTexture.Width/8); // Random X position
                 chip.Z = new Random().Next(1, Enum.GetValues(typeof(ChipType)).Length-1); // Random Chip type
             }
             _ChipPos[i] = chip; 
         }
         Singleton.Instance.PreviousMouseState = Singleton.Instance.CurrentMouseState;
-    }
+        Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
+
+    }   
 
     public void Draw(GameTime gameTime)
     {
@@ -123,13 +136,22 @@ public class MainMenu
             _spriteBatch.Draw(_ScoreboardTexture,_ScoreBoardButtonRectangle,Color.White);
         }
         else{
-
+            Vector2 position = new Vector2(Singleton.SCREEN_WIDTH /4 + _chipTexture.Width / 4 , 100); 
+            foreach (var entry in _scores.OrderByDescending(s => s.Score).Take(10)) // Show top 10 scores
+            {
+                string text = $"{entry.Score} pts ({entry.Timestamp:MM/dd HH:mm})";
+                _spriteBatch.DrawString(_font, text, position, Color.White);
+                position.Y += 30; //gap 
+            }
         }        
     }
 
     protected void Reset()
     {
         Singleton.Instance.CurrentGameState = Singleton.GameState.MainMenu;
+    }
+    private void DisplayScore(){
+
     }
     
 }
