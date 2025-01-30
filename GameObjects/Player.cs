@@ -17,7 +17,7 @@ class Player : GameObject
     public override void Draw(SpriteBatch spriteBatch)
     {
         Vector2 Origin = new Vector2(0, 0);
-        Vector2 PositionXOffset = new Vector2(_texture.Width/2, 0);
+        Vector2 PositionXOffset = new Vector2(Singleton.GetRectangleFromSpriteSheet("Player").Width/2, 0);
         
         //draw aim line
         float DotLinelength = 100f;
