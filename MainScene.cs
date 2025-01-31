@@ -199,6 +199,18 @@ public class MainScene
             new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 30),
             Color.White);
 
+        fontSize = _font.MeasureString("Turn until");
+        _spriteBatch.DrawString(_font,
+            "Turn until",
+            new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 90),
+            Color.White);
+
+        fontSize = _font.MeasureString("chip pushing : " + (Singleton.CEILING_WAITING_TURN - (Singleton.Instance.ChipShotAmount%Singleton.CEILING_WAITING_TURN)));
+        _spriteBatch.DrawString(_font,
+            "chip pushing : " + (Singleton.CEILING_WAITING_TURN - (Singleton.Instance.ChipShotAmount%Singleton.CEILING_WAITING_TURN)),
+            new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 110),
+            Color.White);
+
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
@@ -233,9 +245,9 @@ public class MainScene
         Singleton.Instance.CeilingPosition = 0;
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
-        Singleton.Instance.Stage = 1;
+        Singleton.Instance.Stage = 15;
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
-        _levelPassTimer =3.0f;
+        _levelPassTimer = 3.0f;
 
         _gameObjects.Add(new Player(_SpriteTexture)
         {

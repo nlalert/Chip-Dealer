@@ -124,6 +124,233 @@ public class Stage
         {
             11, new[]
             {
+                "---GG---",
+                "--BKB---",
+                "--YPOO--",
+                "-BWYOP--",
+                "--OBRW--",
+                "--RRB---",
+                "---OK---",
+                "---Y----"
+            }
+        },
+        {
+            12, new[]
+            {
+                "---RG---",
+                "--GBR---",
+                "--BRGB--",
+                "-RGBRG--",
+                "-GBRGBR-",
+                "BRGBRGB-",
+                "RGBRGBRG"
+            }
+        },
+        {
+            13, new[]
+            {
+                "BBYRRYBB",
+                "WBYRYBP-",
+                "GGBYYBOO",
+                "KWBYBGG-",
+                "PKWBBOWK",
+                "OPYBROW-",
+                "GPGRYPGK"
+            }
+        },
+        {
+            14, new[]
+            {
+                "Y-K--R-Y",
+                "B-R-YRP-",
+                "-Y-OR-O-",
+                "PK---R--",
+                "K-BRGO-B",
+                "R-----G-",
+                "-PKPYPP-"
+            }
+        },
+        {
+            15, new[]
+            {
+                "GG-BB-RR",
+                "Y--Y--P-",
+                "P--K--K-",
+                "K--W--Y-",
+                "Y--O--P-",
+                "K--O--Y-",
+                "P--W--O-",
+                "O--Y--P-"
+            }
+        },
+        {
+            16, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            17, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            18, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            19, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            20, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            21, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            22, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            23, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            24, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            25, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            26, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            27, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            28, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            29, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            30, new[]
+            {
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-",
+                "K------R",
+                "RBYGOPK-"
+            }
+        },
+        {
+            31, new[]
+            {
                 "---K-K--",
                 "--K-K---",
             }
