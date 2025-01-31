@@ -17,7 +17,7 @@ class Player : GameObject
     public override void Draw(SpriteBatch spriteBatch)
     {
         Vector2 Origin = new Vector2(0, 0);
-        Vector2 PositionXOffset = new Vector2(Singleton.GetRectangleFromSpriteSheet("Player").Width/2, 0);
+        Vector2 PositionXOffset = new Vector2(Singleton.GetViewPortFromSpriteSheet("Player_Hand").Width/2, 0);
         
         //draw aim line
         float DotLinelength = 100f;
@@ -87,7 +87,7 @@ class Player : GameObject
         newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
         newChip.ChipType = Singleton.Instance.CurrentChip;
         newChip.Reset();
-        newChip.Speed = 500f;
+        newChip.Speed = 900f;
         gameObjects.Add(newChip);
         LastShotChip = newChip;
     }

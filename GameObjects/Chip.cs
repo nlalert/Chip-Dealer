@@ -9,7 +9,6 @@ class Chip : GameObject
 {   
     public float Angle;
     public float Speed;
-
     public bool _isShot;
 
     public int Score;

@@ -44,7 +44,6 @@ public class MainScene
 
         _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
 
-
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
         for (int i = 0; i < data.Length; i++) data[i] = Color.White;
@@ -153,8 +152,8 @@ public class MainScene
     {
         _numObject = _gameObjects.Count;
         //draw background
-        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("PlayArea").Width)/2 ,0),
-            Singleton.GetRectangleFromSpriteSheet("PlayArea"), Color.White);
+        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("PlayArea_Ingame").Width)/2 ,0),
+            Singleton.GetViewPortFromSpriteSheet("PlayArea_Ingame"), Color.White);
 
             
         _spriteBatch.Draw(_chipStickTexture, new Vector2(Singleton.PLAY_AREA_START_X, -_chipStickTexture.Height + Singleton.Instance.CeilingPosition),
@@ -169,15 +168,18 @@ public class MainScene
         // Red blue green Yellow
         // 0 1 2 3
         // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetChipColor(Singleton.Instance.NextChip));
+
         //draw NextChip Box
         _spriteBatch.Draw(_SpriteTexture,
-            new Vector2(Singleton.SCREEN_WIDTH / 8 - Singleton.GetRectangleFromSpriteSheet("NextChipBox").Width/4 , 
-            400 - Singleton.GetRectangleFromSpriteSheet("NextChipBox").Height/4),
-            Singleton.GetRectangleFromSpriteSheet("NextChipBox"),Color.White);
+            new Vector2(Singleton.SCREEN_WIDTH / 8 - Singleton.GetViewPortFromSpriteSheet("Next_Chip_Box").Width/4 , 
+            400 - Singleton.GetViewPortFromSpriteSheet("Next_Chip_Box").Height/4),
+            Singleton.GetViewPortFromSpriteSheet("Next_Chip_Box"),Color.White);
+
         _spriteBatch.Draw(_SpriteTexture,
-            new Vector2(Singleton.SCREEN_WIDTH / 8 - Singleton.GetRectangleFromSpriteSheet("NextChipText").Width/4 , 
-            400 + Singleton.GetRectangleFromSpriteSheet("NextChipText").Height*3.2f),//this magic number is gonna cooked
-            Singleton.GetRectangleFromSpriteSheet("NextChipText"),Color.White);
+            new Vector2(Singleton.SCREEN_WIDTH / 8 - Singleton.GetViewPortFromSpriteSheet("Next_Chip_Label").Width/4 , 
+            400 + Singleton.GetViewPortFromSpriteSheet("Next_Chip_Label").Height*3.2f), //this magic number is gonna cooked
+            Singleton.GetViewPortFromSpriteSheet("Next_Chip_Label"),Color.White);
+
         //draw Next Chip Display
         _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400), 
             new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
@@ -195,8 +197,8 @@ public class MainScene
         {
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetRectangleFromSpriteSheet("GameOver").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetRectangleFromSpriteSheet("GameOver").Height) / 2),
-                Singleton.GetRectangleFromSpriteSheet("GameOver"), Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("GameOver_Title").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("GameOver_Title").Height) / 2),
+                Singleton.GetViewPortFromSpriteSheet("GameOver_Title"), Color.White);
             return;
         }
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
@@ -232,7 +234,7 @@ public class MainScene
         _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = Singleton.GetRectangleFromSpriteSheet("Player"),
+            Viewport = Singleton.GetViewPortFromSpriteSheet("Player_Hand"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             Left = Keys.Left,
             Right = Keys.Right,
@@ -271,7 +273,7 @@ public class MainScene
         _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = Singleton.GetRectangleFromSpriteSheet("Player"),
+            Viewport = Singleton.GetViewPortFromSpriteSheet("Player_Hand"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             Left = Keys.Left,
             Right = Keys.Right,
@@ -310,7 +312,7 @@ public class MainScene
         
         _shop = new Shop(_SpriteTexture){
             Name = "Shop",
-            Viewport = Singleton.GetRectangleFromSpriteSheet("Button"),
+            Viewport = Singleton.GetViewPortFromSpriteSheet("Pause_Button"),
             Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30),
             font = _font
         };
