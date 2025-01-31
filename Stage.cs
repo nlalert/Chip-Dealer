@@ -303,60 +303,62 @@ public class Stage
         {
             26, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "RGBYPOWK",
+                "OWKRGBY-",
+                "RGBYPOWK",
+                "OWKRGBY-"
             }
         },
         {
             27, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "RRR--RRR",
+                "--R-R---",
+                "--BGGB--",
+                "-G-P-G--",
+                "--PGGP--",
+                "--RKR---",
+                "-YB--BY-"
             }
         },
         {
             28, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "RGBWYRG-",
+                "WYRGBW--",
+                "-GBWYR--",
+                "-YRGB---",
+                "--BWY---",
+                "--RG----",
+                "---W----"
             }
         },
         {
             29, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "--G--G--",
+                "--G-G---",
+                "---GG---",
+                "-PRGRP--",
+                "-GY--YG-",
+                "W-RBR-W-",
+                "K--PP--K"
             }
         },
         {
             30, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "R-B-R-B-",
+                "G-Y-G-Y-",
+                "B-P-B-P-",
+                "Y-O-Y-O-",
+                "P-W-P-W-",
+                "O-K-O-K-",
+                "W-R-W-R-"
             }
         },
         {
-            31, new[]
+            999, new[]
             {
                 "---K-K--",
                 "--K-K---",
