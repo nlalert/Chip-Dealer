@@ -123,19 +123,19 @@ class Singleton
         Dictionary<string, Rectangle> _spriteRects = new Dictionary<string, Rectangle>();
 
         // Normal Chips
-        _spriteRects.Add("Red_Chip",new Rectangle( 0, 0, 32, 32));
-        _spriteRects.Add("Blue_Chip",new Rectangle( 32, 0, 32, 32));
-        _spriteRects.Add("Green_Chip",new Rectangle( 64, 0, 32, 32));
-        _spriteRects.Add("Yellow_Cip",new Rectangle( 96, 0, 32, 32));
-        _spriteRects.Add("Purple_Chip",new Rectangle( 128, 0, 32, 32));
-        _spriteRects.Add("White_Chip",new Rectangle( 160, 0, 32, 32));
-        _spriteRects.Add("Black_Chip",new Rectangle( 192, 0, 32, 32));
-        _spriteRects.Add("Orange_Chip",new Rectangle( 224, 0, 32, 32));
+        _spriteRects.Add("Red_Chip",new Rectangle( 0, 0, 32, 35));
+        _spriteRects.Add("Blue_Chip",new Rectangle( 32, 0, 32, 35));
+        _spriteRects.Add("Green_Chip",new Rectangle( 64, 0, 32, 35));
+        _spriteRects.Add("Yellow_Chip",new Rectangle( 96, 0, 32, 35));
+        _spriteRects.Add("Purple_Chip",new Rectangle( 128, 0, 32, 35));
+        _spriteRects.Add("White_Chip",new Rectangle( 160, 0, 32, 35));
+        _spriteRects.Add("Black_Chip",new Rectangle( 192, 0, 32, 35));
+        _spriteRects.Add("Orange_Chip",new Rectangle( 224, 0, 32, 35));
 
         // Specaial Chips
-        _spriteRects.Add("Explosive_Chip0",new Rectangle( 0, 40, 32, 32));
-        _spriteRects.Add("Explosive_Chip1",new Rectangle( 32, 40, 32, 32));
-        _spriteRects.Add("Unknown_Chip",new Rectangle( 64, 40, 32, 32));
+        _spriteRects.Add("Explosive_Chip0",new Rectangle( 0, 48, 32, 35));
+        _spriteRects.Add("Explosive_Chip1",new Rectangle( 32, 48, 32, 35));
+        _spriteRects.Add("Unknown_Chip",new Rectangle( 64, 48, 32, 35));
 
         // Background
         _spriteRects.Add("PlayArea", new Rectangle(288,224,384,488));
@@ -164,13 +164,22 @@ class Singleton
         _spriteRects.Add("Back_Label_Highlighted",new Rectangle( 608, 1312, 160, 32));
 
         // In Game UI
-
         _spriteRects.Add("Next_Chip_Box",new Rectangle( 112, 144, 64, 64));
         _spriteRects.Add("Next_Chip_Label",new Rectangle( 176, 144, 64, 16));
 
         _spriteRects.Add("Player_Hand",new Rectangle( 0, 144, 96, 80));
 
         _spriteRects.Add("Shop",new Rectangle( 640, 912, 176, 48));//TODO
+
+        // Slot-Mechine UI
+
+        _spriteRects.Add("Slot_Label",new Rectangle(672, 224, 160, 160));
+
+        _spriteRects.Add("Slot_Machine",new Rectangle(672, 400, 160, 160));
+        _spriteRects.Add("Slot_Handle",new Rectangle(672, 576, 48, 16));
+        _spriteRects.Add("Slot_Background",new Rectangle(832, 400, 48, 147));
+
+        _spriteRects.Add("Slot_Drawing",new Rectangle(672, 608, 112, 96));
 
         // GameOver UI
         _spriteRects.Add("GameOver_Title",new Rectangle( 0, 720, 320, 256));
@@ -195,7 +204,6 @@ class Singleton
         _spriteRects.Add("Mainmenu_Label_Highlighted",new Rectangle(304, 1424, 304, 48));
 
         // Settings UI
-
         _spriteRects.Add("Settings_Box0",new Rectangle(0, 1552, 448, 352));
         _spriteRects.Add("Settings_Box1",new Rectangle(448, 1552, 448, 352));
 

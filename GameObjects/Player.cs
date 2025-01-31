@@ -87,7 +87,7 @@ class Player : GameObject
         newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
         newChip.ChipType = Singleton.Instance.CurrentChip;
         newChip.Reset();
-        newChip.Speed = 900f;
+        newChip.Speed = 900;
         gameObjects.Add(newChip);
         LastShotChip = newChip;
     }

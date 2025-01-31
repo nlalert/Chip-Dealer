@@ -16,10 +16,23 @@ class Button : GameObject
 
     public Button(Texture2D texture) : base(texture)
     {
+
     }
 
     public void ButtonUpdate()
     {
+        Rectangle buttonBounds = new Rectangle((int)Position.X, (int)Position.Y, Viewport.Width, Viewport.Height);
+
+        if(buttonBounds.Contains(Singleton.Instance.CurrentMouseState.Position) && Singleton.Instance.PreviousMouseState.LeftButton == ButtonState.Pressed 
+        && Singleton.Instance.CurrentMouseState.LeftButton != ButtonState.Released && !Dragging){
+            Dragging = true;
+        }
+
+        if(Singleton.Instance.PreviousMouseState.LeftButton == ButtonState.Released && Dragging)  
+            Dragging = false;
+    }
+
+    public override void Update(GameTime gameTime, List<GameObject> gameObjects){
         Rectangle buttonBounds = new Rectangle((int)Position.X, (int)Position.Y, Viewport.Width, Viewport.Height);
 
         if(buttonBounds.Contains(Singleton.Instance.CurrentMouseState.Position) && Singleton.Instance.PreviousMouseState.LeftButton == ButtonState.Pressed 

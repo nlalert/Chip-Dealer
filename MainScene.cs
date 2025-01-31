@@ -25,6 +25,10 @@ public class MainScene
     SoundEffect _chipHitSound;
     Song _gameMusic;
     Shop _shop;
+
+    SlotMachine _slotMachine;
+
+    private int _slotMachinePosition = 470;
     private double _levelPassTimer = 0;
     private bool _showLevelPass = false;
     public void Initialize()
@@ -164,6 +168,9 @@ public class MainScene
             _gameObjects[i].Draw(_spriteBatch);
         }
         
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(_slotMachinePosition, _slotMachine.Position.Y - 16*11), Singleton.GetViewPortFromSpriteSheet("Slot_Label"), Color.White);
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(_slotMachinePosition+24, _slotMachine.Position.Y + 16*11), Singleton.GetViewPortFromSpriteSheet("Slot_Drawing"), Color.White);
+
         //Next Chip Display 
         // Red blue green Yellow
         // 0 1 2 3
@@ -192,6 +199,7 @@ public class MainScene
             "Score : " + Singleton.Instance.Score.ToString(),
             new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 30),
             Color.White);
+
 
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
@@ -249,8 +257,9 @@ public class MainScene
                 Score = 10
             }
         });
-        //add shop content
-        SetUpShop();
+
+
+        AddSlotMachines();
 
         foreach (GameObject s in _gameObjects)
         {
@@ -289,7 +298,7 @@ public class MainScene
             }
         });
 
-        SetUpShop();
+        AddSlotMachines();
 
         foreach (GameObject s in _gameObjects)
         {
@@ -308,54 +317,17 @@ public class MainScene
         }
     }
 
-    protected void SetUpShop(){
-        
-        _shop = new Shop(_SpriteTexture){
-            Name = "Shop",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Pause_Button"),
-            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30),
-            font = _font
+    protected void AddSlotMachines(){
+
+        _slotMachine = new SlotMachine(_SpriteTexture){
+            Name = "Slotmachine",
+            Viewport = Singleton.GetViewPortFromSpriteSheet("Slot_Machine"),
+            Position = new Vector2(_slotMachinePosition, Singleton.SCREEN_HEIGHT/2 - Singleton.GetViewPortFromSpriteSheet("Slot_Machine").Height/2 + 32)
         };
-        // _shop.AddItems
 
-        foreach (ChipType chipType in Enum.GetValues(typeof(ChipType)))
-        {
-            if(chipType == ChipType.None)
-                continue;
-
-            // Map keys for each ChipType
-            Keys buyKey = chipType switch
-            {
-                ChipType.Red => Keys.A,
-                ChipType.Blue => Keys.S,
-                ChipType.Green => Keys.D,
-                ChipType.Yellow => Keys.F,
-                ChipType.Purple => Keys.G,
-                ChipType.White => Keys.H,
-                ChipType.Black => Keys.J,
-                ChipType.Orange => Keys.K,
-                ChipType.Explosive => Keys.Q,
-                _ => Keys.None // Default case for safety
-            };
-
-            // Create and configure ShopChip
-            ShopChip shopChip = new ShopChip(_SpriteTexture)
-            {
-                ChipType = chipType,
-                Viewport = Singleton.GetChipViewPort(chipType),
-                Price = 100,
-                BuyKey = buyKey
-            };
-            if(chipType == ChipType.Explosive){
-                shopChip.Price = 300;
-            }
-            // Add to shop
-            _shop.AddShopItem(shopChip);
-        }
-
-        // Add the shop to the game objects
-        _gameObjects.Add(_shop);
+        _gameObjects.Add(_slotMachine);
     }
+
     protected void SetUpInitalChipsPattern()
     {
         Stage.SetUpBoard();

@@ -37,9 +37,9 @@ class Chip : GameObject
             if(Singleton.Instance.CurrentChip == ChipType.Explosive)
             {
                 if (_explosiveFrameToggle)
-                    Viewport = Singleton.GetChipViewPort(ChipType.Explosive);
+                    Viewport = Singleton.GetViewPortFromSpriteSheet("Explosive_Chip0");
                 else
-                    Viewport.X = Singleton.GetChipViewPort(ChipType.Explosive).X + Singleton.CHIP_SIZE;
+                    Viewport = Singleton.GetViewPortFromSpriteSheet("Explosive_Chip1");
             }
         }
         
@@ -119,7 +119,7 @@ class Chip : GameObject
             }
         }
 
-        if(!_isShot){
+       // if(!_isShot){
             _explosiveTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (_explosiveTimer >= 1f)
             {
@@ -127,7 +127,7 @@ class Chip : GameObject
                 _explosiveFrameToggle = !_explosiveFrameToggle;
             }
             // Console.WriteLine(_explosiveTimer);
-        }
+        //}
 
         Velocity = Vector2.Zero;
 
