@@ -24,7 +24,7 @@ class Singleton
     public const float MAX_PLAYER_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
 
     public const int CHIP_BREAK_AMOUNT = 3;
-    public const int CEILING_WAITING_TURN = 899999;
+    public const int CEILING_WAITING_TURN = 8;
 
     public int CeilingPosition;
     public int ChipShotAmount;

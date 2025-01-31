@@ -20,7 +20,7 @@ class Player : GameObject
         Vector2 PositionXOffset = new Vector2(Singleton.GetRectangleFromSpriteSheet("Player").Width/2, 0);
         
         //draw aim line
-        float DotLinelength = 1000f;
+        float DotLinelength = 100f;
         float DotSize = 4f;
         float DotGap = 8f;
         DrawDottedLine(spriteBatch, Position + PositionXOffset + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
