@@ -186,56 +186,57 @@ public class Stage
         {
             16, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "RGBYPWOR",
+                "PWORGBY-",
+                "RGBYPWOR",
+                "PWORGBY-"
             }
         },
         {
             17, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "RGR--YBY",
+                "BYB-GRG-",
+                "RGR--YBY",
+                "BYB-GRG-",
+                "RGR--YBY"
             }
         },
         {
             18, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "----W---",
+                "---W----",
+                "-G--W-K-",
+                "P--W--G-",
+                "-B--W-P-",
+                "-R-W-B--",
+                "--RBKR--"
             }
         },
         {
             19, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "WGYWGYWG",
+                "YWG-WGY-",
+                "-GY--YW-",
+                "-W---G--",
+                "-GY--YW-",
+                "YWG-WGY-",
+                "WGYWGYWG",
             }
         },
         {
             20, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "Y-W--K-R",
+                "B-G-K-Y-",
+                "Y--PW--R",
+                "R-KWB-Y-",
+                "Y--WW--R",
+                "B-K-P-Y-",
+                "Y-K--K-R",
+                "R-----Y-"
             }
         },
         {
