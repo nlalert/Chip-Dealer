@@ -242,55 +242,61 @@ public class Stage
         {
             21, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "WPOYWPOY",
+                "OYW-OYW-",
+                "-PO--PO-",
+                "-Y---Y--",
+                "-PO--PO-",
+                "OYW-OYW-",
+                "WPOYWPOY"
             }
         },
         {
             22, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "RRRRRRRR",
+                "Y-------",
+                "-GBPORYG",
+                "-P------",
+                "--OYGBPO",
+                "--R-----",
+                "---YGBPO"
             }
         },
         {
             23, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "---PG---", 
+                "--BPW---",
+                "--GBWR--",
+                "-YG-RO--",
+                "-OY--OY-",
+                "RO---YG-",
+                "WR----GB",
+                "W-----B-"
             }
         },
         {
             24, new[]
             {
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-",
-                "K------R",
-                "RBYGOPK-"
+                "WROY----",
+                "PBG-----",
+                "WROY----",
+                "PBG-----",
+                "WROY----",
+                "PBG-----"
             }
         },
         {
             25, new[]
             {
-                "K------R",
+                "B------P",
+                "B-----P-",
+                "-K----R-",
                 "RBYGOPK-",
-                "K------R",
+                "-K----R-",
                 "RBYGOPK-",
-                "K------R",
+                "-K----R-",
                 "RBYGOPK-"
             }
         },
