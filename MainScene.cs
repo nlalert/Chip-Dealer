@@ -245,7 +245,7 @@ public class MainScene
         Singleton.Instance.CeilingPosition = 0;
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
-        Singleton.Instance.Stage = 30;
+        Singleton.Instance.Stage = 999;
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
         _levelPassTimer = 3.0f;
 
@@ -361,11 +361,11 @@ public class MainScene
             {
                 ChipType = chipType,
                 Viewport = Singleton.GetChipViewPort(chipType),
-                Price = 100,
+                Price = 00,
                 BuyKey = buyKey
             };
             if(chipType == ChipType.Explosive){
-                shopChip.Price = 300;
+                shopChip.Price = 00;
             }
             // Add to shop
             _shop.AddShopItem(shopChip);

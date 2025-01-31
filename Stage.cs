@@ -357,11 +357,22 @@ public class Stage
                 "W-R-W-R-"
             }
         },
+        //Debug Stage
         {
             999, new[]
             {
                 "---K-K--",
                 "--K-K---",
+            }
+        },
+        //Debug Stage
+        {
+            1000, new[]
+            {
+                "-----K-K",
+                "-----KK-",
+                "-----Y-Y",
+                "------B-",
             }
         }
     };
