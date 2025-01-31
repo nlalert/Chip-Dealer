@@ -160,8 +160,8 @@ public class MainScene
             Singleton.GetViewPortFromSpriteSheet("PlayArea_Ingame"), Color.White);
 
             
-        _spriteBatch.Draw(_chipStickTexture, new Vector2(Singleton.PLAY_AREA_START_X, -_chipStickTexture.Height + Singleton.Instance.CeilingPosition),
-        null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.PLAY_AREA_START_X, - Singleton.GetViewPortFromSpriteSheet("Chip_Stick").Height + Singleton.Instance.CeilingPosition),
+        Singleton.GetViewPortFromSpriteSheet("Chip_Stick"), Color.White);
 
         for (int i = 0; i < _numObject; i++)
         {

@@ -169,6 +169,8 @@ class Singleton
 
         _spriteRects.Add("Player_Hand",new Rectangle( 0, 144, 96, 80));
 
+        _spriteRects.Add("Chip_Stick",new Rectangle( 880, 304, 256, 400));
+
         _spriteRects.Add("Shop",new Rectangle( 640, 912, 176, 48));//TODO
 
         // Slot-Mechine UI
