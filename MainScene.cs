@@ -83,20 +83,9 @@ public class MainScene
                 {
                     MediaPlayer.Play(_gameMusic);
                 }
-                for (int i = 0; i < _numObject; i++)
-                {
-                    if(_gameObjects[i].IsActive)
-                        _gameObjects[i].Update(gameTime, _gameObjects);
-                }
-                for (int i = 0; i < _numObject; i++)
-                {
-                    if(!_gameObjects[i].IsActive)
-                    {
-                        _gameObjects.RemoveAt(i);
-                        i--;
-                        _numObject--;
-                    }
-                }
+
+                UpdateGameObject(gameTime);
+
                 if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.Escape))
                 {
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
@@ -106,6 +95,7 @@ public class MainScene
                 CheckAndDestroyHangingChips();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 CheckAndPushDownCeiling();
+                UpdateGameObject(gameTime);
                 CheckGameOver();
                 CheckLevelClear();
                 break;
@@ -147,6 +137,24 @@ public class MainScene
                 }
                 break;
         }
+    }
+
+    protected void UpdateGameObject(GameTime gameTime)
+    {
+                for (int i = 0; i < _numObject; i++)
+                {
+                    if(_gameObjects[i].IsActive)
+                        _gameObjects[i].Update(gameTime, _gameObjects);
+                }
+                for (int i = 0; i < _numObject; i++)
+                {
+                    if(!_gameObjects[i].IsActive)
+                    {
+                        _gameObjects.RemoveAt(i);
+                        i--;
+                        _numObject--;
+                    }
+                }
     }
 
     public void Draw(GameTime gameTime)
@@ -362,7 +370,7 @@ public class MainScene
         {
             for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
             {
-                if(Singleton.Instance.GameBoard[j, i] != ChipType.None)
+                if(Singleton.Instance.GameBoard.HaveChip(j, i))
                     AddChipToBoard(i, j);
             }
         }
@@ -415,7 +423,7 @@ public class MainScene
                 //skip last column
                 if(Singleton.Instance.GameBoard.IsUnUseSpot(j, i))
                     continue;
-                if(Singleton.Instance.GameBoard[j, i] == ChipType.None)
+                if(!Singleton.Instance.GameBoard.HaveChip(j, i))
                     continue;
 
                 List<Vector2> ConnectedChips = new List<Vector2>();
