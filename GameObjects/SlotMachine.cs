@@ -37,6 +37,8 @@ class SlotMachine : GameObject
 
     public float winningChances; 
     public bool onCooldown;
+    public SoundEffect LosingBetSound;
+    public SoundEffect WinningBetSound;
 
     public SlotMachine(Texture2D texture) : base(texture)
     {
@@ -122,11 +124,12 @@ class SlotMachine : GameObject
             if ((float)Singleton.Instance.Random.Next(0,101)/100 <= winningChances)
             {
             Console.WriteLine("You win!");
+            WinningBetSound.Play();
             _nextChipRewardType = (ChipType)Singleton.Instance.Random.Next(1,9);
             }
-
             else
             {Console.WriteLine("Aw.. Dang it!");
+            LosingBetSound.Play();
             _nextChipRewardType = ChipType.None;
             }
 

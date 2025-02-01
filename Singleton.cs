@@ -58,7 +58,8 @@ class Singleton
     
     public MouseState PreviousMouseState,CurrentMouseState;
     private static Singleton instance;
-    public float Volume = 1.0f;
+    public float SFXVolume = 1.0f;
+    public float MusicVolume =1.0f;
     
     private Singleton() { 
         Random = new Random();
