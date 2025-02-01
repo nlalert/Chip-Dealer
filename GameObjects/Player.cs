@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
-    public bool isTicking;
     public float _handSlideTimer = 0f;
     public Vector2 _initialPosition;
     public bool _isSliding = false;
@@ -53,7 +52,6 @@ class Player : GameObject
 
     public override void Reset()
     {
-        isTicking = false;
         _initialPosition = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, Singleton.CHIP_SHOOTING_HEIGHT);
         Position = _initialPosition;
         LastShotChip = Chip;
@@ -66,31 +64,31 @@ class Player : GameObject
         {
             _handSlideTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             
-            if (_handSlideTimer >= 2f) // Return to original position after 1 second
+            if (_handSlideTimer >= 2f) // Return to original position after 2 second
             {
                 Position = _initialPosition;
                 _isSliding = false;
             }
             else
             {
-                // Smoothly return to original position over 1 second
+                // Smoothly return to original position over 2 second
                 Position = Vector2.Lerp(Position, _initialPosition, _handSlideTimer);
             }
         }
 
+        if(Singleton.Instance.CurrentKey.IsKeyDown(Left))
+        {
+            Rotation -= MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate counterclockwise
+        }
+        if(Singleton.Instance.CurrentKey.IsKeyDown(Right))
+        {
+            Rotation += MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate clockwise
+        }
+
+        Rotation = MathHelper.Clamp(Rotation, -Singleton.MAX_PLAYER_ROTATION, Singleton.MAX_PLAYER_ROTATION);
+
         if(LastShotChip.Speed == 0)
         {
-            if(Singleton.Instance.CurrentKey.IsKeyDown(Left))
-            {
-                Rotation -= MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate counterclockwise
-            }
-            if(Singleton.Instance.CurrentKey.IsKeyDown(Right))
-            {
-                Rotation += MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate clockwise
-            }
-
-            Rotation = MathHelper.Clamp(Rotation, -Singleton.MAX_PLAYER_ROTATION, Singleton.MAX_PLAYER_ROTATION);
-
             if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
                 Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
             {
@@ -105,8 +103,6 @@ class Player : GameObject
 
     private void OnShoot(List<GameObject> gameObjects)
     {
-        isTicking = true;
-         // Apply recoil effect (move slightly up)
         _isSliding = true;
         _handSlideTimer = 0f;
         Position -= new Vector2(0, 50); // Move up by 50 pixels
