@@ -140,8 +140,8 @@ class Singleton
         _spriteRects.Add("Unknown_Chip",new Rectangle( 64, 48, 32, 35));
 
         // Background
-        _spriteRects.Add("PlayArea", new Rectangle(288,224,384,488));
-        _spriteRects.Add("PlayArea_Ingame", new Rectangle(0,224,288,488));
+        _spriteRects.Add("Mainmenu_Background", new Rectangle(288,224,384,488));
+        _spriteRects.Add("Ingame_Background", new Rectangle(0,224,288,488));
 
         // Menu UI
         _spriteRects.Add("Game_Title",new Rectangle( 640, 720, 352, 80));//TODO
@@ -166,17 +166,32 @@ class Singleton
         _spriteRects.Add("Back_Label_Highlighted",new Rectangle( 608, 1312, 160, 32));
 
         // In Game UI
-        _spriteRects.Add("Next_Chip_Box",new Rectangle( 112, 144, 64, 64));
-        _spriteRects.Add("Next_Chip_Label",new Rectangle( 176, 144, 64, 16));
 
         _spriteRects.Add("Player_Hand",new Rectangle( 0, 144, 96, 80));
 
-        _spriteRects.Add("Chip_Stick",new Rectangle( 880, 304, 256, 400));
+        _spriteRects.Add("Chip_Stick",new Rectangle( 896, 1504, 256, 400));
 
         _spriteRects.Add("Shop",new Rectangle( 640, 912, 176, 48));//TODO
 
-        // Slot-Mechine UI
+        // In Game-Stat UI
+        _spriteRects.Add("Score_Label0",new Rectangle( 240, 144, 80, 16));
+        _spriteRects.Add("Score_Label1",new Rectangle( 320, 144, 80, 16));
+        _spriteRects.Add("Score_Label2",new Rectangle( 400, 144, 80, 16));
 
+        _spriteRects.Add("Score_Box0",new Rectangle( 208, 176, 144, 32));
+        _spriteRects.Add("Score_Box1",new Rectangle( 352, 176, 144, 32));
+        _spriteRects.Add("Score_Box2",new Rectangle( 496, 176, 144, 32));
+
+        _spriteRects.Add("Money_Box",new Rectangle(640, 176 ,80, 32));
+        _spriteRects.Add("Ceiling_Timer_Box",new Rectangle(720, 176 ,48, 32));
+
+        _spriteRects.Add("Relic_Box",new Rectangle(784, 560 ,144, 144));
+        _spriteRects.Add("Relic_Placeholder",new Rectangle(176, 176 ,32, 32));
+
+        _spriteRects.Add("Next_Chip_Box",new Rectangle( 112, 144, 64, 64));
+        _spriteRects.Add("Next_Chip_Label",new Rectangle( 176, 144, 64, 16));
+
+        // Slot-Mechine UI
         _spriteRects.Add("Slot_Label",new Rectangle(672, 224, 160, 160));
 
         _spriteRects.Add("Slot_Machine",new Rectangle(672, 400, 160, 160));
