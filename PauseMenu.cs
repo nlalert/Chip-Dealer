@@ -163,7 +163,7 @@ public class PauseMenu
         {
             Name = "MusicSlideChip",
             Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip0"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Slide_Chip0").Width) / 2 + (int)(Singleton.Instance.Volume*_slideBarMaxValue) - (_slideBarMaxValue/2),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Slide_Chip0").Width) / 2 + (int)(Singleton.Instance.MusicVolume*_slideBarMaxValue) - (_slideBarMaxValue/2),
                     _musicSlideChipHeight),
             IsActive = true
         };
@@ -172,7 +172,7 @@ public class PauseMenu
         {
             Name = "SFXSlideChip",
             Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip0"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Slide_Chip0").Width) / 2 + (int)(Singleton.Instance.Volume*_slideBarMaxValue) - (_slideBarMaxValue/2),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Slide_Chip0").Width) / 2 + (int)(Singleton.Instance.SFXVolume*_slideBarMaxValue) - (_slideBarMaxValue/2),
                     _sfxSlideChipHeight),
             IsActive = true
         };
@@ -252,7 +252,7 @@ public class PauseMenu
 
                 float _slideBarMinPosition = (Singleton.SCREEN_WIDTH / 2) - (Singleton.CHIP_SIZE/ 2) - (_slideBarMaxValue/2);
                 _musicSlideChipPosition = _musicSlideChip.Position.X - _slideBarMinPosition;
-                Singleton.Instance.Volume = _musicSlideChipPosition / _slideBarMaxValue;
+                Singleton.Instance.MusicVolume = _musicSlideChipPosition / _slideBarMaxValue;
 
             }
             
@@ -270,15 +270,15 @@ public class PauseMenu
             }
 
             // Music slide chip base on music volume
-            if (Singleton.Instance.Volume <= 0)
+            if (Singleton.Instance.MusicVolume <= 0)
             {
                 _musicSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip0");
             }
-            else if (Singleton.Instance.Volume <= 0.33)
+            else if (Singleton.Instance.MusicVolume <= 0.33)
             {
                 _musicSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip1");
             }
-            else if (Singleton.Instance.Volume <= 0.66)
+            else if (Singleton.Instance.MusicVolume <= 0.66)
             {
                 _musicSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip2");
             }
@@ -288,15 +288,15 @@ public class PauseMenu
             }
 
             // SFX slide chip base on SFX volume
-            if (Singleton.Instance.Volume <= 0)
+            if (Singleton.Instance.SFXVolume <= 0)
             {
                 _sfxSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip0");
             }
-            else if (Singleton.Instance.Volume <= 0.33)
+            else if (Singleton.Instance.SFXVolume <= 0.33)
             {
                 _sfxSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip1");
             }
-            else if (Singleton.Instance.Volume <= 0.66)
+            else if (Singleton.Instance.SFXVolume <= 0.66)
             {
                 _sfxSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip2");
             }

@@ -19,6 +19,12 @@
 /processorParam:Quality=Best
 /build:A Night Alone - TrackTribe.mp3
 
+#begin aw-dangit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:aw-dangit.wav
+
 #begin Background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -193,4 +199,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Start.png
+
+#begin winningSFX.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:winningSFX.wav
 

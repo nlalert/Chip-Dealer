@@ -22,6 +22,9 @@ public class MainScene
     Texture2D _LevelPassTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
+    SoundEffect _LosingBetSound;
+    SoundEffect _WinningBetSound;
+
     Song _gameMusic;
 
     SlotMachine _slotMachine;
@@ -53,6 +56,8 @@ public class MainScene
         _ceilingPushingSound = content.Load<SoundEffect>("Ceilingpushing");
         _chipHitSound = content.Load<SoundEffect>("ChipHit");
         _gameMusic = content.Load<Song>("A Night Alone - TrackTribe");
+        _LosingBetSound = content.Load<SoundEffect>("aw-dangit");
+        _WinningBetSound = content.Load<SoundEffect>("winningSFX");
 
         ResetGame();
     }
@@ -105,11 +110,12 @@ public class MainScene
                 break;
             case Singleton.GameState.Pause:    
                 // Adjust volume with Up/Down arrow keys
-                Singleton.Instance.Volume = MathHelper.Clamp(Singleton.Instance.Volume, 0.0f, 1.0f);
+                Singleton.Instance.SFXVolume = MathHelper.Clamp(Singleton.Instance.SFXVolume, 0.0f, 1.0f);
+                Singleton.Instance.MusicVolume = MathHelper.Clamp(Singleton.Instance.MusicVolume, 0.0f, 1.0f);
                 
                 //TODO check this please
-                MediaPlayer.Volume = Singleton.Instance.Volume; 
-                SoundEffect.MasterVolume = Singleton.Instance.Volume;
+                MediaPlayer.Volume = Singleton.Instance.MusicVolume; 
+                SoundEffect.MasterVolume = Singleton.Instance.SFXVolume;
                 break;
                 
             case Singleton.GameState.PassingLevel:
@@ -337,7 +343,9 @@ public class MainScene
         _slotMachine = new SlotMachine(_SpriteTexture){
             Name = "Slotmachine",
             Viewport = Singleton.GetViewPortFromSpriteSheet("Slot_Machine"),
-            Position = new Vector2(_slotMachinePosition, Singleton.SCREEN_HEIGHT/2 - Singleton.GetViewPortFromSpriteSheet("Slot_Machine").Height/2 + 32)
+            Position = new Vector2(_slotMachinePosition, Singleton.SCREEN_HEIGHT/2 - Singleton.GetViewPortFromSpriteSheet("Slot_Machine").Height/2 + 32),
+            LosingBetSound = _LosingBetSound,
+            WinningBetSound = _WinningBetSound
         };
 
         _gameObjects.Add(_slotMachine);
