@@ -166,7 +166,7 @@ public class MainMenu
                     do
                     {
                         chip.X = Singleton.Instance.Random.Next(0, Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Red_Chip").Width / 8);
-                    } while (chip.X  >= Singleton.SCREEN_WIDTH / 4 
+                    } while (chip.X  >= Singleton.SCREEN_WIDTH / 5 
                             && chip.X  <= Singleton.SCREEN_WIDTH * 3 / 4 - Singleton.GetViewPortFromSpriteSheet("Red_Chip").Width / 8); 
                     //this is cool shit WWW
                 }else
@@ -214,12 +214,14 @@ public class MainMenu
         else{
 
             //pull data from file
-            Vector2 position = new Vector2(Singleton.SCREEN_WIDTH /3 , 50); 
+            float currentGap =50;
             foreach (var entry in _scores.OrderByDescending(s => s.Score).Take(10)) // Show top 10 scores
-            {
+            {   
+                
                 string text = $"{entry.Score} pts ({entry.Timestamp:MM/dd HH:mm})";
+                Vector2 position = new Vector2(Singleton.SCREEN_WIDTH /2 -_font.MeasureString(text).X/2, currentGap); 
                 _spriteBatch.DrawString(_font, text, position, Color.White);
-                position.Y += 30; //gap 
+                currentGap += 30; //gap 
             }
 
             //draw back button
