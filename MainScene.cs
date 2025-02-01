@@ -17,22 +17,22 @@ public class MainScene
 
     List<GameObject> _gameObjects;
     int _numObject;
-    Texture2D _backgroundTexture;
-    Texture2D _chipTexture;
-    Texture2D _chipStickTexture;
-    Texture2D _handTexture;
+    Texture2D _SpriteTexture;
     Texture2D _rectTexture;
-    Texture2D _ShopTexture;
-    Texture2D _GameOverTexture;
-    Texture2D _PauseTexture;
-    Texture2D _ButtonTexture;
     Texture2D _LevelPassTexture;
     SoundEffect _ceilingPushingSound;
-    SoundEffect _chipHitSound;
+    SoundEffect _chipHitSound; 
+    SoundEffect _handSlidingSound; 
+    SoundEffect _LosingBetSound;
+    SoundEffect _WinningBetSound;
+
     Song _gameMusic;
-    Shop _shop;
-    private Button _volumeUpButton;
-    private Button _volumeDownButton;
+
+    SlotMachine _slotMachine;
+    GameStat _gameStat;
+
+    private int _slotMachinePositionX = 470;
+    private int _statPositionX = 90;
     private double _levelPassTimer = 0;
     private bool _showLevelPass = false;
     public void Initialize()
@@ -46,16 +46,10 @@ public class MainScene
         _spriteBatch = spriteBatch;
         _font = content.Load<SpriteFont>("GameFont");
 
-        _backgroundTexture = content.Load<Texture2D>("Background");
-        _chipTexture = content.Load<Texture2D>("Chips");
-        _chipStickTexture = content.Load<Texture2D>("ChipStick");
-        _handTexture = content.Load<Texture2D>("Hand");
-        _ShopTexture = content.Load<Texture2D>("Shop");
-        _GameOverTexture = content.Load<Texture2D>("GameOver1");
-        _PauseTexture = content.Load<Texture2D>("Pause1");
-        _ButtonTexture = content.Load<Texture2D>("Hand");
+        //TODO REMOVE THIS AFTER ADD NEW TEXTURE
         _LevelPassTexture = content.Load<Texture2D>("Pause1");
 
+        _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
 
         _rectTexture = new Texture2D(graphicsDevice, 3, 640);
         Color[] data = new Color[3 * 640];
@@ -64,18 +58,27 @@ public class MainScene
 
         _ceilingPushingSound = content.Load<SoundEffect>("Ceilingpushing");
         _chipHitSound = content.Load<SoundEffect>("ChipHit");
+        _handSlidingSound = content.Load<SoundEffect>("Sliding");
         _gameMusic = content.Load<Song>("A Night Alone - TrackTribe");
+        _LosingBetSound = content.Load<SoundEffect>("aw-dangit");
+        _WinningBetSound = content.Load<SoundEffect>("winningSFX");
 
         ResetGame();
     }
 
     public void Update(GameTime gameTime)
     {
-        Singleton.Instance.CurrentKey = Keyboard.GetState();
-        Singleton.Instance.CurrentMouseState = Mouse.GetState();
         _numObject = _gameObjects.Count;
         switch (Singleton.Instance.CurrentGameState)
         {
+            case Singleton.GameState.StartingGame:
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
+                ResetGame();
+                Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+                break;
             case Singleton.GameState.SetLevel:
                 ResetLevel();
                 SetUpInitalChipsPattern();
@@ -89,67 +92,36 @@ public class MainScene
                 {
                     MediaPlayer.Play(_gameMusic);
                 }
-                for (int i = 0; i < _numObject; i++)
-                {
-                    if(_gameObjects[i].IsActive)
-                        _gameObjects[i].Update(gameTime, _gameObjects);
-                }
-                for (int i = 0; i < _numObject; i++)
-                {
-                    if(!_gameObjects[i].IsActive)
-                    {
-                        _gameObjects.RemoveAt(i);
-                        i--;
-                        _numObject--;
-                    }
-                }
-                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.P) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.P))
+
+                UpdateGameObject(gameTime);
+
+                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.Escape))
                 {
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
                 }
                 break;
-            case Singleton.GameState.CheckChipAndCeiling:
+            case Singleton.GameState.CheckCeiling:
+                CheckAndPushDownCeiling();
+                UpdateGameObject(gameTime);
+                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
+                break;
+            case Singleton.GameState.CheckGameBoard:
                 CheckAndDestroyHangingChips();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
-                CheckAndPushDownCeiling();
+                UpdateGameObject(gameTime);
                 CheckGameOver();
                 CheckLevelClear();
                 break;
-            case Singleton.GameState.Pause: 
-                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) 
-                ||  (Singleton.Instance.CurrentKey.IsKeyDown(Keys.P) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.P))
-                )
-                {
-                    Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
-                }
-            
+            case Singleton.GameState.Pause:    
                 // Adjust volume with Up/Down arrow keys
-                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Up) && Singleton.Instance.Volume < 1.0f)
-                {
-                    Singleton.Instance.Volume += 0.01f; 
-                }
-                else if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Down) && Singleton.Instance.Volume > 0.0f)
-                {
-                    Singleton.Instance.Volume -= 0.01f; 
-                }
-                if(_volumeUpButton.IsClicked(Singleton.Instance.CurrentMouseState)
-                && Singleton.Instance.CurrentMouseState.LeftButton != Singleton.Instance.PreviousMouseState.LeftButton
-                && Singleton.Instance.Volume < 1.0f){
-                    Singleton.Instance.Volume += 0.1f; 
-                    Console.WriteLine("increase volume" + Singleton.Instance.Volume);
-                }else if(_volumeDownButton.IsClicked(Singleton.Instance.CurrentMouseState)
-                && Singleton.Instance.CurrentMouseState.LeftButton != Singleton.Instance.PreviousMouseState.LeftButton
-                && Singleton.Instance.Volume > 0.0f){
-                    Singleton.Instance.Volume -= 0.1f;
-                    Console.WriteLine("reduce volume" + Singleton.Instance.Volume);
-                }
-
-                Singleton.Instance.Volume = MathHelper.Clamp(Singleton.Instance.Volume, 0.0f, 1.0f);
+                Singleton.Instance.SFXVolume = MathHelper.Clamp(Singleton.Instance.SFXVolume, 0.0f, 1.0f);
+                Singleton.Instance.MusicVolume = MathHelper.Clamp(Singleton.Instance.MusicVolume, 0.0f, 1.0f);
                 
                 //TODO check this please
-                MediaPlayer.Volume = Singleton.Instance.Volume; 
-                SoundEffect.MasterVolume = Singleton.Instance.Volume;
+                MediaPlayer.Volume = Singleton.Instance.MusicVolume; 
+                SoundEffect.MasterVolume = Singleton.Instance.SFXVolume;
                 break;
+                
             case Singleton.GameState.PassingLevel:
                 _levelPassTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                 if (_levelPassTimer <= 0)
@@ -172,57 +144,65 @@ public class MainScene
                     ResetGame();
                 }
                 break;
+            case Singleton.GameState.MainMenu:
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
+                break;
         }
+    }
 
-        Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
-        Singleton.Instance.PreviousMouseState = Singleton.Instance.CurrentMouseState;
-
+    protected void UpdateGameObject(GameTime gameTime)
+    {
+                for (int i = 0; i < _numObject; i++)
+                {
+                    if(_gameObjects[i].IsActive)
+                        _gameObjects[i].Update(gameTime, _gameObjects);
+                }
+                for (int i = 0; i < _numObject; i++)
+                {
+                    if(!_gameObjects[i].IsActive)
+                    {
+                        _gameObjects.RemoveAt(i);
+                        i--;
+                        _numObject--;
+                    }
+                }
     }
 
     public void Draw(GameTime gameTime)
     {
         _numObject = _gameObjects.Count;
+        //draw background
+        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Ingame_Background").Width)/2 ,0),
+            Singleton.GetViewPortFromSpriteSheet("Ingame_Background"), Color.White);
 
-        _spriteBatch.Draw(_backgroundTexture, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-
-        _spriteBatch.Draw(_chipStickTexture, new Vector2(Singleton.PLAY_AREA_START_X, -_chipStickTexture.Height + Singleton.Instance.CeilingPosition),
-        null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.PLAY_AREA_START_X, - Singleton.GetViewPortFromSpriteSheet("Chip_Stick").Height + Singleton.Instance.CeilingPosition),
+        Singleton.GetViewPortFromSpriteSheet("Chip_Stick"), Color.White);
 
         for (int i = 0; i < _numObject; i++)
         {
             _gameObjects[i].Draw(_spriteBatch);
         }
-        
-        //Next Chip Display 
-        // Red blue green Yellow
-        // 0 1 2 3
-        // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetChipColor(Singleton.Instance.NextChip));
-        
-        // Draw the chip using the sourceRectangle
-        _spriteBatch.Draw(_chipTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400), 
+
+        //draw Next Chip Display
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(_statPositionX - Singleton.CHIP_SIZE/2 , 16*24), 
             new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
-
-        // //Game Over Line
-        // _spriteBatch.Draw(_rectTexture, new Vector2(0, (Singleton.CHIP_GRID_HEIGHT - 1) * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
-
-        Vector2 fontSize = _font.MeasureString("Score : " + Singleton.Instance.Score.ToString());
-        _spriteBatch.DrawString(_font,
-            "Score : " + Singleton.Instance.Score.ToString(),
-            new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 30),
-            Color.White);
 
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
-            _spriteBatch.Draw(_GameOverTexture, new Vector2((Singleton.SCREEN_WIDTH - _GameOverTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _GameOverTexture.Height) / 2), Color.White);
+            _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("GameOver_Title").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("GameOver_Title").Height) / 2),
+                Singleton.GetViewPortFromSpriteSheet("GameOver_Title"), Color.White);
             return;
         }
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
         {
-            _spriteBatch.Draw(_PauseTexture, new Vector2((Singleton.SCREEN_WIDTH - _PauseTexture.Width) / 2, (Singleton.SCREEN_HEIGHT - _PauseTexture.Height) / 2), Color.White);
-            // Display the volume percentage
-            string volumeText = $"Volume: {Math.Round((decimal)(Singleton.Instance.Volume * 100))}%";
-            Vector2 textSize = _font.MeasureString(volumeText);
-            _spriteBatch.DrawString(_font, volumeText, new Vector2((Singleton.SCREEN_WIDTH - textSize.X) / 2, Singleton.SCREEN_HEIGHT / 2), Color.White);
+            //idk what to put in here
+            //hehe 
             return;
         }
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.PassingLevel && _showLevelPass)
@@ -236,6 +216,7 @@ public class MainScene
     }
 
     protected void ResetGame()
+
     {
         // _gameObjects = new List<GameObject>();
         _gameObjects.Clear();
@@ -246,42 +227,29 @@ public class MainScene
         Singleton.Instance.Score = 0;
         Singleton.Instance.Stage = 1;
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
-        _levelPassTimer =3.0f;
+        _levelPassTimer = 3.0f;
 
-        _gameObjects.Add(new Player(_handTexture)
+        _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
+            Viewport = Singleton.GetViewPortFromSpriteSheet("Player_Hand"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
-            Chip = new Chip(_chipTexture)
+            Chip = new Chip(_SpriteTexture)
             {
                 Name = "Chip",
-                _isShot = false,
+                IsShot = false,
                 Viewport = new Rectangle(0, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT), 
                 ChipHitSound = _chipHitSound,
                 Speed = 0,
                 Score = 10
             }
         });
-        _volumeDownButton = new Button(_ButtonTexture){
-            Name = "DownButton",
-            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 + 100, Singleton.CHIP_SHOOTING_HEIGHT-50),
-            IsActive = true,
-        };
-        _volumeUpButton = new Button(_ButtonTexture){
-            Name = "UpButton",
-            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
-            Position = new Vector2(Singleton.SCREEN_WIDTH / 2 +100, Singleton.CHIP_SHOOTING_HEIGHT-150),
-            IsActive = true,
-        };
-        _gameObjects.Add(_volumeDownButton);
-        _gameObjects.Add(_volumeUpButton);
-        //add shop content
-        SetUpShop();
+
+
+        AddExtraGameAsset();
 
         foreach (GameObject s in _gameObjects)
         {
@@ -301,18 +269,19 @@ public class MainScene
 
         _gameObjects.Clear();
 
-        _gameObjects.Add(new Player(_handTexture)
+        _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = new Rectangle(0, 0, _handTexture.Width, _handTexture.Height),
+            Viewport = Singleton.GetViewPortFromSpriteSheet("Player_Hand"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
+            SlidingSound = _handSlidingSound,
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,
-            Chip = new Chip(_chipTexture)
+            Chip = new Chip(_SpriteTexture)
             {
                 Name = "Chip",
-                _isShot = false,
+                IsShot = false,
                 Viewport = new Rectangle(0, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT), 
                 ChipHitSound = _chipHitSound,
                 Speed = 0,
@@ -320,7 +289,7 @@ public class MainScene
             }
         });
 
-        SetUpShop();
+        AddExtraGameAsset();
 
         foreach (GameObject s in _gameObjects)
         {
@@ -339,53 +308,27 @@ public class MainScene
         }
     }
 
-    protected void SetUpShop(){
-        
-        _shop = new Shop(_ShopTexture){
-            Name = "Shop",
-            Position = new Vector2(Singleton.SCREEN_WIDTH *3/4 ,30),
-            font = _font
-        };
-        // _shop.AddItems
+    protected void AddExtraGameAsset(){
 
-        foreach (ChipType chipType in Enum.GetValues(typeof(ChipType)))
+        _slotMachine = new SlotMachine(_SpriteTexture)
         {
-            if(chipType == ChipType.None)
-                continue;
+            Name = "SlotMachine",
+            Viewport = Singleton.GetViewPortFromSpriteSheet("Slot_Machine"),
+            Position = new Vector2(_slotMachinePositionX, Singleton.SCREEN_HEIGHT/2 - Singleton.GetViewPortFromSpriteSheet("Slot_Machine").Height/2 + 32),
+            LosingBetSound = _LosingBetSound,
+            WinningBetSound = _WinningBetSound
+        };
 
-            // Map keys for each ChipType
-            Keys buyKey = chipType switch
-            {
-                ChipType.Red => Keys.A,
-                ChipType.Blue => Keys.S,
-                ChipType.Green => Keys.D,
-                ChipType.Yellow => Keys.F,
-                ChipType.Purple => Keys.G,
-                ChipType.White => Keys.H,
-                ChipType.Black => Keys.J,
-                ChipType.Orange => Keys.K,
-                ChipType.Explosive => Keys.Q,
-                _ => Keys.None // Default case for safety
-            };
+        _gameStat = new GameStat(_SpriteTexture){
+            Name = "GameStat",
+            font = _font,
+            Position = new Vector2(_statPositionX , 48)
+        };
 
-            // Create and configure ShopChip
-            ShopChip shopChip = new ShopChip(_chipTexture)
-            {
-                ChipType = chipType,
-                Viewport = Singleton.GetChipViewPort(chipType),
-                Price = 100,
-                BuyKey = buyKey
-            };
-            if(chipType == ChipType.Explosive){
-                shopChip.Price = 300;
-            }
-            // Add to shop
-            _shop.AddShopItem(shopChip);
-        }
-
-        // Add the shop to the game objects
-        _gameObjects.Add(_shop);
+        _gameObjects.Add(_slotMachine);
+        _gameObjects.Add(_gameStat);
     }
+
     protected void SetUpInitalChipsPattern()
     {
         Stage.SetUpBoard();
@@ -394,7 +337,7 @@ public class MainScene
         {
             for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
             {
-                if(Singleton.Instance.GameBoard[j, i] != ChipType.None)
+                if(Singleton.Instance.GameBoard.HaveChip(j, i))
                     AddChipToBoard(i, j);
             }
         }
@@ -403,10 +346,10 @@ public class MainScene
     protected void AddChipToBoard(int i, int j)
     {
         int offSetX = (j % 2 == 1) ? Singleton.CHIP_SIZE / 2 : 0;
-        Chip newChip = new Chip(_chipTexture)
+        Chip newChip = new Chip(_SpriteTexture)
         {
             Name = "Chip",
-            _isShot = true,
+            IsShot = true,
             Position = new Vector2(Singleton.PLAY_AREA_START_X + i * Singleton.CHIP_SIZE + offSetX, j * Singleton.CHIP_SIZE),
             ChipHitSound = _chipHitSound,
             ChipType = Singleton.Instance.GameBoard[j, i],
@@ -447,7 +390,7 @@ public class MainScene
                 //skip last column
                 if(Singleton.Instance.GameBoard.IsUnUseSpot(j, i))
                     continue;
-                if(Singleton.Instance.GameBoard[j, i] == ChipType.None)
+                if(!Singleton.Instance.GameBoard.HaveChip(j, i))
                     continue;
 
                 List<Vector2> ConnectedChips = new List<Vector2>();
@@ -462,8 +405,23 @@ public class MainScene
 
                 if(highestRow != 0)
                 {
-                    Singleton.Instance.GameBoard.DestroyChips(ConnectedChips, _gameObjects);
                     Singleton.Instance.Score += (int)(10 * Math.Pow(2, ConnectedChips.Count));
+                    StartChipFalling(ConnectedChips,_gameObjects);
+                }
+            }
+        }
+    }
+
+    protected void StartChipFalling(List<Vector2> connectedChips, List<GameObject> gameObjects)
+    {
+        foreach (Vector2 chipPosition in connectedChips)
+        {
+            foreach (GameObject s in gameObjects)
+            {
+                if(s is Chip && (s as Chip).BoardCoord == chipPosition)
+                {
+                    (s as Chip).IsFalling = true;
+                    break;
                 }
             }
         }

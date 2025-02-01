@@ -18,6 +18,8 @@ public class GameManager : Game
     // Game Scene (MainScene)
     private MainScene _mainScene;
     private MainMenu _mainMenu;
+    private PauseMenu _pauseMenu;
+
     public GameManager()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -43,27 +45,44 @@ public class GameManager : Game
         _mainScene.Initialize(); // Ensure MainScene has a proper Initialize method
         _mainScene.LoadContent(Content, GraphicsDevice, _spriteBatch);
         Singleton.Instance.CurrentGameState = Singleton.GameState.MainMenu;
+
+        _pauseMenu = new PauseMenu();
+        _pauseMenu.Initialize(); // Ensure MainScene has a proper Initialize method
+        _pauseMenu.LoadContent(Content, GraphicsDevice, _spriteBatch);
     }
 
     protected override void Update(GameTime gameTime)
     {
+        Singleton.Instance.CurrentKey = Keyboard.GetState();
+        Singleton.Instance.CurrentMouseState = Mouse.GetState();
+
         switch (Singleton.Instance.CurrentGameState)
         {
             case Singleton.GameState.MainMenu:
+                _mainScene.Update(gameTime);
                 _mainMenu.Update(gameTime);
                 break;
-
+            case Singleton.GameState.Pause:
+                _mainScene.Update(gameTime);
+                _pauseMenu.Update(gameTime);
+                break;
+            case Singleton.GameState.Exit:
+                Exit();
+                break;
             default:
                 _mainScene.Update(gameTime);
                 break;
         }
+
+        Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
+        Singleton.Instance.PreviousMouseState = Singleton.Instance.CurrentMouseState;
 
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(new Color(64, 28, 4));
 
         _spriteBatch.Begin();
 
@@ -71,6 +90,10 @@ public class GameManager : Game
         {
             case Singleton.GameState.MainMenu:
                 _mainMenu.Draw(gameTime);
+                break;
+            case Singleton.GameState.Pause:
+                _mainScene.Draw(gameTime);
+                _pauseMenu.Draw(gameTime);
                 break;
             default:
                 _mainScene.Draw(gameTime);
