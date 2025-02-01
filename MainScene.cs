@@ -21,7 +21,8 @@ public class MainScene
     Texture2D _rectTexture;
     Texture2D _LevelPassTexture;
     SoundEffect _ceilingPushingSound;
-    SoundEffect _chipHitSound;
+    SoundEffect _chipHitSound; 
+    SoundEffect _handSlidingSound; 
     SoundEffect _LosingBetSound;
     SoundEffect _WinningBetSound;
 
@@ -57,6 +58,7 @@ public class MainScene
 
         _ceilingPushingSound = content.Load<SoundEffect>("Ceilingpushing");
         _chipHitSound = content.Load<SoundEffect>("ChipHit");
+        _handSlidingSound = content.Load<SoundEffect>("Sliding");
         _gameMusic = content.Load<Song>("A Night Alone - TrackTribe");
         _LosingBetSound = content.Load<SoundEffect>("aw-dangit");
         _WinningBetSound = content.Load<SoundEffect>("winningSFX");
@@ -272,6 +274,7 @@ public class MainScene
             Name = "Player",
             Viewport = Singleton.GetViewPortFromSpriteSheet("Player_Hand"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
+            SlidingSound = _handSlidingSound,
             Left = Keys.Left,
             Right = Keys.Right,
             Fire = Keys.Space,

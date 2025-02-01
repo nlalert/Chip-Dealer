@@ -164,6 +164,18 @@
 /processorParam:TextureFormat=Color
 /build:Shop.png
 
+#begin Sliding.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sliding.wav
+
+#begin Sliding.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sliding.wav
+
 #begin SpaceInvaderSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor

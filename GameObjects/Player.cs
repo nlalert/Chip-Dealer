@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
     public float _handSlideTimer = 0f;
+    public SoundEffect SlidingSound;
     public Vector2 _initialPosition;
     public bool _isSliding = false;
     public Chip Chip, LastShotChip;
@@ -106,6 +108,8 @@ class Player : GameObject
         _isSliding = true;
         _handSlideTimer = 0f;
         Position -= new Vector2(0, 50); // Move up by 50 pixels
+
+        SlidingSound.Play();
 
         var newChip = Chip.Clone() as Chip; 
 
