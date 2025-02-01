@@ -25,7 +25,7 @@ class Player : GameObject
         float DotGap = 8f;
         DrawDottedLine(spriteBatch, Position + PositionXOffset + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
 
-        if (!Chip._isShot){
+        if (!Chip.IsShot){
             Chip.Draw(spriteBatch);
         }
 
@@ -82,7 +82,7 @@ class Player : GameObject
 
         newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
                                         Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE/2);
-        newChip._isShot = true;
+        newChip.IsShot = true;
         newChip.Rotation = Rotation;
         newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
         newChip.ChipType = Singleton.Instance.CurrentChip;

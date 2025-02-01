@@ -183,16 +183,16 @@ public class GameBoard
 
     public void DestroySingleChip(int row, int col, List<GameObject> gameObjects)
     {
-            _board[row, col] = ChipType.None;
-            foreach (GameObject s in gameObjects)
+        _board[row, col] = ChipType.None;
+        foreach (GameObject s in gameObjects)
+        {
+            if(s is Chip && (s as Chip).BoardCoord == new Vector2(col, row))
             {
-                if(s is Chip && (s as Chip).BoardCoord == new Vector2(col, row))
-                {
-                    Singleton.Instance.Score += (s as Chip).Score;
-                    s.IsActive = false;
-                    break;
-                }
+                Singleton.Instance.Score += (s as Chip).Score;
+                s.IsActive = false;
+                break;
             }
+        }
     }
 
     public void DestroyAdjacentChips(Vector2 chipCoord, List<GameObject> gameObjects)

@@ -9,7 +9,11 @@ class Chip : GameObject
 {   
     public float Angle;
     public float Speed;
-    public bool _isShot;
+    public bool IsShot;
+
+    public bool IsFalling = false;
+    public float FallSpeed = 800f;
+
 
     public int Score;
 
@@ -29,7 +33,7 @@ class Chip : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if (!_isShot){
+        if (!IsShot){
             Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE/2);
             //draw current chip on hand
             Viewport = Singleton.GetChipViewPort(Singleton.Instance.CurrentChip);
@@ -65,10 +69,24 @@ class Chip : GameObject
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
-        Velocity.X = (float) Math.Cos(Angle) * Speed;
-        Velocity.Y = (float) Math.Sin(Angle) * Speed;
+        if (IsFalling)
+        {
+            ApplyGravity(gameTime);
 
-        Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Position.Y > Singleton.SCREEN_HEIGHT)
+            {
+                IsActive = false;
+                Singleton.Instance.GameBoard.DestroySingleChip((int)BoardCoord.Y, (int)BoardCoord.X, gameObjects);
+                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
+            }
+        }
+        else
+        {
+            // Normal chip movement logic
+            Velocity.X = (float)Math.Cos(Angle) * Speed;
+            Velocity.Y = (float)Math.Sin(Angle) * Speed;
+            Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        }
 
         if(Speed != 0)
         {
@@ -85,7 +103,7 @@ class Chip : GameObject
                         Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
                         break;
                 }
-                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
+                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckCeiling;
             }
 
             if (Position.X < Singleton.PLAY_AREA_START_X){
@@ -101,7 +119,7 @@ class Chip : GameObject
             
             foreach (GameObject s in gameObjects)
             {
-                if (s != this && s is Chip && IsTouchingAsCircle(s))
+                if (s != this && s is Chip && !(s as Chip).IsFalling && IsTouchingAsCircle(s))
                 {
                     MoveBackUntilNoCollision(gameTime, s);
                     SnapToGrid();
@@ -115,7 +133,7 @@ class Chip : GameObject
                             Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
                             break;
                     }
-                    Singleton.Instance.CurrentGameState = Singleton.GameState.CheckChipAndCeiling;
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.CheckCeiling;
                 }
             }
         }
@@ -135,6 +153,10 @@ class Chip : GameObject
         base.Update(gameTime, gameObjects);
     }
 
+    protected void ApplyGravity(GameTime gameTime)
+    {
+        Position.Y += FallSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+    }
     protected void MoveBackUntilNoCollision(GameTime gameTime, GameObject s)
     {
         Angle = Angle - (float)Math.PI;

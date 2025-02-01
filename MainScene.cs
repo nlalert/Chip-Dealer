@@ -91,10 +91,14 @@ public class MainScene
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
                 }
                 break;
-            case Singleton.GameState.CheckChipAndCeiling:
+            case Singleton.GameState.CheckCeiling:
+                CheckAndPushDownCeiling();
+                UpdateGameObject(gameTime);
+                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
+                break;
+            case Singleton.GameState.CheckGameBoard:
                 CheckAndDestroyHangingChips();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
-                CheckAndPushDownCeiling();
                 UpdateGameObject(gameTime);
                 CheckGameOver();
                 CheckLevelClear();
@@ -261,7 +265,7 @@ public class MainScene
             Chip = new Chip(_SpriteTexture)
             {
                 Name = "Chip",
-                _isShot = false,
+                IsShot = false,
                 Viewport = new Rectangle(0, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT), 
                 ChipHitSound = _chipHitSound,
                 Speed = 0,
@@ -301,7 +305,7 @@ public class MainScene
             Chip = new Chip(_SpriteTexture)
             {
                 Name = "Chip",
-                _isShot = false,
+                IsShot = false,
                 Viewport = new Rectangle(0, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT), 
                 ChipHitSound = _chipHitSound,
                 Speed = 0,
@@ -359,7 +363,7 @@ public class MainScene
         Chip newChip = new Chip(_SpriteTexture)
         {
             Name = "Chip",
-            _isShot = true,
+            IsShot = true,
             Position = new Vector2(Singleton.PLAY_AREA_START_X + i * Singleton.CHIP_SIZE + offSetX, j * Singleton.CHIP_SIZE),
             ChipHitSound = _chipHitSound,
             ChipType = Singleton.Instance.GameBoard[j, i],
@@ -415,8 +419,23 @@ public class MainScene
 
                 if(highestRow != 0)
                 {
-                    Singleton.Instance.GameBoard.DestroyChips(ConnectedChips, _gameObjects);
                     Singleton.Instance.Score += (int)(10 * Math.Pow(2, ConnectedChips.Count));
+                    StartChipFalling(ConnectedChips,_gameObjects);
+                }
+            }
+        }
+    }
+
+    protected void StartChipFalling(List<Vector2> connectedChips, List<GameObject> gameObjects)
+    {
+        foreach (Vector2 chipPosition in connectedChips)
+        {
+            foreach (GameObject s in gameObjects)
+            {
+                if(s is Chip && (s as Chip).BoardCoord == chipPosition)
+                {
+                    (s as Chip).IsFalling = true;
+                    break;
                 }
             }
         }
