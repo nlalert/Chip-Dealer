@@ -6,6 +6,10 @@ using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
+    public bool isTicking;
+    public float _handSlideTimer = 0f;
+    public Vector2 _initialPosition;
+    public bool _isSliding = false;
     public Chip Chip, LastShotChip;
     public Keys Left, Right, Fire;
     
@@ -17,13 +21,15 @@ class Player : GameObject
     public override void Draw(SpriteBatch spriteBatch)
     {
         Vector2 Origin = new Vector2(0, 0);
-        Vector2 PositionXOffset = new Vector2(Singleton.GetViewPortFromSpriteSheet("Player_Hand").Width/2, 0);
         
         //draw aim line
         float DotLinelength = 100f;
         float DotSize = 4f;
         float DotGap = 8f;
-        DrawDottedLine(spriteBatch, Position + PositionXOffset + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
+
+        Vector2 PositionOffset = new Vector2(Singleton.GetViewPortFromSpriteSheet("Player_Hand").Width/2, 0);
+
+        DrawDottedLine(spriteBatch, _initialPosition + PositionOffset + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
 
         if (!Chip.IsShot){
             Chip.Draw(spriteBatch);
@@ -32,7 +38,7 @@ class Player : GameObject
         // Draw the sprite with rotation around its center
         spriteBatch.Draw(
             _texture,
-            Position + PositionXOffset + Origin, // Position adjusted to account for origin
+            Position + PositionOffset + Origin, // Position adjusted to account for origin
             Viewport,
             Color.White,
             Rotation, 
@@ -47,37 +53,64 @@ class Player : GameObject
 
     public override void Reset()
     {
-        Position = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, Singleton.CHIP_SHOOTING_HEIGHT);
+        isTicking = false;
+        _initialPosition = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, Singleton.CHIP_SHOOTING_HEIGHT);
+        Position = _initialPosition;
         LastShotChip = Chip;
         base.Reset();
     }
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
-        if(Singleton.Instance.CurrentKey.IsKeyDown(Left))
+        if (_isSliding)
         {
-            Rotation -= MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate counterclockwise
-        }
-        if(Singleton.Instance.CurrentKey.IsKeyDown(Right))
-        {
-            Rotation += MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate clockwise
+            _handSlideTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+            if (_handSlideTimer >= 2f) // Return to original position after 1 second
+            {
+                Position = _initialPosition;
+                _isSliding = false;
+            }
+            else
+            {
+                // Smoothly return to original position over 1 second
+                Position = Vector2.Lerp(Position, _initialPosition, _handSlideTimer);
+            }
         }
 
-        Rotation = MathHelper.Clamp(Rotation, -Singleton.MAX_PLAYER_ROTATION, Singleton.MAX_PLAYER_ROTATION);
-        if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
-            LastShotChip.Speed == 0 &&
-            Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
+        if(LastShotChip.Speed == 0)
         {
-            OnShoot(gameTime,gameObjects);
-            Singleton.Instance.CurrentChip = Singleton.Instance.NextChip;
-            Singleton.Instance.ChipShotAmount++;
+            if(Singleton.Instance.CurrentKey.IsKeyDown(Left))
+            {
+                Rotation -= MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate counterclockwise
+            }
+            if(Singleton.Instance.CurrentKey.IsKeyDown(Right))
+            {
+                Rotation += MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate clockwise
+            }
+
+            Rotation = MathHelper.Clamp(Rotation, -Singleton.MAX_PLAYER_ROTATION, Singleton.MAX_PLAYER_ROTATION);
+
+            if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
+                Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
+            {
+                OnShoot(gameObjects);
+                Singleton.Instance.CurrentChip = Singleton.Instance.NextChip;
+                Singleton.Instance.ChipShotAmount++;
+            }
         }
-        Chip.Update(gameTime,gameObjects);
+
         base.Update(gameTime, gameObjects);
     }
-    
-    private void OnShoot(GameTime gameTime, List<GameObject> gameObjects){
-        
+
+    private void OnShoot(List<GameObject> gameObjects)
+    {
+        isTicking = true;
+         // Apply recoil effect (move slightly up)
+        _isSliding = true;
+        _handSlideTimer = 0f;
+        Position -= new Vector2(0, 50); // Move up by 50 pixels
+
         var newChip = Chip.Clone() as Chip; 
 
         newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
