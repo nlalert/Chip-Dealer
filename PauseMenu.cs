@@ -77,18 +77,18 @@ public class PauseMenu
             }
         }
 
-        _musicLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/4) - 
+        _musicLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height/4) - 
         (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height/2) - buttonGap;
-        _sfxLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/12) - 
+        _sfxLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height/12) - 
         (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height/2) - buttonGap;
 
-        _musicSlideBarHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/4) + buttonGap;
-        _sfxSlideBarHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height / 2) + (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/12) + buttonGap;
+        _musicSlideBarHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height / 2) - (Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height/4) + buttonGap;
+        _sfxSlideBarHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height / 2) + (Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height/12) + buttonGap;
 
-        _musicSlideChipHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/4) + buttonGap;
-        _sfxSlideChipHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/12) + buttonGap;
+        _musicSlideChipHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height/4) + buttonGap;
+        _sfxSlideChipHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height/12) + buttonGap;
 
-        _backButtonHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Back_Button").Height / 2) + (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height*2/5);
+        _backButtonHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Small_Button").Height / 2) + (Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height*2/5);
     }
 
     public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
@@ -180,10 +180,10 @@ public class PauseMenu
         _backButton = new Button(_texture)
         {
             Name = "BackButton",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Back_Button"),
-            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Back_Button_Highlighted"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Back_Button").Width) / 2,
-                    _backButtonHeight - Singleton.GetViewPortFromSpriteSheet("Back_Button").Height / 2),
+            Viewport = Singleton.GetViewPortFromSpriteSheet("Small_Button"),
+            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Small_Button_Highlighted"),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Small_Button").Width) / 2,
+                    _backButtonHeight - Singleton.GetViewPortFromSpriteSheet("Small_Button").Height / 2),
             LabelViewPort = Singleton.GetViewPortFromSpriteSheet("Back_Label"),
             HighlightedLabelViewPort = Singleton.GetViewPortFromSpriteSheet("Back_Label_Highlighted"),
             LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Back_Label").Width) / 2,
@@ -330,8 +330,8 @@ public class PauseMenu
         else {
 
             // Settings Box
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Width/ 2),
-             (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/ 2)), Singleton.GetViewPortFromSpriteSheet("Settings_Box0"), Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.GetViewPortFromSpriteSheet("Big_Box0").Width/ 2),
+             (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height/ 2)), Singleton.GetViewPortFromSpriteSheet("Big_Box0"), Color.White);
             
             // Music
             _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.GetViewPortFromSpriteSheet("Music_Label").Width/ 2),

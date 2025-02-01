@@ -99,10 +99,10 @@ public class MainMenu
         _BackButton = new Button(_SpriteTexture)
         {
             Name = "BackButton",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Back_Button"),
-            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Back_Button_Highlighted"),
-            Position = new Vector2(Singleton.SCREEN_WIDTH /2 - Singleton.GetViewPortFromSpriteSheet("Back_Button").Width/2,
-                    Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Back_Button").Height / 2 - 50),
+            Viewport = Singleton.GetViewPortFromSpriteSheet("Small_Button"),
+            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Small_Button_Highlighted"),
+            Position = new Vector2(Singleton.SCREEN_WIDTH /2 - Singleton.GetViewPortFromSpriteSheet("Small_Button").Width/2,
+                    Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Small_Button").Height / 2 - 50),
             LabelViewPort = Singleton.GetViewPortFromSpriteSheet("Back_Label"),
             HighlightedLabelViewPort = Singleton.GetViewPortFromSpriteSheet("Back_Label_Highlighted"),
             LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Back_Label").Width) / 2,

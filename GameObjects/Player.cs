@@ -97,6 +97,8 @@ class Player : GameObject
                 OnShoot(gameObjects);
                 Singleton.Instance.CurrentChip = Singleton.Instance.NextChip;
                 Singleton.Instance.ChipShotAmount++;
+                Singleton.Instance.waitForPlayer = false;
+                Singleton.Instance.Money -= 1;
             }
         }
 

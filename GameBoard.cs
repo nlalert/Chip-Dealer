@@ -170,7 +170,11 @@ public class GameBoard
         GetAllConnectedSameTypeChips(chipCoord, sameTypeChips);
 
         if(sameTypeChips.Count >= Singleton.CHIP_BREAK_AMOUNT)
+        {
+            Singleton.Instance.Money += sameTypeChips.Count;
             DestroyChips(sameTypeChips, gameObjects);
+        }
+        
     }
 
     public void DestroyChips(List<Vector2> chips, List<GameObject> gameObjects)

@@ -63,9 +63,9 @@ class GameStat : GameObject
         spriteBatch.Draw(_texture, new Vector2(Position.X - (Singleton.GetViewPortFromSpriteSheet("Money_Box").Width + Singleton.GetViewPortFromSpriteSheet("Ceiling_Turn_Box").Width + 16)/2 , Position.Y + 16*10), 
         Singleton.GetViewPortFromSpriteSheet("Money_Box"), Color.White);
 
-        fontSize = font.MeasureString((Singleton.Instance.Score/100).ToString());
-        spriteBatch.DrawString(font,(Singleton.Instance.Score/100).ToString(),
-        new Vector2(Position.X - (Singleton.GetViewPortFromSpriteSheet("Money_Box").Width + Singleton.GetViewPortFromSpriteSheet("Ceiling_Turn_Box").Width + 16)/2 + 16*3 - fontSize.X/2, Position.Y + 16*10 + 8),Color.White);
+        fontSize = font.MeasureString(Singleton.Instance.Money.ToString());
+        spriteBatch.DrawString(font,Singleton.Instance.Money.ToString(),
+        new Vector2(Position.X - (Singleton.GetViewPortFromSpriteSheet("Money_Box").Width + Singleton.GetViewPortFromSpriteSheet("Ceiling_Turn_Box").Width + 16)/2 + 16*3 - fontSize.X/2, Position.Y + 16*10 + 10),Color.White);
 
         spriteBatch.Draw(_texture, new Vector2(Position.X + (Singleton.GetViewPortFromSpriteSheet("Money_Label").Width - Singleton.GetViewPortFromSpriteSheet("Ceiling_Turn_Label").Width + 16)/2 , Position.Y + 16*8),  
         Singleton.GetViewPortFromSpriteSheet("Ceiling_Turn_Label"), Color.White);

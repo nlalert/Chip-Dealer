@@ -35,6 +35,7 @@ public class MainScene
     private Vector2 _statPosition = new Vector2(90, 16);
     private double _levelPassTimer = 0;
     private bool _showLevelPass = false;
+
     public void Initialize()
     {
         _gameObjects = new List<GameObject>();
@@ -99,6 +100,9 @@ public class MainScene
                 {
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
                 }
+
+                if (Singleton.Instance.Money <= 0 && Singleton.Instance.waitForPlayer) Singleton.Instance.CurrentGameState = Singleton.GameState.GameOver;
+
                 break;
             case Singleton.GameState.CheckCeiling:
                 CheckAndPushDownCeiling();
@@ -108,6 +112,7 @@ public class MainScene
             case Singleton.GameState.CheckGameBoard:
                 CheckAndDestroyHangingChips();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
+                Singleton.Instance.waitForPlayer = true;
                 UpdateGameObject(gameTime);
                 CheckGameOver();
                 CheckLevelClear();
@@ -135,6 +140,7 @@ public class MainScene
                 }
                 break;
             case Singleton.GameState.GameOver:
+            case Singleton.GameState.GameWon:
                 if (MediaPlayer.State == MediaState.Playing)
                 {
                     MediaPlayer.Stop();
@@ -195,11 +201,98 @@ public class MainScene
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
+            
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("GameOver_Title").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("GameOver_Title").Height) / 2),
-                Singleton.GetViewPortFromSpriteSheet("GameOver_Title"), Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2),
+                Singleton.GetViewPortFromSpriteSheet("Big_Box0"), Color.White);
+            _spriteBatch.Draw(_SpriteTexture,
+
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("GameOver_Label").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*3),
+                Singleton.GetViewPortFromSpriteSheet("GameOver_Label"), Color.White);
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*18),
+                Singleton.GetViewPortFromSpriteSheet("NewGame_Label"), Color.White);  
+
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Score_Label2").Width - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16
+                , (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*13),
+                Singleton.GetViewPortFromSpriteSheet("Score_Label2"), Color.White);  
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16
+                , (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15),
+                Singleton.GetViewPortFromSpriteSheet("Score_Box2"), Color.White);  
+            
+            Vector2 fontSize = _font.MeasureString(Singleton.Instance.Score.ToString());
+
+            _spriteBatch.DrawString(_font,Singleton.Instance.Score.ToString(),
+                new Vector2((Singleton.SCREEN_WIDTH - fontSize.X - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16,
+                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Stage_Label").Width + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2,
+                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*13),
+                Singleton.GetViewPortFromSpriteSheet("Stage_Label"), Color.White);  
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2,
+                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15),
+                Singleton.GetViewPortFromSpriteSheet("Stage_Box"), Color.White);  
+            
+            fontSize = _font.MeasureString(Singleton.Instance.Stage.ToString());
+            
+            _spriteBatch.DrawString(_font,Singleton.Instance.Stage.ToString(),
+            new Vector2((Singleton.SCREEN_WIDTH - fontSize.X + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2 - 8,
+            (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+
             return;
         }
+
+        if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameWon)
+        {
+            _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
+            
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2),
+                Singleton.GetViewPortFromSpriteSheet("Big_Box0"), Color.White);
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("GameWin_Label").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*3),
+                Singleton.GetViewPortFromSpriteSheet("GameWin_Label"), Color.White);
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*18),
+                Singleton.GetViewPortFromSpriteSheet("NewGame_Label"), Color.White);
+
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Score_Label2").Width - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16
+                , (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*13),
+                Singleton.GetViewPortFromSpriteSheet("Score_Label2"), Color.White);  
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16
+                , (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15),
+                Singleton.GetViewPortFromSpriteSheet("Score_Box2"), Color.White);       
+            
+            Vector2 fontSize = _font.MeasureString(Singleton.Instance.Score.ToString());
+
+            _spriteBatch.DrawString(_font,Singleton.Instance.Score.ToString(),
+                new Vector2((Singleton.SCREEN_WIDTH - fontSize.X - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16,
+                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Stage_Label").Width + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2,
+                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*13),
+                Singleton.GetViewPortFromSpriteSheet("Stage_Label"), Color.White);  
+            _spriteBatch.Draw(_SpriteTexture,
+                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2,
+                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15),
+                Singleton.GetViewPortFromSpriteSheet("Stage_Box"), Color.White);  
+            
+            fontSize = _font.MeasureString(Singleton.Instance.Stage.ToString());
+            
+            _spriteBatch.DrawString(_font,Singleton.Instance.Stage.ToString(),
+            new Vector2((Singleton.SCREEN_WIDTH - fontSize.X + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2 - 8,
+            (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);  
+
+            return;
+        }
+
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
         {
             //idk what to put in here
@@ -227,6 +320,8 @@ public class MainScene
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
         Singleton.Instance.Stage = 1;
+        Singleton.Instance.Money = 5;
+        Singleton.Instance.waitForPlayer = true;
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
         _levelPassTimer = 3.0f;
 
@@ -265,6 +360,7 @@ public class MainScene
 
         Singleton.Instance.CeilingPosition = 0;
         Singleton.Instance.ChipShotAmount = 0;
+        Singleton.Instance.waitForPlayer = true;
 
         DestroyAllChips();
 
@@ -407,6 +503,7 @@ public class MainScene
                 if(highestRow != 0)
                 {
                     Singleton.Instance.Score += (int)(10 * Math.Pow(2, ConnectedChips.Count));
+                    Console.WriteLine(ConnectedChips.Count);
                     StartChipFalling(ConnectedChips,_gameObjects);
                 }
             }

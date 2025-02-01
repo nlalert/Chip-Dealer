@@ -30,6 +30,8 @@ class Singleton
     public int ChipShotAmount;
     public int Stage;
     public int Score;
+    public int Money;
+    public bool waitForPlayer;
 
     public GameBoard GameBoard;
 
@@ -49,6 +51,7 @@ class Singleton
         Pause,
         PassingLevel,
         GameOver,
+        GameWon,
         Exit,
     }
 
@@ -158,16 +161,15 @@ class Singleton
         _spriteRects.Add("Exit_Label",new Rectangle( 0, 1488, 304, 48));
         _spriteRects.Add("Exit_Label_Highlighted",new Rectangle( 304, 1488, 304, 48));
 
-
-        _spriteRects.Add("Back_Button",new Rectangle(608, 1136, 160 ,48));
-        _spriteRects.Add("Back_Button_Highlighted",new Rectangle(608, 1200, 160 ,48));
+        _spriteRects.Add("Small_Button",new Rectangle(608, 1136, 160 ,48));
+        _spriteRects.Add("Small_Button_Highlighted",new Rectangle(608, 1200, 160 ,48));
 
         _spriteRects.Add("Back_Label",new Rectangle( 608, 1264, 160, 32));
         _spriteRects.Add("Back_Label_Highlighted",new Rectangle( 608, 1312, 160, 32));
 
         // In Game UI
 
-        _spriteRects.Add("Player_Hand",new Rectangle( 0, 144, 96, 80));
+        _spriteRects.Add("Player_Hand",new Rectangle( 0, 144, 96, 79));
 
         _spriteRects.Add("Chip_Stick",new Rectangle( 896, 1504, 256, 400));
 
@@ -191,7 +193,7 @@ class Singleton
         _spriteRects.Add("Ceiling_Turn_Label",new Rectangle(720, 144 ,48, 16));
         _spriteRects.Add("Ceiling_Turn_Box",new Rectangle(720, 176 ,48, 32));
 
-        _spriteRects.Add("Relic_Box",new Rectangle(784, 560 ,144, 144));
+        _spriteRects.Add("Relic_Box",new Rectangle(768, 992 ,144, 144));
         _spriteRects.Add("Relic_Placeholder",new Rectangle(176, 176 ,32, 32));
 
         _spriteRects.Add("Next_Chip_Box",new Rectangle( 112, 160, 48, 48));
@@ -208,7 +210,9 @@ class Singleton
         _spriteRects.Add("Slot_Drawing",new Rectangle(672, 608, 112, 96));
 
         // GameOver UI
-        _spriteRects.Add("GameOver_Title",new Rectangle( 0, 720, 320, 256));
+        _spriteRects.Add("GameOver_Label",new Rectangle( 352, 720, 240, 144));
+        _spriteRects.Add("GameWin_Label",new Rectangle( 0, 720, 336, 64));
+        _spriteRects.Add("NewGame_Label",new Rectangle( 0, 800, 256, 32));
 
         // Pause UI
         _spriteRects.Add("Pause_Title0",new Rectangle(0, 992, 384, 128));
@@ -230,8 +234,8 @@ class Singleton
         _spriteRects.Add("Mainmenu_Label_Highlighted",new Rectangle(304, 1424, 304, 48));
 
         // Settings UI
-        _spriteRects.Add("Settings_Box0",new Rectangle(0, 1552, 448, 352));
-        _spriteRects.Add("Settings_Box1",new Rectangle(448, 1552, 448, 352));
+        _spriteRects.Add("Big_Box0",new Rectangle(0, 1552, 448, 352));
+        _spriteRects.Add("Big_Box1",new Rectangle(448, 1552, 448, 352));
 
         _spriteRects.Add("Music_Label",new Rectangle(448, 1984, 176, 32));
         _spriteRects.Add("SFX_Label",new Rectangle(624, 1984, 112, 32));

@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-
 class SlotMachine : GameObject
 {  
     public ChipType[] _chipsDisplay;
@@ -24,7 +23,6 @@ class SlotMachine : GameObject
     public Vector2 slot0Position;
     public Vector2 slot1Position;
     public Vector2 slot2Position;
-
     
     public Vector2[] slotPositions;
     public Rectangle[] slotBorders;
@@ -118,6 +116,7 @@ class SlotMachine : GameObject
 
         if (!_handle.Dragging && _handle.Position.Y == handleMaxHeight-handleResetSpeed && !onCooldown){
             onCooldown = true;
+            Singleton.Instance.Money -= 1;
 
             _chipsDisplay = new ChipType[3];
 
@@ -156,6 +155,7 @@ class SlotMachine : GameObject
         if (_chipReward.IsClicked() && _currentChipRewardType != ChipType.None)
         {
             Singleton.Instance.CurrentChip = _currentChipRewardType;
+            Singleton.Instance.Money += 1;
 
             _currentChipRewardType = ChipType.None;
 
