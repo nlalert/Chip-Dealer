@@ -18,13 +18,11 @@ public class MainScene
     List<GameObject> _gameObjects;
     int _numObject;
     Texture2D _SpriteTexture;
-    Texture2D _chipStickTexture;
     Texture2D _rectTexture;
     Texture2D _LevelPassTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
     Song _gameMusic;
-    Shop _shop;
 
     SlotMachine _slotMachine;
     GameStat _gameStat;
@@ -45,7 +43,6 @@ public class MainScene
         _font = content.Load<SpriteFont>("GameFont");
 
         //TODO REMOVE THIS AFTER ADD NEW TEXTURE
-        _chipStickTexture = content.Load<Texture2D>("ChipStick");
         _LevelPassTexture = content.Load<Texture2D>("Pause1");
 
         _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
@@ -182,24 +179,6 @@ public class MainScene
         _spriteBatch.Draw(_SpriteTexture, new Vector2(_statPositionX - Singleton.CHIP_SIZE/2 , 16*24), 
             new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
 
-        Vector2 fontSize = _font.MeasureString("Score : " + Singleton.Instance.Score.ToString());
-        _spriteBatch.DrawString(_font,
-            "Score : " + Singleton.Instance.Score.ToString(),
-            new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 30),
-            Color.White);
-
-        fontSize = _font.MeasureString("Turn until");
-        _spriteBatch.DrawString(_font,
-            "Turn until",
-            new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 90),
-            Color.White);
-
-        fontSize = _font.MeasureString("chip pushing : " + (Singleton.CEILING_WAITING_TURN - (Singleton.Instance.ChipShotAmount%Singleton.CEILING_WAITING_TURN)));
-        _spriteBatch.DrawString(_font,
-            "chip pushing : " + (Singleton.CEILING_WAITING_TURN - (Singleton.Instance.ChipShotAmount%Singleton.CEILING_WAITING_TURN)),
-            new Vector2((Singleton.SCREEN_WIDTH / 4 - fontSize.X) / 2, 110),
-            Color.White);
-
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
@@ -327,6 +306,7 @@ public class MainScene
 
         _gameStat = new GameStat(_SpriteTexture){
             Name = "GameStat",
+            font = _font,
             Position = new Vector2(_statPositionX , 48)
         };
 
