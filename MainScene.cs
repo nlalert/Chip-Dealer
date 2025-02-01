@@ -27,8 +27,10 @@ public class MainScene
     Shop _shop;
 
     SlotMachine _slotMachine;
+    GameStat _gameStat;
 
-    private int _slotMachinePosition = 470;
+    private int _slotMachinePositionX = 470;
+    private int _statPositionX = 90;
     private double _levelPassTimer = 0;
     private bool _showLevelPass = false;
     public void Initialize()
@@ -164,8 +166,8 @@ public class MainScene
     {
         _numObject = _gameObjects.Count;
         //draw background
-        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("PlayArea_Ingame").Width)/2 ,0),
-            Singleton.GetViewPortFromSpriteSheet("PlayArea_Ingame"), Color.White);
+        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Ingame_Background").Width)/2 ,0),
+            Singleton.GetViewPortFromSpriteSheet("Ingame_Background"), Color.White);
 
             
         _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.PLAY_AREA_START_X, - Singleton.GetViewPortFromSpriteSheet("Chip_Stick").Height + Singleton.Instance.CeilingPosition),
@@ -175,32 +177,10 @@ public class MainScene
         {
             _gameObjects[i].Draw(_spriteBatch);
         }
-        
-        _spriteBatch.Draw(_SpriteTexture, new Vector2(_slotMachinePosition, _slotMachine.Position.Y - 16*11), Singleton.GetViewPortFromSpriteSheet("Slot_Label"), Color.White);
-        _spriteBatch.Draw(_SpriteTexture, new Vector2(_slotMachinePosition+24, _slotMachine.Position.Y + 16*11), Singleton.GetViewPortFromSpriteSheet("Slot_Drawing"), Color.White);
-
-        //Next Chip Display 
-        // Red blue green Yellow
-        // 0 1 2 3
-        // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetChipColor(Singleton.Instance.NextChip));
-
-        //draw NextChip Box
-        _spriteBatch.Draw(_SpriteTexture,
-            new Vector2(Singleton.SCREEN_WIDTH / 8 - Singleton.GetViewPortFromSpriteSheet("Next_Chip_Box").Width/4 , 
-            400 - Singleton.GetViewPortFromSpriteSheet("Next_Chip_Box").Height/4),
-            Singleton.GetViewPortFromSpriteSheet("Next_Chip_Box"),Color.White);
-
-        _spriteBatch.Draw(_SpriteTexture,
-            new Vector2(Singleton.SCREEN_WIDTH / 8 - Singleton.GetViewPortFromSpriteSheet("Next_Chip_Label").Width/4 , 
-            400 + Singleton.GetViewPortFromSpriteSheet("Next_Chip_Label").Height*3.2f), //this magic number is gonna cooked
-            Singleton.GetViewPortFromSpriteSheet("Next_Chip_Label"),Color.White);
 
         //draw Next Chip Display
-        _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.SCREEN_WIDTH / 8, 400), 
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(_statPositionX - Singleton.CHIP_SIZE/2 , 16*24), 
             new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
-        
-        // //Game Over Line
-        // _spriteBatch.Draw(_rectTexture, new Vector2(0, (Singleton.CHIP_GRID_HEIGHT - 1) * Singleton.CHIP_SIZE), null, Color.White, (float) (3*Math.PI/2), Vector2.Zero, 1, SpriteEffects.None, 0f);
 
         Vector2 fontSize = _font.MeasureString("Score : " + Singleton.Instance.Score.ToString());
         _spriteBatch.DrawString(_font,
@@ -278,7 +258,7 @@ public class MainScene
         });
 
 
-        AddSlotMachines();
+        AddExtraGameAsset();
 
         foreach (GameObject s in _gameObjects)
         {
@@ -317,7 +297,7 @@ public class MainScene
             }
         });
 
-        AddSlotMachines();
+        AddExtraGameAsset();
 
         foreach (GameObject s in _gameObjects)
         {
@@ -336,15 +316,22 @@ public class MainScene
         }
     }
 
-    protected void AddSlotMachines(){
+    protected void AddExtraGameAsset(){
 
-        _slotMachine = new SlotMachine(_SpriteTexture){
-            Name = "Slotmachine",
+        _slotMachine = new SlotMachine(_SpriteTexture)
+        {
+            Name = "SlotMachine",
             Viewport = Singleton.GetViewPortFromSpriteSheet("Slot_Machine"),
-            Position = new Vector2(_slotMachinePosition, Singleton.SCREEN_HEIGHT/2 - Singleton.GetViewPortFromSpriteSheet("Slot_Machine").Height/2 + 32)
+            Position = new Vector2(_slotMachinePositionX, Singleton.SCREEN_HEIGHT/2 - Singleton.GetViewPortFromSpriteSheet("Slot_Machine").Height/2 + 32)
+        };
+
+        _gameStat = new GameStat(_SpriteTexture){
+            Name = "GameStat",
+            Position = new Vector2(_statPositionX , 48)
         };
 
         _gameObjects.Add(_slotMachine);
+        _gameObjects.Add(_gameStat);
     }
 
     protected void SetUpInitalChipsPattern()

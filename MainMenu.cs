@@ -185,8 +185,8 @@ public class MainMenu
     {
         //draw Table
         _spriteBatch.Draw(_SpriteTexture,
-        new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("PlayArea").Width)/2 ,0),
-            Singleton.GetViewPortFromSpriteSheet("PlayArea"), Color.White);
+        new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Mainmenu_Background").Width)/2 ,0),
+            Singleton.GetViewPortFromSpriteSheet("Mainmenu_Background"), Color.White);
 
         // draw falling chips
         foreach (Vector3 ChipPos in _ChipPos)
