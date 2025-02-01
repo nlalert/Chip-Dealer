@@ -18,13 +18,11 @@ public class MainScene
     List<GameObject> _gameObjects;
     int _numObject;
     Texture2D _SpriteTexture;
-    Texture2D _chipStickTexture;
     Texture2D _rectTexture;
     Texture2D _LevelPassTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound;
     Song _gameMusic;
-    Shop _shop;
 
     SlotMachine _slotMachine;
 
@@ -43,7 +41,6 @@ public class MainScene
         _font = content.Load<SpriteFont>("GameFont");
 
         //TODO REMOVE THIS AFTER ADD NEW TEXTURE
-        _chipStickTexture = content.Load<Texture2D>("ChipStick");
         _LevelPassTexture = content.Load<Texture2D>("Pause1");
 
         _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
@@ -178,11 +175,6 @@ public class MainScene
         
         _spriteBatch.Draw(_SpriteTexture, new Vector2(_slotMachinePosition, _slotMachine.Position.Y - 16*11), Singleton.GetViewPortFromSpriteSheet("Slot_Label"), Color.White);
         _spriteBatch.Draw(_SpriteTexture, new Vector2(_slotMachinePosition+24, _slotMachine.Position.Y + 16*11), Singleton.GetViewPortFromSpriteSheet("Slot_Drawing"), Color.White);
-
-        //Next Chip Display 
-        // Red blue green Yellow
-        // 0 1 2 3
-        // _spriteBatch.Draw(_chipTexture,new Vector2(Singleton.SCREEN_WIDTH / 8, 400),Singleton.GetChipColor(Singleton.Instance.NextChip));
 
         //draw NextChip Box
         _spriteBatch.Draw(_SpriteTexture,
