@@ -237,7 +237,8 @@ class SlotMachine : GameObject
 
         _handle.Draw(spriteBatch);
 
-        spriteBatch.Draw(_texture, new Vector2(Position.X, Position.Y - 16*11), Singleton.GetViewPortFromSpriteSheet("Slot_Label"), Color.White);
+        spriteBatch.Draw(_texture, new Vector2(Position.X, Position.Y - 16*11), Singleton.GetViewPortFromSpriteSheet("Tutorial_Drawing"), Color.White);
+        spriteBatch.Draw(_texture, new Vector2(Position.X, Position.Y - 16*4), Singleton.GetViewPortFromSpriteSheet("Slot_Label"), Color.White);
         spriteBatch.Draw(_texture, new Vector2(Position.X + 24, Position.Y + 16*11), Singleton.GetViewPortFromSpriteSheet("Slot_Drawing"), Color.White);
         
         _chipReward.Draw(spriteBatch);
