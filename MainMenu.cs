@@ -166,7 +166,7 @@ public class MainMenu
                     do
                     {
                         chip.X = Singleton.Instance.Random.Next(0, Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Red_Chip").Width / 8);
-                    } while (chip.X  >= Singleton.SCREEN_WIDTH / 4 
+                    } while (chip.X  >= Singleton.SCREEN_WIDTH / 5 
                             && chip.X  <= Singleton.SCREEN_WIDTH * 3 / 4 - Singleton.GetViewPortFromSpriteSheet("Red_Chip").Width / 8); 
                     //this is cool shit WWW
                 }else
