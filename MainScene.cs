@@ -32,7 +32,7 @@ public class MainScene
     GameStat _gameStat;
 
     private int _slotMachinePositionX = 470;
-    private int _statPositionX = 90;
+    private Vector2 _statPosition = new Vector2(90, 16);
     private double _levelPassTimer = 0;
     private bool _showLevelPass = false;
     public void Initialize()
@@ -174,6 +174,7 @@ public class MainScene
     public void Draw(GameTime gameTime)
     {
         _numObject = _gameObjects.Count;
+
         //draw background
         _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Ingame_Background").Width)/2 ,0),
             Singleton.GetViewPortFromSpriteSheet("Ingame_Background"), Color.White);
@@ -188,7 +189,7 @@ public class MainScene
         }
 
         //draw Next Chip Display
-        _spriteBatch.Draw(_SpriteTexture, new Vector2(_statPositionX - Singleton.CHIP_SIZE/2 , 16*24), 
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(_statPosition.X - Singleton.CHIP_SIZE/2 , _statPosition.Y + 16*25 + 8), 
             new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
 
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
@@ -225,7 +226,7 @@ public class MainScene
         Singleton.Instance.CeilingPosition = 0;
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
-        Singleton.Instance.Stage = 1;
+        Singleton.Instance.Stage = 10;
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
         _levelPassTimer = 3.0f;
 
@@ -322,7 +323,7 @@ public class MainScene
         _gameStat = new GameStat(_SpriteTexture){
             Name = "GameStat",
             font = _font,
-            Position = new Vector2(_statPositionX , 48)
+            Position = _statPosition,
         };
 
         _gameObjects.Add(_slotMachine);

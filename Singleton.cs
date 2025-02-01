@@ -182,17 +182,24 @@ class Singleton
         _spriteRects.Add("Score_Box1",new Rectangle( 352, 176, 144, 32));
         _spriteRects.Add("Score_Box2",new Rectangle( 496, 176, 144, 32));
 
+        _spriteRects.Add("Stage_Label",new Rectangle(480 , 144 ,80, 16));
+        _spriteRects.Add("Stage_Box",new Rectangle(768, 176 ,48, 32));
+
+        _spriteRects.Add("Money_Label",new Rectangle(640, 144 ,80, 16));
         _spriteRects.Add("Money_Box",new Rectangle(640, 176 ,80, 32));
-        _spriteRects.Add("Ceiling_Timer_Box",new Rectangle(720, 176 ,48, 32));
+
+        _spriteRects.Add("Ceiling_Turn_Label",new Rectangle(720, 144 ,48, 16));
+        _spriteRects.Add("Ceiling_Turn_Box",new Rectangle(720, 176 ,48, 32));
 
         _spriteRects.Add("Relic_Box",new Rectangle(784, 560 ,144, 144));
         _spriteRects.Add("Relic_Placeholder",new Rectangle(176, 176 ,32, 32));
 
-        _spriteRects.Add("Next_Chip_Box",new Rectangle( 112, 144, 64, 64));
+        _spriteRects.Add("Next_Chip_Box",new Rectangle( 112, 160, 48, 48));
         _spriteRects.Add("Next_Chip_Label",new Rectangle( 176, 144, 64, 16));
 
         // Slot-Mechine UI
-        _spriteRects.Add("Slot_Label",new Rectangle(672, 224, 160, 160));
+        _spriteRects.Add("Tutorial_Drawing",new Rectangle(672, 224, 160, 96));
+        _spriteRects.Add("Slot_Label",new Rectangle(672, 336, 160, 48));
 
         _spriteRects.Add("Slot_Machine",new Rectangle(672, 400, 160, 160));
         _spriteRects.Add("Slot_Handle",new Rectangle(672, 576, 48, 16));
