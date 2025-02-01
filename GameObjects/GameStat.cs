@@ -50,8 +50,8 @@ class GameStat : GameObject
         spriteBatch.Draw(_texture, new Vector2(Position.X - (Singleton.GetViewPortFromSpriteSheet("Money_Box").Width + Singleton.GetViewPortFromSpriteSheet("Ceiling_Timer_Box").Width + 16)/2 , Position.Y + 16*5), 
         Singleton.GetViewPortFromSpriteSheet("Money_Box"), Color.White);
 
-        fontSize = font.MeasureString((Singleton.Instance.Score/10).ToString());
-        spriteBatch.DrawString(font,(Singleton.Instance.Score/10).ToString(),
+        fontSize = font.MeasureString((Singleton.Instance.Score/100).ToString());
+        spriteBatch.DrawString(font,(Singleton.Instance.Score/100).ToString(),
         new Vector2(Position.X - (Singleton.GetViewPortFromSpriteSheet("Money_Box").Width + Singleton.GetViewPortFromSpriteSheet("Ceiling_Timer_Box").Width + 16)/2 + 16*3 - fontSize.X/2, Position.Y + 16*5 + 8),Color.White);
 
         spriteBatch.Draw(_texture, new Vector2(Position.X + (Singleton.GetViewPortFromSpriteSheet("Money_Box").Width - Singleton.GetViewPortFromSpriteSheet("Ceiling_Timer_Box").Width + 16)/2 , Position.Y + 16*5),  

@@ -177,7 +177,21 @@ public class GameBoard
     {
         for (int i = 0; i < chips.Count; i++)
         {
-            DestroySingleChip((int)chips[i].Y, (int)chips[i].X, gameObjects);
+            DestroyAndScoreSingleChip((int)chips[i].Y, (int)chips[i].X, gameObjects);
+        }
+    }
+
+    public void DestroyAndScoreSingleChip(int row, int col, List<GameObject> gameObjects)
+    {
+        _board[row, col] = ChipType.None;
+        foreach (GameObject s in gameObjects)
+        {
+            if(s is Chip && (s as Chip).BoardCoord == new Vector2(col, row))
+            {
+                Singleton.Instance.Score += (s as Chip).Score;
+                s.IsActive = false;
+                break;
+            }
         }
     }
 
@@ -188,7 +202,6 @@ public class GameBoard
         {
             if(s is Chip && (s as Chip).BoardCoord == new Vector2(col, row))
             {
-                Singleton.Instance.Score += (s as Chip).Score;
                 s.IsActive = false;
                 break;
             }
