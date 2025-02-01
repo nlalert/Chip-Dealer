@@ -66,6 +66,9 @@ public class GameManager : Game
                 _mainScene.Update(gameTime);
                 _pauseMenu.Update(gameTime);
                 break;
+            case Singleton.GameState.Exit:
+                Exit();
+                break;
             default:
                 _mainScene.Update(gameTime);
                 break;
