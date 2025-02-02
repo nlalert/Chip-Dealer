@@ -20,6 +20,22 @@ public class ViewportManager
         {"Explosive_Chip1",new Rectangle( 32, 48, 32, 35)},
         {"Unknown_Chip",new Rectangle( 64, 48, 32, 35)},
 
+        // Relics
+        {"Placeholder",new Rectangle( 176, 176, 32, 32)},
+        {"Potato_Chip",new Rectangle( 0, 96, 32, 35)},
+        {"Processing_Chip",new Rectangle( 160, 96, 32, 35)},
+        {"Chipped_Chip",new Rectangle( 192, 96, 32, 35)},
+
+        {"Chipy_Chip",new Rectangle( 0, 0, 32, 35)},
+        {"Chipy_Chip1",new Rectangle( 0, 0, 32, 35)},
+        {"Chipy_Chip2",new Rectangle( 0, 0, 32, 35)},
+        {"Chipy_Chip3",new Rectangle( 0, 0, 32, 35)},
+        {"Chipy_Chip4",new Rectangle( 0, 0, 32, 35)},
+        {"Chipy_Chip5",new Rectangle( 0, 0, 32, 35)},
+        {"Chipy_Chip6",new Rectangle( 0, 0, 32, 35)},
+        {"Chipy_Chip7",new Rectangle( 0, 0, 32, 35)},
+        {"Chipy_Chip8",new Rectangle( 0, 0, 32, 35)},
+
         // Background
         {"Mainmenu_Background", new Rectangle(288,224,384,488)},
         {"Ingame_Background", new Rectangle(0,224,288,488)},
@@ -40,8 +56,8 @@ public class ViewportManager
         {"Exit_Label_Highlighted",new Rectangle( 304, 1488, 304, 48)},
 
 
-        {"Back_Button",new Rectangle(608, 1136, 160 ,48)},
-        {"Back_Button_Highlighted",new Rectangle(608, 1200, 160 ,48)},
+        {"Small_Button",new Rectangle(608, 1136, 160 ,48)},
+        {"Small_Button_Highlighted",new Rectangle(608, 1200, 160 ,48)},
 
         {"Back_Label",new Rectangle( 608, 1264, 160, 32)},
         {"Back_Label_Highlighted",new Rectangle( 608, 1312, 160, 32)},
@@ -88,8 +104,26 @@ public class ViewportManager
 
         {"Slot_Drawing",new Rectangle(672, 608, 112, 96)},
 
+        // Shop UI
+        {"Shop_Box",new Rectangle(880, 224, 256, 480)},
+
+        {"Relic_Box0",new Rectangle(0, 880, 128, 96)},
+        {"Relic_Box1",new Rectangle(128, 880, 128, 96)},
+        {"Relic_Box2",new Rectangle(256, 880, 128, 96)},
+
+        {"Relic_Box_Highlighted0",new Rectangle(768, 1152, 128, 96)},
+        {"Relic_Box_Highlighted1",new Rectangle(896, 1152, 128, 96)},
+        {"Relic_Box_Highlighted2",new Rectangle(1024, 1152, 128, 96)},
+
+        {"Relic_Box_Sold",new Rectangle(384, 880, 128, 96)},
+
+        {"Next_Label",new Rectangle( 768, 1264, 160, 32)},
+        {"Next_Label_Highlighted",new Rectangle( 768, 1312, 160, 32)},
+
         // GameOver UI
-        {"GameOver_Title",new Rectangle( 0, 720, 320, 256)},
+        {"GameOver_Label",new Rectangle( 352, 720, 240, 144)},
+        {"GameWin_Label",new Rectangle( 0, 720, 336, 64)},
+        {"NewGame_Label",new Rectangle( 0, 800, 256, 32)},
 
         // Pause UI
         {"Pause_Title0",new Rectangle(0, 992, 384, 128)},
@@ -111,8 +145,8 @@ public class ViewportManager
         {"Mainmenu_Label_Highlighted",new Rectangle(304, 1424, 304, 48)},
 
         // Settings UI
-        {"Settings_Box0",new Rectangle(0, 1552, 448, 352)},
-        {"Settings_Box1",new Rectangle(448, 1552, 448, 352)},
+        {"Big_Box0",new Rectangle(0, 1552, 448, 352)},
+        {"Big_Box1",new Rectangle(448, 1552, 448, 352)},
 
         {"Music_Label",new Rectangle(448, 1984, 176, 32)},
         {"SFX_Label",new Rectangle(624, 1984, 112, 32)},
