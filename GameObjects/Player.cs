@@ -12,7 +12,7 @@ class Player : GameObject
     private const float ROTATION_SPEED = 90f;
     private const float MAX_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
 
-    private const float DOT_LINE_LENGTH = 100f;
+    private float DOT_LINE_LENGTH = 100f;
     private const float DOT_SIZE = 4f;
     private const float DOT_GAP = 8f;
 
@@ -67,15 +67,25 @@ class Player : GameObject
         _initialPosition = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, Singleton.CHIP_SHOOTING_HEIGHT);
         Position = _initialPosition;
         LastShotChip = Chip;
+
         base.Reset();
     }
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
+        CheckOwnRelics();
         HandleSlidingMotion(gameTime);
         HandleRotation(gameTime);
         HandleShooting(gameObjects);
         base.Update(gameTime, gameObjects);
+    }
+
+    private void CheckOwnRelics()
+    {
+        if (Singleton.Instance.OwnedRelics.Contains(Relics.RelicType.ProcessingChip)) 
+        DOT_LINE_LENGTH = 150f;
+        else 
+        DOT_LINE_LENGTH = 100f;
     }
 
     protected void HandleShooting(List<GameObject> gameObjects)

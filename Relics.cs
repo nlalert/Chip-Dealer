@@ -10,6 +10,7 @@ public class Relics
             PotatoChip,
             ProcessingChip,
             ChippedChip,
+            ExplosiveChip,
             ChipyChip,
             ChipyChip1,
             ChipyChip2,
@@ -40,6 +41,7 @@ public class Relics
             _price.Add(RelicType.PotatoChip, 20);
             _price.Add(RelicType.ProcessingChip, 15);
             _price.Add(RelicType.ChippedChip, 50);
+            _price.Add(RelicType.ExplosiveChip, 10);
             _price.Add(RelicType.ChipyChip, 5);
             _price.Add(RelicType.ChipyChip1, 5);
             _price.Add(RelicType.ChipyChip2, 5);
@@ -61,6 +63,7 @@ public class Relics
             _rarity.Add(RelicType.PotatoChip, 0);
             _rarity.Add(RelicType.ProcessingChip, 1);
             _rarity.Add(RelicType.ChippedChip, 2);
+            _rarity.Add(RelicType.ExplosiveChip, 0);
             _rarity.Add(RelicType.ChipyChip, 0);
             _rarity.Add(RelicType.ChipyChip1, 0);
             _rarity.Add(RelicType.ChipyChip2, 0);
@@ -80,8 +83,9 @@ public class Relics
             Dictionary<RelicType, String> _descriptions = new Dictionary<RelicType, String>();
 
             _descriptions.Add(RelicType.PotatoChip, "Does nothing.\nFor now.");
-            _descriptions.Add(RelicType.ProcessingChip, "Does nothing.\nFor now.");
-            _descriptions.Add(RelicType.ChippedChip, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ProcessingChip, "Increase aim\nguide line by 50%.");
+            _descriptions.Add(RelicType.ChippedChip, "Items in shop\nare 20% cheaper.");
+            _descriptions.Add(RelicType.ExplosiveChip, "explode and destroy\nsurrounding chips");
             _descriptions.Add(RelicType.ChipyChip, "Does nothing.\nFor now.");
             _descriptions.Add(RelicType.ChipyChip1, "Does nothing.\nFor now.");
             _descriptions.Add(RelicType.ChipyChip2, "Does nothing.\nFor now.");

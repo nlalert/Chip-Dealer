@@ -11,11 +11,9 @@ class Shop : GameObject
     public SpriteFont font;
     private ShopRelic[] _items;
     private Relics.RelicType[] _itemsType;
-
-    private Button _rerollButton;
     private Button _nextButton;
 
-    private int _itemSpacing = 80; // Spacing between items
+    private int _itemSpacing = 80;
     private int _itemSize = 32;
     private int _reRollPrice = 1;
 
@@ -31,6 +29,7 @@ class Shop : GameObject
         _items = new ShopRelic[3];
         _itemsType = new Relics.RelicType[3];
 
+        // Randomize items for sale
         for (int i = 0; i < _items.Length; i++)
         {
             _itemsType[i] = Relics.GetRandomRelic();
@@ -54,6 +53,7 @@ class Shop : GameObject
             _items[i].Reset();
         }
 
+        // Crate next button
         _nextButton = new Button(_texture)
         {
             Name = "NextButton",
@@ -84,6 +84,7 @@ class Shop : GameObject
         {
              _items[i].Update(gameTime, gameObjects);
 
+            // Sale Item when left clicked
              if(_items[i].IsLeftClicked() && !_items[i].isSold && Singleton.Instance.Money > _items[i].Price){
 
                 if (Singleton.Instance.OwnedRelics.Contains(Relics.RelicType.None))
@@ -99,26 +100,20 @@ class Shop : GameObject
 
     }
 
-    protected void BuyItem(ShopRelic item,List<GameObject> gameObjects)
-    {
-        if (Singleton.Instance.Money >= item.Price)
-        {
-            Singleton.Instance.Score -= item.Price;
-            //item.OnBuy(gameObjects);
-            Console.WriteLine($"Item bought for {item.Price}!");
-        }
-        else
-        {
-            Console.WriteLine("Not enough currency to buy this item!");
-        }
-    }
     public override void Draw(SpriteBatch spriteBatch)
     {
+        // Draw shop border
         spriteBatch.Draw(_texture ,new Vector2(Position.X - ViewportManager.Get("Shop_Box").Width/2, Position.Y - ViewportManager.Get("Shop_Box").Height/2),
         ViewportManager.Get("Shop_Box"), Color.White);
 
+        // Draw shop sign
+        spriteBatch.Draw(_texture ,new Vector2(Position.X - ViewportManager.Get("Shop_Label").Width/2, Position.Y - ViewportManager.Get("Shop_Box").Height/2 + 16),
+        ViewportManager.Get("Shop_Label"), Color.White);
+
+        // Draw next button
         _nextButton.Draw(spriteBatch);
 
+        // Draw sale items
         for (int i = 0; i < _itemsType.Length; i++)
         {
             _items[i].Draw(spriteBatch);

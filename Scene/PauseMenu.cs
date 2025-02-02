@@ -9,7 +9,6 @@ namespace MidtermComGame;
 public class PauseMenu
 {
     private SpriteBatch _spriteBatch;
-
     private List<GameObject> _gameObjects;
 
     private Texture2D _texture;
@@ -107,6 +106,7 @@ public class PauseMenu
         for (int i = 0; i < data.Length; i++) data[i] = Color.White;
         _rectTexture.SetData(data);
 
+        // Create buttons
          _resumeButton = new Button(_texture)
         {
             Name = "ResumeButton",

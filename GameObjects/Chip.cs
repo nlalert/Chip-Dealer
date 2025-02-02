@@ -69,10 +69,7 @@ class Chip : GameObject
             CheckCollisions(gameTime, gameObjects);
         }
 
-       // if(!_isShot){
             HandleExplosiveAnimation(gameTime);
-            // Console.WriteLine(_explosiveTimer);
-        //}
 
         Velocity = Vector2.Zero;
 
@@ -81,20 +78,14 @@ class Chip : GameObject
 
     public void ResetChipTexture()
     {
-        Viewport = Singleton.GetChipViewPort(ChipType);
+        Viewport = ViewportManager.Get(ChipType.ToString() + "_Chip");
     }
 
     protected void DrawCurrentChipOnHand()
     {
         Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE / 2);
-        Viewport = Singleton.GetChipViewPort(Singleton.Instance.CurrentChip);
-
-        if (Singleton.Instance.CurrentChip == ChipType.Explosive)
-        {
-            Viewport = _explosiveFrameToggle
-                ? ViewportManager.Get("Explosive_Chip0")
-                : ViewportManager.Get("Explosive_Chip1");
-        }
+        if (Singleton.Instance.CurrentChip != ChipType.None)
+        Viewport = ViewportManager.Get(Singleton.Instance.CurrentChip.ToString() + "_Chip");
     }
     
     protected void CheckCollisions(GameTime gameTime, List<GameObject> gameObjects)

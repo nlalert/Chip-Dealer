@@ -19,7 +19,6 @@ public class MainScene
     int _numObject;
     Texture2D _SpriteTexture;
     Texture2D _rectTexture;
-    Texture2D _LevelPassTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound; 
     SoundEffect _handSlidingSound; 
@@ -33,9 +32,9 @@ public class MainScene
     Shop _shop;
 
     private int _slotMachinePositionX = 470;
+
+    private bool HasChipFell = false;
     private Vector2 _statPosition = new Vector2(90, 16);
-    //private double _levelPassTimer = 0;
-    //private bool _showLevelPass = false;
 
     public void Initialize()
     {
@@ -47,9 +46,6 @@ public class MainScene
     {
         _spriteBatch = spriteBatch;
         _font = content.Load<SpriteFont>("GameFont");
-
-        //TODO REMOVE THIS AFTER ADD NEW TEXTURE
-        //_LevelPassTexture = content.Load<Texture2D>("Pause1");
 
         _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
 
@@ -103,7 +99,8 @@ public class MainScene
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
                 }
 
-                if (Singleton.Instance.Money <= 0 && Singleton.Instance.waitForPlayer) Singleton.Instance.CurrentGameState = Singleton.GameState.GameOver;
+                if (Singleton.Instance.Money <= 0 && Singleton.Instance.waitForPlayer) 
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.GameOver;
 
                 break;
             case Singleton.GameState.CheckCeiling:
@@ -111,6 +108,7 @@ public class MainScene
                 UpdateGameObject(gameTime);
                 Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
                 break;
+
             case Singleton.GameState.CheckGameBoard:
                 CheckAndDestroyHangingChips();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
@@ -119,6 +117,7 @@ public class MainScene
                 CheckGameOver();
                 CheckLevelClear();
                 break;
+
             case Singleton.GameState.Pause:    
                 // Adjust volume with Up/Down arrow keys
                 Singleton.Instance.SFXVolume = MathHelper.Clamp(Singleton.Instance.SFXVolume, 0.0f, 1.0f);
@@ -130,6 +129,10 @@ public class MainScene
                 break;
                 
             case Singleton.GameState.PassingLevel:
+                if (Singleton.Instance.Stage == 30){
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.GameWon;
+                    break;
+                }
                 if (!_gameObjects.Contains(_shop))
                 {
                     _shop = new Shop(_SpriteTexture){
@@ -148,6 +151,9 @@ public class MainScene
                 _gameStat.Update(gameTime, _gameObjects);
                 _slotMachine.Update(gameTime, _gameObjects);
                 _shop.Update(gameTime, _gameObjects);
+
+                if (Singleton.Instance.Money <= 0)
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.GameOver;
 
                 if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.Escape))
                 {
@@ -203,7 +209,7 @@ public class MainScene
         _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Ingame_Background").Width)/2 ,0),
             ViewportManager.Get("Ingame_Background"), Color.White);
 
-            
+        //draw objects
         _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.PLAY_AREA_START_X, - ViewportManager.Get("Chip_Stick").Height + Singleton.Instance.CeilingPosition),
         ViewportManager.Get("Chip_Stick"), Color.White);
 
@@ -212,6 +218,7 @@ public class MainScene
             _gameObjects[i].Draw(_spriteBatch);
         }
 
+        //draw game over
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
@@ -257,18 +264,19 @@ public class MainScene
             new Vector2((Singleton.SCREEN_WIDTH - fontSize.X +ViewportManager.Get("Score_Box2").Width) / 2 - 8,
             (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
 
-            return;
         }
 
+        //draw game win
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameWon)
         {
+
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
             
             _spriteBatch.Draw(_SpriteTexture,
                 new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Big_Box0").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2),
                ViewportManager.Get("Big_Box0"), Color.White);
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("GameWin_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*3),
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("GameWin_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*5),
                ViewportManager.Get("GameWin_Label"), Color.White);
             _spriteBatch.Draw(_SpriteTexture,
                 new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*18),
@@ -276,35 +284,34 @@ public class MainScene
 
             _spriteBatch.Draw(_SpriteTexture,
                 new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Label2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
-                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
-               ViewportManager.Get("Score_Label2"), Color.White);  
+                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*11),
+               ViewportManager.Get("Score_Label2"), Color.White); 
             _spriteBatch.Draw(_SpriteTexture,
                 new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Box2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
-                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
+                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
                ViewportManager.Get("Score_Box2"), Color.White);       
             
             Vector2 fontSize = _font.MeasureString(Singleton.Instance.Score.ToString());
 
             _spriteBatch.DrawString(_font,Singleton.Instance.Score.ToString(),
                 new Vector2((Singleton.SCREEN_WIDTH - fontSize.X -ViewportManager.Get("Stage_Box").Width) / 2 - 16,
-                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13 + 10),Color.White);
 
             _spriteBatch.Draw(_SpriteTexture,
                 new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Label").Width +ViewportManager.Get("Score_Box2").Width) / 2,
-                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*11),
                ViewportManager.Get("Stage_Label"), Color.White);  
             _spriteBatch.Draw(_SpriteTexture,
                 new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Box").Width +ViewportManager.Get("Score_Box2").Width) / 2,
-                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
                ViewportManager.Get("Stage_Box"), Color.White);  
             
             fontSize = _font.MeasureString(Singleton.Instance.Stage.ToString());
             
             _spriteBatch.DrawString(_font,Singleton.Instance.Stage.ToString(),
             new Vector2((Singleton.SCREEN_WIDTH - fontSize.X +ViewportManager.Get("Score_Box2").Width) / 2 - 8,
-            (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);  
+            (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13 + 10),Color.White);  
 
-            return;
         }
     }
 
@@ -319,11 +326,10 @@ public class MainScene
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
         Singleton.Instance.Stage = 1;
-        Singleton.Instance.Money = 500;
+        Singleton.Instance.Money = 5;
         Singleton.Instance.waitForPlayer = true;
         Singleton.Instance.OwnedRelics = Relics.GetEmptyRelicList();
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
-        //_levelPassTimer = 3.0f;
 
         _gameObjects.Add(new Player(_SpriteTexture)
         {
@@ -503,6 +509,11 @@ public class MainScene
                 if(highestRow != 0)
                 {
                     Singleton.Instance.Score += (int)(10 * Math.Pow(2, ConnectedChips.Count));
+                    if (!HasChipFell)
+                    {         
+                        Singleton.Instance.Money += ConnectedChips.Count;
+                        HasChipFell = true;
+                    }
                     Console.WriteLine(ConnectedChips.Count);
                     StartChipFalling(ConnectedChips,_gameObjects);
                 }

@@ -194,14 +194,14 @@ public class MainMenu
         // draw falling chips
         foreach (Vector3 ChipPos in _ChipPos)
         {
-            _spriteBatch.Draw(_SpriteTexture, new Vector2(ChipPos.X,ChipPos.Y),Singleton.GetChipViewPort((ChipType)ChipPos.Z),Color.White); 
+            _spriteBatch.Draw(_SpriteTexture, new Vector2(ChipPos.X,ChipPos.Y),ViewportManager.Get(((ChipType)ChipPos.Z).ToString() + "_Chip"),Color.White); 
         }
 
         
         if(!IsShowScore){
 
             //Game Name
-            Vector2 GameNamePos = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Game_Title").Width)/2  ,Singleton.SCREEN_HEIGHT*5/16 - ViewportManager.Get("Game_Title").Height );
+            Vector2 GameNamePos = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Game_Title").Width)/2  , 16);
             _spriteBatch.Draw(_SpriteTexture,GameNamePos,ViewportManager.Get("Game_Title"), Color.White);
             
             //start button

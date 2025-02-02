@@ -81,17 +81,6 @@ class Singleton
         }
     }
 
-    public static Rectangle GetChipViewPort(ChipType chipType)
-    {
-        switch (chipType)
-        {
-            case ChipType.Explosive:
-                return new Rectangle(0, 48, CHIP_SIZE, CHIP_SIZE + CHIP_SHADOW_HEIGHT);
-            default:
-                return new Rectangle(((int)chipType - 1) * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE + CHIP_SHADOW_HEIGHT);
-        }
-    }
-
     //score
     public class ScoreEntry
     {

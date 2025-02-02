@@ -19,6 +19,7 @@ class ShopRelic : GameObject
     public bool showDescriptions;
 
     private Color priceColor;
+    private float discount = 1;
 
     public ShopRelic(Texture2D texture) : base(texture)
     {
@@ -28,7 +29,7 @@ class ShopRelic : GameObject
     public override void Reset(){
         DescriptionsPosition = new Vector2(Position.X + 16*4, Position.Y - 16*2);
         priceColor = Color.White;
-        if(Singleton.Instance.Money < Price+1) priceColor = Color.Red;
+        if(Singleton.Instance.Money <= (int)(Price * discount)) priceColor = Color.Red;
 
         Viewport = ViewportManager.Get(Name.Replace(" ", "_"));
     } 
@@ -36,8 +37,16 @@ class ShopRelic : GameObject
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
         priceColor = Color.White;
+        if(Singleton.Instance.OwnedRelics.Contains(Relics.RelicType.ChippedChip)){
+            priceColor = Color.LightGreen;
+            discount = 0.8f;
+        }
+        else{
+            priceColor = Color.White;
+            discount = 1.0f;
+        }
         if(IsMouseHoveringForInfo()) priceColor = Color.Yellow;
-        if(Singleton.Instance.Money < Price && !Singleton.Instance.OwnedRelics.Contains(relicType)) priceColor = Color.Red;
+        if(Singleton.Instance.Money <= (int)(Price * discount) && !Singleton.Instance.OwnedRelics.Contains(relicType)) priceColor = Color.Red;
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -75,20 +84,33 @@ class ShopRelic : GameObject
                     if (Singleton.Instance.OwnedRelics.Contains(relicType))
                         spriteBatch.DrawString(font,"(right click to sell)",new Vector2(DescriptionsPosition.X+8, DescriptionsPosition.Y + ViewportManager.Get("Relic_Box" + Rarity).Height-16),
                         Color.LightGray, 0, Vector2.Zero, 0.6f, SpriteEffects.None, 0);
+                        if (relicType == Relics.RelicType.ExplosiveChip && !Descriptions.Contains("(click this to use)"))
+                        {
+                            Descriptions += "\n(click this to use)";
+                        }
                 }
 
                 else
                 {       
-                    spriteBatch.DrawString(font,"\n" + Price + " $",new Vector2(DescriptionsPosition.X+8, DescriptionsPosition.Y+8),priceColor, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(font,"\n" + (int)(Price * discount) + " $",new Vector2(DescriptionsPosition.X+8, DescriptionsPosition.Y+8),priceColor, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 0);
                 }
 
                 spriteBatch.DrawString(font,"\n\n\n" + Descriptions,new Vector2(DescriptionsPosition.X+8, DescriptionsPosition.Y+8),Color.White, 0, Vector2.Zero, 0.6f, SpriteEffects.None, 0);
 
                 if (IsMouseHovering() && !IsMouseHoveringForInfo()) 
                 {
+                    if (Singleton.Instance.OwnedRelics.Contains(Relics.RelicType.None))
+                    {       
                     spriteBatch.Draw(_texture, DescriptionsPosition, ViewportManager.Get("Relic_Box_Highlighted" + Rarity), Color.White);
                     spriteBatch.DrawString(font,"(click to purchase)",new Vector2(DescriptionsPosition.X+8, DescriptionsPosition.Y + ViewportManager.Get("Relic_Box" + Rarity).Height-16),
                         Color.LightGray, 0, Vector2.Zero, 0.6f, SpriteEffects.None, 0);
+                    }
+                    else
+                    {       
+                    spriteBatch.Draw(_texture, DescriptionsPosition, ViewportManager.Get("Relic_Box_Highlighted" + Rarity), Color.White);
+                    spriteBatch.DrawString(font,"(inventory full)",new Vector2(DescriptionsPosition.X+8, DescriptionsPosition.Y + ViewportManager.Get("Relic_Box" + Rarity).Height-16),
+                        Color.Red, 0, Vector2.Zero, 0.6f, SpriteEffects.None, 0);
+                    }
                 }
             }
         }

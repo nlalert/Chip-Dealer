@@ -16,8 +16,7 @@ public class ViewportManager
         {"Orange_Chip",new Rectangle( 224, 0, 32, 35)},
 
         // Specaial Chips
-        {"Explosive_Chip0",new Rectangle( 0, 48, 32, 35)},
-        {"Explosive_Chip1",new Rectangle( 32, 48, 32, 35)},
+        {"Explosive_Chip",new Rectangle( 32, 48, 32, 35)},
         {"Unknown_Chip",new Rectangle( 64, 48, 32, 35)},
 
         // Relics
@@ -41,7 +40,7 @@ public class ViewportManager
         {"Ingame_Background", new Rectangle(0,224,288,488)},
 
         // Menu UI
-        {"Game_Title",new Rectangle( 640, 720, 352, 80)},//TODO
+        {"Game_Title",new Rectangle(0, 2032, 480, 160)},//TODO
 
         {"Menu_Button",new Rectangle( 640, 720, 352, 80)},
         {"Menu_Button_Highlighted",new Rectangle( 640, 816, 352, 80)},
@@ -67,8 +66,6 @@ public class ViewportManager
         {"Player_Hand",new Rectangle( 0, 144, 96, 80)},
 
         {"Chip_Stick",new Rectangle( 896, 1504, 256, 400)},
-
-        {"Shop",new Rectangle( 640, 912, 176, 48)},//TODO
 
         // In Game-Stat UI
         {"Score_Label0",new Rectangle( 240, 144, 80, 16)},
@@ -104,6 +101,7 @@ public class ViewportManager
         {"Slot_Drawing",new Rectangle(672, 608, 112, 96)},
 
         // Shop UI
+        {"Shop_Label",new Rectangle(880, 160, 144, 48)},
         {"Shop_Box",new Rectangle(880, 224, 256, 480)},
 
         {"Relic_Box0",new Rectangle(0, 880, 128, 96)},
