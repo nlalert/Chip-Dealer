@@ -335,8 +335,9 @@ public class MainScene
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
         Singleton.Instance.Stage = 1;
-        Singleton.Instance.Money = 5;
+        Singleton.Instance.Money = 500;
         Singleton.Instance.waitForPlayer = true;
+        Singleton.Instance.OwnedRelics = Relics.GetEmptyRelicList();
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
         //_levelPassTimer = 3.0f;
 

@@ -34,7 +34,7 @@ class Singleton
 
     public GameBoard GameBoard;
 
-    public List<Relics.RelicType> Relics;
+    public List<Relics.RelicType> OwnedRelics;
     public ChipType CurrentChip;
     public ChipType NextChip;
     
@@ -67,7 +67,7 @@ class Singleton
     
     private Singleton() { 
         Random = new Random();
-        Relics = new List<Relics.RelicType>();
+        OwnedRelics = Relics.GetEmptyRelicList();
     }
 
     public static Singleton Instance
@@ -149,6 +149,16 @@ class Singleton
         _spriteRects.Add("Potato_Chip",new Rectangle( 0, 96, 32, 35));
         _spriteRects.Add("Processing_Chip",new Rectangle( 160, 96, 32, 35));
         _spriteRects.Add("Chipped_Chip",new Rectangle( 192, 96, 32, 35));
+
+        _spriteRects.Add("Chipy_Chip",new Rectangle( 0, 0, 32, 35));
+        _spriteRects.Add("Chipy_Chip1",new Rectangle( 0, 0, 32, 35));
+        _spriteRects.Add("Chipy_Chip2",new Rectangle( 0, 0, 32, 35));
+        _spriteRects.Add("Chipy_Chip3",new Rectangle( 0, 0, 32, 35));
+        _spriteRects.Add("Chipy_Chip4",new Rectangle( 0, 0, 32, 35));
+        _spriteRects.Add("Chipy_Chip5",new Rectangle( 0, 0, 32, 35));
+        _spriteRects.Add("Chipy_Chip6",new Rectangle( 0, 0, 32, 35));
+        _spriteRects.Add("Chipy_Chip7",new Rectangle( 0, 0, 32, 35));
+        _spriteRects.Add("Chipy_Chip8",new Rectangle( 0, 0, 32, 35));
 
         // Background
         _spriteRects.Add("Mainmenu_Background", new Rectangle(288,224,384,488));

@@ -35,7 +35,7 @@ class Shop : GameObject
         {
             _itemsType[i] = Relics.GetRandomRelic();
 
-            while (Singleton.Instance.Relics.Contains(_itemsType[i]) || _itemsType.Count(itemType => itemType == _itemsType[i]) > 1)
+            while (Singleton.Instance.OwnedRelics.Contains(_itemsType[i]) || _itemsType.Count(itemType => itemType == _itemsType[i]) > 1)
             {
                 _itemsType[i] = Relics.GetRandomRelic();
             }
@@ -43,10 +43,12 @@ class Shop : GameObject
             _items[i] = new ShopRelic(_texture)
             {
                 Name = string.Concat(_itemsType[i].ToString().Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())),
+                relicType = _itemsType[i],
                 Position = new Vector2(Position.X - Singleton.GetViewPortFromSpriteSheet("Shop_Box").Width/2 + _itemSize, (_itemSpacing + _itemSize) * (i+1)),
                 Rarity = Relics.GetRelicRarity(_itemsType[i]),
                 Price = Relics.GetRelicPrice(_itemsType[i]),
                 Descriptions = Relics.GetRelicDescriptions(_itemsType[i]),
+                showDescriptions = true,
                 font = font,
             };
             _items[i].Reset();
@@ -82,10 +84,16 @@ class Shop : GameObject
         {
              _items[i].Update(gameTime, gameObjects);
 
-             if(_items[i].IsClicked() && !_items[i].isSold && Singleton.Instance.Money > _items[i].Price){
-                Singleton.Instance.Relics.Add(_itemsType[i]);
-                _items[i].isSold = true;
-                Singleton.Instance.Money -= _items[i].Price;
+             if(_items[i].IsLeftClicked() && !_items[i].isSold && Singleton.Instance.Money > _items[i].Price){
+
+                if (Singleton.Instance.OwnedRelics.Contains(Relics.RelicType.None))
+                {
+                    int index = Singleton.Instance.OwnedRelics.IndexOf(Relics.RelicType.None);
+                    if (index != -1) Singleton.Instance.OwnedRelics[index] = _itemsType[i];
+                    _items[i].isSold = true;
+                    Singleton.Instance.Money -= _items[i].Price;
+                }
+
              }
         }
 

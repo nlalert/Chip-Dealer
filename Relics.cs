@@ -1,18 +1,35 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 public class Relics
 {
       public enum RelicType
       {
+            None,
             PotatoChip,
             ProcessingChip,
-            ChippedChip
+            ChippedChip,
+            ChipyChip,
+            ChipyChip1,
+            ChipyChip2,
+            ChipyChip3,
+            ChipyChip4,
+            ChipyChip5,
+            ChipyChip6,
+            ChipyChip7,
+            ChipyChip8,
       }
 
       public static RelicType GetRandomRelic()
       {
-           return (RelicType)Singleton.Instance.Random.Next(0,Enum.GetValues(typeof(RelicType)).Length);
+           return (RelicType)Singleton.Instance.Random.Next(1,Enum.GetValues(typeof(RelicType)).Length);
+      }
+
+      public static List<RelicType> GetEmptyRelicList()
+      {
+           List<RelicType> EmptyList = Enumerable.Repeat(RelicType.None, 9).ToList();
+           return EmptyList;
       }
 
       public static int GetRelicPrice(RelicType relicType)
@@ -23,6 +40,15 @@ public class Relics
             _price.Add(RelicType.PotatoChip, 20);
             _price.Add(RelicType.ProcessingChip, 15);
             _price.Add(RelicType.ChippedChip, 50);
+            _price.Add(RelicType.ChipyChip, 5);
+            _price.Add(RelicType.ChipyChip1, 5);
+            _price.Add(RelicType.ChipyChip2, 5);
+            _price.Add(RelicType.ChipyChip3, 5);
+            _price.Add(RelicType.ChipyChip4, 5);
+            _price.Add(RelicType.ChipyChip5, 5);
+            _price.Add(RelicType.ChipyChip6, 5);
+            _price.Add(RelicType.ChipyChip7, 5);
+            _price.Add(RelicType.ChipyChip8, 5);
 
             return _price[relicType];
       }
@@ -35,6 +61,15 @@ public class Relics
             _rarity.Add(RelicType.PotatoChip, 0);
             _rarity.Add(RelicType.ProcessingChip, 1);
             _rarity.Add(RelicType.ChippedChip, 2);
+            _rarity.Add(RelicType.ChipyChip, 0);
+            _rarity.Add(RelicType.ChipyChip1, 0);
+            _rarity.Add(RelicType.ChipyChip2, 0);
+            _rarity.Add(RelicType.ChipyChip3, 0);
+            _rarity.Add(RelicType.ChipyChip4, 0);
+            _rarity.Add(RelicType.ChipyChip5, 0);
+            _rarity.Add(RelicType.ChipyChip6, 0);
+            _rarity.Add(RelicType.ChipyChip7, 0);
+            _rarity.Add(RelicType.ChipyChip8, 0);
 
             return _rarity[relicType];
       }
@@ -47,6 +82,16 @@ public class Relics
             _descriptions.Add(RelicType.PotatoChip, "Does nothing.\nFor now.");
             _descriptions.Add(RelicType.ProcessingChip, "Does nothing.\nFor now.");
             _descriptions.Add(RelicType.ChippedChip, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ChipyChip, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ChipyChip1, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ChipyChip2, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ChipyChip3, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ChipyChip4, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ChipyChip5, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ChipyChip6, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ChipyChip7, "Does nothing.\nFor now.");
+            _descriptions.Add(RelicType.ChipyChip8, "Does nothing.\nFor now.");
+
 
             return _descriptions[relicType];
       }
