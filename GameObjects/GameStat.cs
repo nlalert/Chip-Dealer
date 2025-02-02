@@ -167,7 +167,7 @@ class GameStat : GameObject
         ViewportManager.Get("Ceiling_Turn_Box"), Color.White);
 
         // Draw ceiling countdowns number when in stage
-        if (Singleton.Instance.CurrentGameState == Singleton.GameState.PassingLevel)
+        if (Singleton.Instance.CurrentGameState == Singleton.GameState.StageCompleted)
         {
             fontSize = font.MeasureString("-");
             spriteBatch.DrawString(font,"-",

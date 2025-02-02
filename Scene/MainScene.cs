@@ -32,8 +32,6 @@ public class MainScene
     Shop _shop;
 
     private int _slotMachinePositionX = 470;
-
-    private bool HasChipFell = false;
     private Vector2 _statPosition = new Vector2(90, 16);
     public void Initialize()
     {
@@ -517,12 +515,9 @@ public class MainScene
                 if(highestRow != 0)
                 {
                     Singleton.Instance.Score += (int)(10 * Math.Pow(2, ConnectedChips.Count));
-                    if (!HasChipFell)
-                    {         
-                        Singleton.Instance.Money += ConnectedChips.Count;
-                        HasChipFell = true;
-                    }
-                    Console.WriteLine(ConnectedChips.Count);
+       
+                    Singleton.Instance.Money++;
+
                     StartChipFalling(ConnectedChips,_gameObjects);
                 }
             }
