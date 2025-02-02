@@ -47,7 +47,7 @@ public class MainScene
         _font = content.Load<SpriteFont>("GameFont");
 
         //TODO REMOVE THIS AFTER ADD NEW TEXTURE
-        _StagePassTexture = content.Load<Texture2D>("Pause1");
+        // _StagePassTexture = content.Load<Texture2D>("Pause1");
 
         _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
 
