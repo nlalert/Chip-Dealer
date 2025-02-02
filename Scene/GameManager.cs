@@ -22,6 +22,7 @@ public class GameManager : Game
 
     public GameManager()
     {
+        Window.Title = "Chip Dealer";
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
