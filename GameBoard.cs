@@ -60,6 +60,21 @@ public class GameBoard
         }
     }
 
+    public bool Contains(ChipType chipType)
+    {
+        for (int row = 0; row < Rows; row++)
+        {
+            for (int col = 0; col < Columns; col++)
+            {
+                if(_board[row, col] == chipType)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public ChipType GetRandomChipColor(){
         // Create a list to store non-None chip types
         List<ChipType> nonNoneChipTypes = new List<ChipType>();

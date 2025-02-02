@@ -100,16 +100,17 @@ public class MainScene
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
                 }
                 break;
-            case Singleton.GameState.CheckCeiling:
-                CheckAndPushDownCeiling();
-                UpdateGameObject(gameTime);
-                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
-                break;
             case Singleton.GameState.CheckGameBoard:
+                CheckAndPushDownCeiling();
                 CheckAndDestroyHangingChips();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 UpdateGameObject(gameTime);
                 CheckGameOver();
+                CheckStageClear();
+                break;
+            case Singleton.GameState.CheckFalling:
+                GetBetterNextChip();
+                UpdateGameObject(gameTime);
                 CheckStageClear();
                 break;
             case Singleton.GameState.Pause:    
@@ -151,6 +152,15 @@ public class MainScene
                 }
                 break;
         }
+    }
+
+    protected void GetBetterNextChip()
+    {
+        //(For Better Player Experience)
+        //Get new next chip after falling if there are no current chip in board with same type as next chip 
+        if(Singleton.Instance.GameBoard.Contains(Singleton.Instance.NextChip))
+            return;
+        Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
     }
 
     protected void UpdateGameObject(GameTime gameTime)

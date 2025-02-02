@@ -111,7 +111,7 @@ class Chip : GameObject
         Position.Y = Singleton.Instance.CeilingPosition;
         SnapToGrid();
         DestroyAroundChips(gameObjects);
-        Singleton.Instance.CurrentGameState = Singleton.GameState.CheckCeiling;
+        Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
     }
 
     protected void HandleWallCollisions()
@@ -139,7 +139,7 @@ class Chip : GameObject
             MoveBackUntilNoCollision(gameTime, obj);
             SnapToGrid();
             DestroyAroundChips(gameObjects);
-            Singleton.Instance.CurrentGameState = Singleton.GameState.CheckCeiling;
+            Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
         }
     }
 
@@ -162,7 +162,7 @@ class Chip : GameObject
 
         IsActive = false;
         Singleton.Instance.GameBoard.DestroySingleChip((int)BoardCoord.Y, (int)BoardCoord.X, gameObjects);
-        Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
+        Singleton.Instance.CurrentGameState = Singleton.GameState.CheckFalling;
     }
 
     protected void ApplyGravity(GameTime gameTime)
