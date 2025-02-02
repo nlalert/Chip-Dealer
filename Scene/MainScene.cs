@@ -35,7 +35,6 @@ public class MainScene
 
     private bool HasChipFell = false;
     private Vector2 _statPosition = new Vector2(90, 16);
-
     public void Initialize()
     {
         _gameObjects = new List<GameObject>();
@@ -75,10 +74,10 @@ public class MainScene
                     MediaPlayer.Stop();
                 }
                 ResetGame();
-                Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+                Singleton.Instance.CurrentGameState = Singleton.GameState.InitializingStage;
                 break;
-            case Singleton.GameState.SetLevel:
-                ResetLevel();
+            case Singleton.GameState.InitializingStage:
+                ResetStage();
                 SetUpInitalChipsPattern();
                 Singleton.Instance.CurrentChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
@@ -103,19 +102,19 @@ public class MainScene
                     Singleton.Instance.CurrentGameState = Singleton.GameState.GameOver;
 
                 break;
-            case Singleton.GameState.CheckCeiling:
-                CheckAndPushDownCeiling();
-                UpdateGameObject(gameTime);
-                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
-                break;
-
             case Singleton.GameState.CheckGameBoard:
+                CheckAndPushDownCeiling();
                 CheckAndDestroyHangingChips();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 Singleton.Instance.waitForPlayer = true;
                 UpdateGameObject(gameTime);
                 CheckGameOver();
-                CheckLevelClear();
+                CheckStageClear();
+                break;
+            case Singleton.GameState.CheckFalling:
+                GetBetterNextChip();
+                UpdateGameObject(gameTime);
+                CheckStageClear();
                 break;
 
             case Singleton.GameState.Pause:    
@@ -128,7 +127,7 @@ public class MainScene
                 SoundEffect.MasterVolume = Singleton.Instance.SFXVolume;
                 break;
                 
-            case Singleton.GameState.PassingLevel:
+            case Singleton.GameState.StageCompleted:
                 if (Singleton.Instance.Stage == 30){
                     Singleton.Instance.CurrentGameState = Singleton.GameState.GameWon;
                     break;
@@ -181,6 +180,15 @@ public class MainScene
                 }
                 break;
         }
+    }
+
+    protected void GetBetterNextChip()
+    {
+        //(For Better Player Experience)
+        //Get new next chip after falling if there are no current chip in board with same type as next chip 
+        if(Singleton.Instance.GameBoard.Contains(Singleton.Instance.NextChip))
+            return;
+        Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
     }
 
     protected void UpdateGameObject(GameTime gameTime)
@@ -329,7 +337,7 @@ public class MainScene
         Singleton.Instance.Money = 5;
         Singleton.Instance.waitForPlayer = true;
         Singleton.Instance.OwnedRelics = Relics.GetEmptyRelicList();
-        Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+        Singleton.Instance.CurrentGameState = Singleton.GameState.InitializingStage;
 
         _gameObjects.Add(new Player(_SpriteTexture)
         {
@@ -359,7 +367,7 @@ public class MainScene
         }
     }
 
-    protected void ResetLevel()
+    protected void ResetStage()
     {
 
         Singleton.Instance.Random = new System.Random();
@@ -555,7 +563,7 @@ public class MainScene
         }
     }
 
-    protected void CheckLevelClear()
+    protected void CheckStageClear()
     {
         for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
         {
@@ -567,6 +575,6 @@ public class MainScene
                 }
             }
         }
-        Singleton.Instance.CurrentGameState = Singleton.GameState.PassingLevel;
+        Singleton.Instance.CurrentGameState = Singleton.GameState.StageCompleted;
     }
 }
