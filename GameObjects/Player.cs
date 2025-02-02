@@ -7,10 +7,23 @@ using Microsoft.Xna.Framework.Input;
 
 class Player : GameObject
 {
-    public float _handSlideTimer = 0f;
+    private const float HAND_SLIDE_DURATION = 2f;
+    private const float SHOOT_SPEED = 900f;
+    private const float ROTATION_SPEED = 90f;
+    private const float MAX_ROTATION = (float)(80 * (Math.PI / 180)); //80 Degree
+
+    private const float DOT_LINE_LENGTH = 100f;
+    private const float DOT_SIZE = 4f;
+    private const float DOT_GAP = 8f;
+
+    private const float HAND_MOVE_UP = 50f;
+
+
+    private float _handSlideTimer;
+    private bool _isSliding;
+    private Vector2 _initialPosition;
+
     public SoundEffect SlidingSound;
-    public Vector2 _initialPosition;
-    public bool _isSliding = false;
     public Chip Chip, LastShotChip;
     public Keys Left, Right, Fire;
     
@@ -22,15 +35,10 @@ class Player : GameObject
     public override void Draw(SpriteBatch spriteBatch)
     {
         Vector2 Origin = new Vector2(0, 0);
-        
-        //draw aim line
-        float DotLinelength = 100f;
-        float DotSize = 4f;
-        float DotGap = 8f;
 
         Vector2 PositionOffset = new Vector2(Singleton.GetViewPortFromSpriteSheet("Player_Hand").Width/2, 0);
 
-        DrawDottedLine(spriteBatch, _initialPosition + PositionOffset + Origin - new Vector2(DotSize/2, 0), Rotation, DotLinelength, Color.White, DotSize, DotGap);
+        DrawDottedLine(spriteBatch, _initialPosition + PositionOffset + Origin - new Vector2(DOT_SIZE/2, 0), Rotation, Color.White);
 
         if (!Chip.IsShot){
             Chip.Draw(spriteBatch);
@@ -54,6 +62,8 @@ class Player : GameObject
 
     public override void Reset()
     {
+        _handSlideTimer = 0;
+        _isSliding = false;
         _initialPosition = new Vector2((Singleton.SCREEN_WIDTH - Rectangle.Width) / 2, Singleton.CHIP_SHOOTING_HEIGHT);
         Position = _initialPosition;
         LastShotChip = Chip;
@@ -62,55 +72,24 @@ class Player : GameObject
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
-        if (_isSliding)
-        {
-            _handSlideTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
-            if (_handSlideTimer >= 2f) // Return to original position after 2 second
-            {
-                Position = _initialPosition;
-                _isSliding = false;
-            }
-            else
-            {
-                // Smoothly return to original position over 2 second
-                Position = Vector2.Lerp(Position, _initialPosition, _handSlideTimer);
-            }
-        }
-
-        if(Singleton.Instance.CurrentKey.IsKeyDown(Left))
-        {
-            Rotation -= MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate counterclockwise
-        }
-        if(Singleton.Instance.CurrentKey.IsKeyDown(Right))
-        {
-            Rotation += MathHelper.ToRadians(90f) * (float)gameTime.ElapsedGameTime.TotalSeconds; // Rotate clockwise
-        }
-
-        Rotation = MathHelper.Clamp(Rotation, -Singleton.MAX_PLAYER_ROTATION, Singleton.MAX_PLAYER_ROTATION);
-
-        if(LastShotChip.Speed == 0)
-        {
-            if( Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
-                Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
-            {
-                OnShoot(gameObjects);
-                Singleton.Instance.CurrentChip = Singleton.Instance.NextChip;
-                Singleton.Instance.ChipShotAmount++;
-            }
-        }
-
+        HandleSlidingMotion(gameTime);
+        HandleRotation(gameTime);
+        HandleShooting(gameObjects);
         base.Update(gameTime, gameObjects);
     }
 
-    private void OnShoot(List<GameObject> gameObjects)
+    protected void HandleShooting(List<GameObject> gameObjects)
     {
-        _isSliding = true;
-        _handSlideTimer = 0f;
-        Position -= new Vector2(0, 50); // Move up by 50 pixels
+        if (LastShotChip.Speed == 0 && Singleton.Instance.CurrentKey.IsKeyDown(Fire) &&
+            Singleton.Instance.PreviousKey != Singleton.Instance.CurrentKey)
+        {
+            StartSliding();
+            ShootChip(gameObjects);
+        }
+    }
 
-        SlidingSound.Play();
-
+    protected void ShootChip(List<GameObject> gameObjects)
+    {
         var newChip = Chip.Clone() as Chip; 
 
         newChip.Position = new Vector2(Rectangle.Width / 2 + Position.X - newChip.Rectangle.Width / 2,
@@ -120,12 +99,56 @@ class Player : GameObject
         newChip.Angle = Rotation + (float)(3 * Math.PI / 2);
         newChip.ChipType = Singleton.Instance.CurrentChip;
         newChip.Reset();
-        newChip.Speed = 900f;
+        newChip.Speed = SHOOT_SPEED;
+
         gameObjects.Add(newChip);
         LastShotChip = newChip;
+
+        Singleton.Instance.CurrentChip = Singleton.Instance.NextChip;
+        Singleton.Instance.ChipShotAmount++;
     }
 
-    private void DrawDottedLine(SpriteBatch spriteBatch, Vector2 start, float rotation, float length, Color color, float dotSize, float gapSize)
+    protected void StartSliding()
+    {
+        _isSliding = true;
+        _handSlideTimer = 0f;
+        Position -= new Vector2(0, HAND_MOVE_UP); // Move up by 50 pixels
+
+        SlidingSound.Play();
+    }
+
+    protected void HandleRotation(GameTime gameTime)
+    {
+        if (Singleton.Instance.CurrentKey.IsKeyDown(Left))
+        {
+            Rotation -= MathHelper.ToRadians(ROTATION_SPEED) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        if (Singleton.Instance.CurrentKey.IsKeyDown(Right))
+        {
+            Rotation += MathHelper.ToRadians(ROTATION_SPEED) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        }
+
+        Rotation = MathHelper.Clamp(Rotation, -MAX_ROTATION, MAX_ROTATION);
+    }
+
+    protected void HandleSlidingMotion(GameTime gameTime)
+    {
+        if (!_isSliding) return;
+
+        _handSlideTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        
+        if (_handSlideTimer >= HAND_SLIDE_DURATION)
+        {
+            Position = _initialPosition;
+            _isSliding = false;
+        }
+        else
+        {
+            Position = Vector2.Lerp(Position, _initialPosition, _handSlideTimer / HAND_SLIDE_DURATION);
+        }   
+    }
+
+    private void DrawDottedLine(SpriteBatch spriteBatch, Vector2 start, float rotation, Color color)
     {
         // 1x1 pixel texture 
         Texture2D dotTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
@@ -141,7 +164,7 @@ class Player : GameObject
 
         Vector2 currentPos = start;
         float totalDistance = 0;
-        while (totalDistance < length)
+        while (totalDistance < DOT_LINE_LENGTH)
         {
             // Draw a dot
             spriteBatch.Draw(
@@ -151,13 +174,13 @@ class Player : GameObject
                 color,
                 0f,
                 Vector2.Zero,
-                new Vector2(dotSize, dotSize), // Scale the dot size
+                new Vector2(DOT_SIZE, DOT_SIZE), // Scale the dot size
                 SpriteEffects.None,
                 0
             );
 
-            currentPos += direction * (dotSize + gapSize);
-            totalDistance += dotSize + gapSize;
+            currentPos += direction * (DOT_SIZE + DOT_GAP);
+            totalDistance += DOT_SIZE + DOT_GAP;
         }
     }
 }
