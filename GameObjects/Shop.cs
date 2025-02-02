@@ -77,7 +77,7 @@ class Shop : GameObject
 
         if(_nextButton.IsClicked()){
             Singleton.Instance.Stage++;
-            Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+            Singleton.Instance.CurrentGameState = Singleton.GameState.InitializingStage;
         }
         
         for (int i = 0; i < _items.Length; i++)
