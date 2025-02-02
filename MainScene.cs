@@ -28,13 +28,14 @@ public class MainScene
 
     Song _gameMusic;
 
-    SlotMachine _slotMachine;
     GameStat _gameStat;
+    SlotMachine _slotMachine;
+    Shop _shop;
 
     private int _slotMachinePositionX = 470;
     private Vector2 _statPosition = new Vector2(90, 16);
-    private double _levelPassTimer = 0;
-    private bool _showLevelPass = false;
+    //private double _levelPassTimer = 0;
+    //private bool _showLevelPass = false;
 
     public void Initialize()
     {
@@ -48,7 +49,7 @@ public class MainScene
         _font = content.Load<SpriteFont>("GameFont");
 
         //TODO REMOVE THIS AFTER ADD NEW TEXTURE
-        _LevelPassTexture = content.Load<Texture2D>("Pause1");
+        //_LevelPassTexture = content.Load<Texture2D>("Pause1");
 
         _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
 
@@ -98,6 +99,7 @@ public class MainScene
 
                 if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.Escape))
                 {
+                    Singleton.Instance.PreviousGameState = Singleton.Instance.CurrentGameState;
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
                 }
 
@@ -128,17 +130,30 @@ public class MainScene
                 break;
                 
             case Singleton.GameState.PassingLevel:
-                _levelPassTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-                if (_levelPassTimer <= 0)
+                if (!_gameObjects.Contains(_shop))
                 {
-                    _showLevelPass = false;
-                    Singleton.Instance.Stage++;
-                    Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
-                    _levelPassTimer = 3.0f;
-                }else{
-                    _showLevelPass = true;
+                    _shop = new Shop(_SpriteTexture){
+                        Name = "Shop",
+                        Position = new Vector2(Singleton.SCREEN_WIDTH/2, Singleton.SCREEN_HEIGHT/2),
+                        font = _font,
+                    };
+
+                    _shop.Reset();
+                    _gameObjects.Add(_shop);
                 }
+
+                _gameStat.Update(gameTime, _gameObjects);
+                _slotMachine.Update(gameTime, _gameObjects);
+                _shop.Update(gameTime, _gameObjects);
+
+                if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.PreviousKey.IsKeyUp(Keys.Escape))
+                {
+                    Singleton.Instance.PreviousGameState = Singleton.Instance.CurrentGameState;
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
+                }
+
                 break;
+
             case Singleton.GameState.GameOver:
             case Singleton.GameState.GameWon:
                 if (MediaPlayer.State == MediaState.Playing)
@@ -299,14 +314,14 @@ public class MainScene
             //hehe 
             return;
         }
-        if (Singleton.Instance.CurrentGameState == Singleton.GameState.PassingLevel && _showLevelPass)
-        {
-            Vector2 position = new Vector2(
-                (Singleton.SCREEN_WIDTH - _LevelPassTexture.Width) / 2,
-                (Singleton.SCREEN_HEIGHT - _LevelPassTexture.Height) / 2
-            );
-            _spriteBatch.Draw(_LevelPassTexture, position, Color.White);
-        }
+        // if (Singleton.Instance.CurrentGameState == Singleton.GameState.PassingLevel && _showLevelPass)
+        // {
+        //     Vector2 position = new Vector2(
+        //         (Singleton.SCREEN_WIDTH - _LevelPassTexture.Width) / 2,
+        //         (Singleton.SCREEN_HEIGHT - _LevelPassTexture.Height) / 2
+        //     );
+        //     _spriteBatch.Draw(_LevelPassTexture, position, Color.White);
+        // }
     }
 
     protected void ResetGame()
@@ -323,7 +338,7 @@ public class MainScene
         Singleton.Instance.Money = 5;
         Singleton.Instance.waitForPlayer = true;
         Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
-        _levelPassTimer = 3.0f;
+        //_levelPassTimer = 3.0f;
 
         _gameObjects.Add(new Player(_SpriteTexture)
         {

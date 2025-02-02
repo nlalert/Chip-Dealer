@@ -63,9 +63,9 @@ class SlotMachine : GameObject
 
             _chipsDisplay[i] = (ChipType)Singleton.Instance.Random.Next(1,9);
             while (_chipsDisplay[2] == _chipsDisplay[1] && _chipsDisplay[2] == _chipsDisplay[1])
-                {
-                    _chipsDisplay[2] = (ChipType)Singleton.Instance.Random.Next(1,9);
-                }
+            {
+                _chipsDisplay[2] = (ChipType)Singleton.Instance.Random.Next(1,9);
+            }
 
         }
 
@@ -96,7 +96,7 @@ class SlotMachine : GameObject
             Position = new Vector2 (Position.X + 112, Position.Y + 102),
             IsActive = true
         };
-        
+
     }
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
@@ -122,12 +122,11 @@ class SlotMachine : GameObject
 
             if ((float)Singleton.Instance.Random.Next(0,101)/100 <= winningChances)
             {
-            Console.WriteLine("You win!");
             WinningBetSound.Play();
             _nextChipRewardType = (ChipType)Singleton.Instance.Random.Next(1,9);
             }
             else
-            {Console.WriteLine("Aw.. Dang it!");
+            {
             LosingBetSound.Play();
             _nextChipRewardType = ChipType.None;
             }
@@ -168,37 +167,7 @@ class SlotMachine : GameObject
 
         if(onCooldown)
         {
-            if(_nextChipRewardType != ChipType.None)
-            {
-
-                if (_handle.Position.Y == handleMinHeight + 34*2/3 && _chipsDisplay[0] == ChipType.None){
-                    _chipsDisplay[0] = _nextChipRewardType;
-                }
-                else if (_handle.Position.Y == handleMinHeight + 34*1/3 && _chipsDisplay[1] == ChipType.None){
-                    _chipsDisplay[1] = _nextChipRewardType;
-                }
-                else if (_handle.Position.Y == handleMinHeight + 1 && _chipsDisplay[2] == ChipType.None){
-                    _chipsDisplay[2] = _nextChipRewardType;
-                }
-            }
-
-            else
-            {
-                if (_handle.Position.Y == handleMinHeight + 34*2/3 && _chipsDisplay[0] == ChipType.None){
-                    _chipsDisplay[0] = (ChipType)Singleton.Instance.Random.Next(1,9);
-                }
-                else if (_handle.Position.Y == handleMinHeight + 34*1/3 && _chipsDisplay[1] == ChipType.None){
-                    _chipsDisplay[1] = (ChipType)Singleton.Instance.Random.Next(1,9);
-                }
-                else if (_handle.Position.Y == handleMinHeight + 1 && _chipsDisplay[2] == ChipType.None){
-                    _chipsDisplay[2] = (ChipType)Singleton.Instance.Random.Next(1,9);
-                    while (_chipsDisplay[2] == _chipsDisplay[1] && _chipsDisplay[2] == _chipsDisplay[1])
-                    {
-                        _chipsDisplay[2] = (ChipType)Singleton.Instance.Random.Next(1,9);
-                    }
-                }
-            }
-
+            RandomizeClip();
         }
 
         for (int i = 0; i < slotBorders.Length; i++)
@@ -244,5 +213,38 @@ class SlotMachine : GameObject
         _chipReward.Draw(spriteBatch);
     }
 
+    private void RandomizeClip()
+    {
+        if(_nextChipRewardType != ChipType.None)
+        {
+
+            if (_handle.Position.Y == handleMinHeight + 34*2/3 && _chipsDisplay[0] == ChipType.None){
+                _chipsDisplay[0] = _nextChipRewardType;
+            }
+            else if (_handle.Position.Y == handleMinHeight + 34*1/3 && _chipsDisplay[1] == ChipType.None){
+                _chipsDisplay[1] = _nextChipRewardType;
+            }
+            else if (_handle.Position.Y == handleMinHeight + 1 && _chipsDisplay[2] == ChipType.None){
+                _chipsDisplay[2] = _nextChipRewardType;
+            }
+        }
+
+        else
+        {
+            if (_handle.Position.Y == handleMinHeight + 34*2/3 && _chipsDisplay[0] == ChipType.None){
+                _chipsDisplay[0] = (ChipType)Singleton.Instance.Random.Next(1,9);
+            }
+            else if (_handle.Position.Y == handleMinHeight + 34*1/3 && _chipsDisplay[1] == ChipType.None){
+                _chipsDisplay[1] = (ChipType)Singleton.Instance.Random.Next(1,9);
+            }
+            else if (_handle.Position.Y == handleMinHeight + 1 && _chipsDisplay[2] == ChipType.None){
+                _chipsDisplay[2] = (ChipType)Singleton.Instance.Random.Next(1,9);
+                while (_chipsDisplay[2] == _chipsDisplay[1] && _chipsDisplay[2] == _chipsDisplay[1])
+                {
+                    _chipsDisplay[2] = (ChipType)Singleton.Instance.Random.Next(1,9);
+                }
+            }
+        }
+    }
 
 }

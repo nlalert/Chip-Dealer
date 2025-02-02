@@ -13,6 +13,8 @@ namespace MidtermComGame;
 public class MainMenu
 {
     private Texture2D _SpriteTexture;
+    private List<GameObject> _gameObjects;
+
     private List<Vector3> _ChipPos;// z is type of Chips
     private List<double> _ChipFallSpeed;
     private const float MIN_CHIP_FALL_SPEED = 1.25f;
@@ -40,6 +42,7 @@ public class MainMenu
         _font = content.Load<SpriteFont>("GameFont");
         _scores = Singleton.LoadScores();
         _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
+        _gameObjects = new List<GameObject>();
 
         //chis falling
         _ChipPos = new List<Vector3>();
@@ -118,11 +121,11 @@ public class MainMenu
     public void Update(GameTime gameTime)
     {
         if(!IsShowScore){
-            _StartButton.ButtonUpdate();
-            _ScoreBoardButton.ButtonUpdate();
-            _BackButton.ButtonUpdate();
+            _StartButton.Update(gameTime , _gameObjects);
+            _ScoreBoardButton.Update(gameTime , _gameObjects);
+            _BackButton.Update(gameTime , _gameObjects);
         }
-        else  _ExitButton.ButtonUpdate();
+        else  _ExitButton.Update(gameTime , _gameObjects);;
            
         // Console.WriteLine("Update Mainmenu");
         Singleton.Instance.CurrentKey = Keyboard.GetState();

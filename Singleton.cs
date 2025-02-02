@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.IO;
 
-
 class Singleton
 {
     public const int SCREEN_WIDTH = 640;
@@ -35,6 +34,7 @@ class Singleton
 
     public GameBoard GameBoard;
 
+    public List<Relics.RelicType> Relics;
     public ChipType CurrentChip;
     public ChipType NextChip;
     
@@ -56,6 +56,7 @@ class Singleton
     }
 
     public GameState CurrentGameState;
+    public GameState PreviousGameState;
 
     public KeyboardState PreviousKey, CurrentKey;
     
@@ -66,6 +67,7 @@ class Singleton
     
     private Singleton() { 
         Random = new Random();
+        Relics = new List<Relics.RelicType>();
     }
 
     public static Singleton Instance
@@ -137,10 +139,16 @@ class Singleton
         _spriteRects.Add("Black_Chip",new Rectangle( 192, 0, 32, 35));
         _spriteRects.Add("Orange_Chip",new Rectangle( 224, 0, 32, 35));
 
-        // Specaial Chips
+        // Special Chips
         _spriteRects.Add("Explosive_Chip0",new Rectangle( 0, 48, 32, 35));
         _spriteRects.Add("Explosive_Chip1",new Rectangle( 32, 48, 32, 35));
         _spriteRects.Add("Unknown_Chip",new Rectangle( 64, 48, 32, 35));
+
+        // Relics
+        _spriteRects.Add("Placeholder",new Rectangle( 176, 176, 32, 32));
+        _spriteRects.Add("Potato_Chip",new Rectangle( 0, 96, 32, 35));
+        _spriteRects.Add("Processing_Chip",new Rectangle( 160, 96, 32, 35));
+        _spriteRects.Add("Chipped_Chip",new Rectangle( 192, 96, 32, 35));
 
         // Background
         _spriteRects.Add("Mainmenu_Background", new Rectangle(288,224,384,488));
@@ -168,13 +176,9 @@ class Singleton
         _spriteRects.Add("Back_Label_Highlighted",new Rectangle( 608, 1312, 160, 32));
 
         // In Game UI
-
         _spriteRects.Add("Player_Hand",new Rectangle( 0, 144, 96, 79));
 
         _spriteRects.Add("Chip_Stick",new Rectangle( 896, 1504, 256, 400));
-
-        _spriteRects.Add("Shop",new Rectangle( 640, 912, 176, 48));//TODO
-
         // In Game-Stat UI
         _spriteRects.Add("Score_Label0",new Rectangle( 240, 144, 80, 16));
         _spriteRects.Add("Score_Label1",new Rectangle( 320, 144, 80, 16));
@@ -208,6 +212,22 @@ class Singleton
         _spriteRects.Add("Slot_Background",new Rectangle(832, 400, 48, 147));
 
         _spriteRects.Add("Slot_Drawing",new Rectangle(672, 608, 112, 96));
+
+        // Shop UI
+        _spriteRects.Add("Shop_Box",new Rectangle(880, 224, 256, 480));
+
+        _spriteRects.Add("Relic_Box0",new Rectangle(0, 880, 128, 96));
+        _spriteRects.Add("Relic_Box1",new Rectangle(128, 880, 128, 96));
+        _spriteRects.Add("Relic_Box2",new Rectangle(256, 880, 128, 96));
+
+        _spriteRects.Add("Relic_Box_Highlighted0",new Rectangle(768, 1152, 128, 96));
+        _spriteRects.Add("Relic_Box_Highlighted1",new Rectangle(896, 1152, 128, 96));
+        _spriteRects.Add("Relic_Box_Highlighted2",new Rectangle(1024, 1152, 128, 96));
+
+        _spriteRects.Add("Relic_Box_Sold",new Rectangle(384, 880, 128, 96));
+
+        _spriteRects.Add("Next_Label",new Rectangle( 768, 1264, 160, 32));
+        _spriteRects.Add("Next_Label_Highlighted",new Rectangle( 768, 1312, 160, 32));
 
         // GameOver UI
         _spriteRects.Add("GameOver_Label",new Rectangle( 352, 720, 240, 144));

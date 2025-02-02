@@ -3,11 +3,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 namespace MidtermComGame;
 
 public class PauseMenu
 {
     private SpriteBatch _spriteBatch;
+
+    private List<GameObject> _gameObjects;
 
     private Texture2D _texture;
     private Texture2D _rectTexture;
@@ -95,6 +98,7 @@ public class PauseMenu
     {
 
         _spriteBatch = spriteBatch;
+        _gameObjects = new List<GameObject>();
 
         _texture = content.Load<Texture2D>("Sprite_Sheet");
 
@@ -191,6 +195,13 @@ public class PauseMenu
             IsActive = true
         };
 
+        _gameObjects.Add(_resumeButton);
+        _gameObjects.Add(_restartButton);
+        _gameObjects.Add(_settingsButton);
+        _gameObjects.Add(_mainmenuButton);
+        _gameObjects.Add(_musicSlideChip);
+        _gameObjects.Add(_sfxSlideChip);
+        _gameObjects.Add(_backButton);
     }
 
     public void Update(GameTime gameTime)
@@ -201,7 +212,7 @@ public class PauseMenu
 
             // Unpause when left clicked & released on resume button or pressed & released "Escape key"
             if (_resumeButton.IsClicked() || (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Escape) && Singleton.Instance.CurrentKey != Singleton.Instance.PreviousKey)){
-                 Singleton.Instance.CurrentGameState = Singleton.GameState.Playing;
+                Singleton.Instance.CurrentGameState = Singleton.Instance.PreviousGameState;
             }
 
             // Restart to stage 1 when left clicked & released on restart button
@@ -236,11 +247,11 @@ public class PauseMenu
             // Prevent dragging boyh chips at the same time
             if (!_sfxSlideChip.Dragging)
             {
-            _musicSlideChip.ButtonUpdate();
+            _musicSlideChip.Update(gameTime, _gameObjects);
             }
             if (!_musicSlideChip.Dragging)
             {
-            _sfxSlideChip.ButtonUpdate();
+            _sfxSlideChip.Update(gameTime, _gameObjects);
             }
 
             // Adjust music volume by left click and drag the music slide chip

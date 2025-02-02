@@ -19,14 +19,14 @@ class GameStat : GameObject
     }
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
-    {
+        {
         
-        if(Singleton.Instance.Score < 5000)
+        if(Singleton.Instance.Score < 50000)
         {
             _scoreLabelType = Singleton.GetViewPortFromSpriteSheet("Score_Label0");
             _scoreBoxType = Singleton.GetViewPortFromSpriteSheet("Score_Box0");
         }
-        else if(Singleton.Instance.Score < 10000)
+        else if(Singleton.Instance.Score < 100000)
         {
             _scoreLabelType = Singleton.GetViewPortFromSpriteSheet("Score_Label1");
             _scoreBoxType = Singleton.GetViewPortFromSpriteSheet("Score_Box1");
@@ -36,7 +36,7 @@ class GameStat : GameObject
             _scoreLabelType = Singleton.GetViewPortFromSpriteSheet("Score_Label2");
             _scoreBoxType = Singleton.GetViewPortFromSpriteSheet("Score_Box2");
         }
-            
+          
     }
 
     public override void Draw(SpriteBatch spriteBatch)
