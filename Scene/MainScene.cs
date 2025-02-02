@@ -19,7 +19,7 @@ public class MainScene
     int _numObject;
     Texture2D _SpriteTexture;
     Texture2D _rectTexture;
-    Texture2D _LevelPassTexture;
+    Texture2D _StagePassTexture;
     SoundEffect _ceilingPushingSound;
     SoundEffect _chipHitSound; 
     SoundEffect _handSlidingSound; 
@@ -33,8 +33,8 @@ public class MainScene
 
     private int _slotMachinePositionX = 470;
     private Vector2 _statPosition = new Vector2(90, 16);
-    private double _levelPassTimer = 0;
-    private bool _showLevelPass = false;
+    private double _stagePassTimer = 0;
+    private bool _showStagePass = false;
     public void Initialize()
     {
         _gameObjects = new List<GameObject>();
@@ -47,7 +47,7 @@ public class MainScene
         _font = content.Load<SpriteFont>("GameFont");
 
         //TODO REMOVE THIS AFTER ADD NEW TEXTURE
-        _LevelPassTexture = content.Load<Texture2D>("Pause1");
+        _StagePassTexture = content.Load<Texture2D>("Pause1");
 
         _SpriteTexture= content.Load<Texture2D>("Sprite_Sheet");
 
@@ -77,10 +77,10 @@ public class MainScene
                     MediaPlayer.Stop();
                 }
                 ResetGame();
-                Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
+                Singleton.Instance.CurrentGameState = Singleton.GameState.InitializingStage;
                 break;
-            case Singleton.GameState.SetLevel:
-                ResetLevel();
+            case Singleton.GameState.InitializingStage:
+                ResetStage();
                 SetUpInitalChipsPattern();
                 Singleton.Instance.CurrentChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
@@ -110,7 +110,7 @@ public class MainScene
                 Singleton.Instance.NextChip = Singleton.Instance.GameBoard.GetRandomChipColor();
                 UpdateGameObject(gameTime);
                 CheckGameOver();
-                CheckLevelClear();
+                CheckStageClear();
                 break;
             case Singleton.GameState.Pause:    
                 // Adjust volume with Up/Down arrow keys
@@ -122,16 +122,16 @@ public class MainScene
                 SoundEffect.MasterVolume = Singleton.Instance.SFXVolume;
                 break;
                 
-            case Singleton.GameState.PassingLevel:
-                _levelPassTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-                if (_levelPassTimer <= 0)
+            case Singleton.GameState.StageCompleted:
+                _stagePassTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (_stagePassTimer <= 0)
                 {
-                    _showLevelPass = false;
+                    _showStagePass = false;
                     Singleton.Instance.Stage++;
-                    Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
-                    _levelPassTimer = 3.0f;
+                    Singleton.Instance.CurrentGameState = Singleton.GameState.InitializingStage;
+                    _stagePassTimer = 3.0f;
                 }else{
-                    _showLevelPass = true;
+                    _showStagePass = true;
                 }
                 break;
             case Singleton.GameState.GameOver:
@@ -206,13 +206,13 @@ public class MainScene
             //hehe 
             return;
         }
-        if (Singleton.Instance.CurrentGameState == Singleton.GameState.PassingLevel && _showLevelPass)
+        if (Singleton.Instance.CurrentGameState == Singleton.GameState.StageCompleted && _showStagePass)
         {
             Vector2 position = new Vector2(
-                (Singleton.SCREEN_WIDTH - _LevelPassTexture.Width) / 2,
-                (Singleton.SCREEN_HEIGHT - _LevelPassTexture.Height) / 2
+                (Singleton.SCREEN_WIDTH - _StagePassTexture.Width) / 2,
+                (Singleton.SCREEN_HEIGHT - _StagePassTexture.Height) / 2
             );
-            _spriteBatch.Draw(_LevelPassTexture, position, Color.White);
+            _spriteBatch.Draw(_StagePassTexture, position, Color.White);
         }
     }
 
@@ -227,8 +227,8 @@ public class MainScene
         Singleton.Instance.ChipShotAmount = 0;
         Singleton.Instance.Score = 0;
         Singleton.Instance.Stage = 1;
-        Singleton.Instance.CurrentGameState = Singleton.GameState.SetLevel;
-        _levelPassTimer = 3.0f;
+        Singleton.Instance.CurrentGameState = Singleton.GameState.InitializingStage;
+        _stagePassTimer = 3.0f;
 
         _gameObjects.Add(new Player(_SpriteTexture)
         {
@@ -258,7 +258,7 @@ public class MainScene
         }
     }
 
-    protected void ResetLevel()
+    protected void ResetStage()
     {
 
         Singleton.Instance.Random = new System.Random();
@@ -447,7 +447,7 @@ public class MainScene
         }
     }
 
-    protected void CheckLevelClear()
+    protected void CheckStageClear()
     {
         for (int i = 0; i < Singleton.CHIP_GRID_WIDTH; i++)
         {
@@ -459,6 +459,6 @@ public class MainScene
                 }
             }
         }
-        Singleton.Instance.CurrentGameState = Singleton.GameState.PassingLevel;
+        Singleton.Instance.CurrentGameState = Singleton.GameState.StageCompleted;
     }
 }

@@ -132,7 +132,7 @@ public class MainMenu
         if (_StartButton.IsClicked() && !IsShowScore)
         {
             // Load Main scene
-            Singleton.Instance.CurrentGameState = GameState.SetLevel;
+            Singleton.Instance.CurrentGameState = GameState.InitializingStage;
             // Transition to the game scene
             Singleton.Instance.CurrentGameState = GameState.StartingGame;
         }

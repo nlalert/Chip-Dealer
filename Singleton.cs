@@ -41,12 +41,12 @@ class Singleton
     {
         MainMenu,
         StartingGame,
-        SetLevel,
+        InitializingStage,
         Playing,
         CheckCeiling,
         CheckGameBoard,
         Pause,
-        PassingLevel,
+        StageCompleted,
         GameOver,
         Exit,
     }
