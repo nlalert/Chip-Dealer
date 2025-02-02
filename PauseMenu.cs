@@ -64,31 +64,31 @@ public class PauseMenu
             switch (i)
             {
                 case 1:
-                    _restartButtonHeight = _resumeButtonHeight + (buttonGap + Singleton.GetViewPortFromSpriteSheet("Pause_Button").Height)*i;
+                    _restartButtonHeight = _resumeButtonHeight + (buttonGap + ViewportManager.Get("Pause_Button").Height)*i;
                     break;
                 case 2:
-                    _settingsButtonHeight = _resumeButtonHeight + (buttonGap + Singleton.GetViewPortFromSpriteSheet("Pause_Button").Height)*i;                
+                    _settingsButtonHeight = _resumeButtonHeight + (buttonGap + ViewportManager.Get("Pause_Button").Height)*i;                
                     break;
                 case 3:
-                    _mainmenuButtonHeight = _resumeButtonHeight + (buttonGap + Singleton.GetViewPortFromSpriteSheet("Pause_Button").Height)*i;
+                    _mainmenuButtonHeight = _resumeButtonHeight + (buttonGap + ViewportManager.Get("Pause_Button").Height)*i;
                     break;    
                 default:
                     break;
             }
         }
 
-        _musicLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/4) - 
-        (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height/2) - buttonGap;
-        _sfxLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/12) - 
-        (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height/2) - buttonGap;
+        _musicLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (ViewportManager.Get("Settings_Box0").Height/4) - 
+        (ViewportManager.Get("Slide_Bar").Height/2) - buttonGap;
+        _sfxLabelHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (ViewportManager.Get("Settings_Box0").Height/12) - 
+        (ViewportManager.Get("Slide_Bar").Height/2) - buttonGap;
 
-        _musicSlideBarHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/4) + buttonGap;
-        _sfxSlideBarHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Height / 2) + (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/12) + buttonGap;
+        _musicSlideBarHeight = (Singleton.SCREEN_HEIGHT / 2) - (ViewportManager.Get("Slide_Bar").Height / 2) - (ViewportManager.Get("Settings_Box0").Height/4) + buttonGap;
+        _sfxSlideBarHeight = (Singleton.SCREEN_HEIGHT / 2) - (ViewportManager.Get("Slide_Bar").Height / 2) + (ViewportManager.Get("Settings_Box0").Height/12) + buttonGap;
 
-        _musicSlideChipHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/4) + buttonGap;
-        _sfxSlideChipHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/12) + buttonGap;
+        _musicSlideChipHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) - (ViewportManager.Get("Settings_Box0").Height/4) + buttonGap;
+        _sfxSlideChipHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.CHIP_SIZE / 2) + (ViewportManager.Get("Settings_Box0").Height/12) + buttonGap;
 
-        _backButtonHeight = (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Back_Button").Height / 2) + (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height*2/5);
+        _backButtonHeight = (Singleton.SCREEN_HEIGHT / 2) - (ViewportManager.Get("Back_Button").Height / 2) + (ViewportManager.Get("Settings_Box0").Height*2/5);
     }
 
     public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
@@ -106,64 +106,64 @@ public class PauseMenu
          _resumeButton = new Button(_texture)
         {
             Name = "ResumeButton",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Pause_Button"),
-            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Pause_Button_Highlighted"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Pause_Button").Width) / 2,
-                    _resumeButtonHeight - Singleton.GetViewPortFromSpriteSheet("Pause_Button").Height / 2),
-            LabelViewPort = Singleton.GetViewPortFromSpriteSheet("Resume_Label"),
-            HighlightedLabelViewPort = Singleton.GetViewPortFromSpriteSheet("Resume_Label_Highlighted"),
-            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Resume_Label").Width) / 2,
-                    _resumeButtonHeight - Singleton.GetViewPortFromSpriteSheet("Resume_Label").Height / 2),
+            Viewport = ViewportManager.Get("Pause_Button"),
+            HighlightedViewPort = ViewportManager.Get("Pause_Button_Highlighted"),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Pause_Button").Width) / 2,
+                    _resumeButtonHeight - ViewportManager.Get("Pause_Button").Height / 2),
+            LabelViewPort = ViewportManager.Get("Resume_Label"),
+            HighlightedLabelViewPort = ViewportManager.Get("Resume_Label_Highlighted"),
+            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Resume_Label").Width) / 2,
+                    _resumeButtonHeight - ViewportManager.Get("Resume_Label").Height / 2),
             IsActive = true
         };
 
         _restartButton = new Button(_texture)
         {
             Name = "RestartButton",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Pause_Button"),
-            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Pause_Button_Highlighted"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Pause_Button").Width) / 2,
-                    _restartButtonHeight - Singleton.GetViewPortFromSpriteSheet("Pause_Button").Height / 2),
-            LabelViewPort = Singleton.GetViewPortFromSpriteSheet("Restart_Label"),
-            HighlightedLabelViewPort = Singleton.GetViewPortFromSpriteSheet("Restart_Label_Highlighted"),
-            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Restart_Label").Width) / 2,
-                    _restartButtonHeight - Singleton.GetViewPortFromSpriteSheet("Restart_Label").Height / 2),
+            Viewport = ViewportManager.Get("Pause_Button"),
+            HighlightedViewPort = ViewportManager.Get("Pause_Button_Highlighted"),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Pause_Button").Width) / 2,
+                    _restartButtonHeight - ViewportManager.Get("Pause_Button").Height / 2),
+            LabelViewPort = ViewportManager.Get("Restart_Label"),
+            HighlightedLabelViewPort = ViewportManager.Get("Restart_Label_Highlighted"),
+            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Restart_Label").Width) / 2,
+                    _restartButtonHeight - ViewportManager.Get("Restart_Label").Height / 2),
             IsActive = true
         };
 
         _settingsButton = new Button(_texture)
         {
             Name = "SettingsButton",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Pause_Button"),
-            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Pause_Button_Highlighted"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Pause_Button").Width) / 2,
-                    _settingsButtonHeight - Singleton.GetViewPortFromSpriteSheet("Pause_Button").Height / 2),
-            LabelViewPort = Singleton.GetViewPortFromSpriteSheet("Settings_Label"),
-            HighlightedLabelViewPort = Singleton.GetViewPortFromSpriteSheet("Settings_Label_Highlighted"),
-            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Settings_Label").Width) / 2,
-                    _settingsButtonHeight - Singleton.GetViewPortFromSpriteSheet("Settings_Label").Height / 2),
+            Viewport = ViewportManager.Get("Pause_Button"),
+            HighlightedViewPort = ViewportManager.Get("Pause_Button_Highlighted"),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Pause_Button").Width) / 2,
+                    _settingsButtonHeight - ViewportManager.Get("Pause_Button").Height / 2),
+            LabelViewPort = ViewportManager.Get("Settings_Label"),
+            HighlightedLabelViewPort = ViewportManager.Get("Settings_Label_Highlighted"),
+            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Settings_Label").Width) / 2,
+                    _settingsButtonHeight - ViewportManager.Get("Settings_Label").Height / 2),
             IsActive = true
         };
 
         _mainmenuButton = new Button(_texture)
         {
             Name = "MainmenuButton",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Pause_Button"),
-            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Pause_Button_Highlighted"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Pause_Button").Width) / 2,
-                    _mainmenuButtonHeight - Singleton.GetViewPortFromSpriteSheet("Pause_Button").Height / 2),
-            LabelViewPort = Singleton.GetViewPortFromSpriteSheet("Mainmenu_Label"),
-            HighlightedLabelViewPort = Singleton.GetViewPortFromSpriteSheet("Mainmenu_Label_Highlighted"),
-            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Mainmenu_Label").Width) / 2,
-                    _mainmenuButtonHeight - Singleton.GetViewPortFromSpriteSheet("Mainmenu_Label").Height / 2),
+            Viewport = ViewportManager.Get("Pause_Button"),
+            HighlightedViewPort = ViewportManager.Get("Pause_Button_Highlighted"),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Pause_Button").Width) / 2,
+                    _mainmenuButtonHeight - ViewportManager.Get("Pause_Button").Height / 2),
+            LabelViewPort = ViewportManager.Get("Mainmenu_Label"),
+            HighlightedLabelViewPort = ViewportManager.Get("Mainmenu_Label_Highlighted"),
+            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Mainmenu_Label").Width) / 2,
+                    _mainmenuButtonHeight - ViewportManager.Get("Mainmenu_Label").Height / 2),
             IsActive = true
         };
 
         _musicSlideChip = new Button(_texture)
         {
             Name = "MusicSlideChip",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip0"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Slide_Chip0").Width) / 2 + (int)(Singleton.Instance.MusicVolume*_slideBarMaxValue) - (_slideBarMaxValue/2),
+            Viewport = ViewportManager.Get("Slide_Chip0"),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Slide_Chip0").Width) / 2 + (int)(Singleton.Instance.MusicVolume*_slideBarMaxValue) - (_slideBarMaxValue/2),
                     _musicSlideChipHeight),
             IsActive = true
         };
@@ -171,8 +171,8 @@ public class PauseMenu
         _sfxSlideChip = new Button(_texture)
         {
             Name = "SFXSlideChip",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip0"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Slide_Chip0").Width) / 2 + (int)(Singleton.Instance.SFXVolume*_slideBarMaxValue) - (_slideBarMaxValue/2),
+            Viewport = ViewportManager.Get("Slide_Chip0"),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Slide_Chip0").Width) / 2 + (int)(Singleton.Instance.SFXVolume*_slideBarMaxValue) - (_slideBarMaxValue/2),
                     _sfxSlideChipHeight),
             IsActive = true
         };
@@ -180,14 +180,14 @@ public class PauseMenu
         _backButton = new Button(_texture)
         {
             Name = "BackButton",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Back_Button"),
-            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Back_Button_Highlighted"),
-            Position = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Back_Button").Width) / 2,
-                    _backButtonHeight - Singleton.GetViewPortFromSpriteSheet("Back_Button").Height / 2),
-            LabelViewPort = Singleton.GetViewPortFromSpriteSheet("Back_Label"),
-            HighlightedLabelViewPort = Singleton.GetViewPortFromSpriteSheet("Back_Label_Highlighted"),
-            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Back_Label").Width) / 2,
-                    _backButtonHeight - Singleton.GetViewPortFromSpriteSheet("Back_Label").Height / 2),
+            Viewport = ViewportManager.Get("Back_Button"),
+            HighlightedViewPort = ViewportManager.Get("Back_Button_Highlighted"),
+            Position = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Back_Button").Width) / 2,
+                    _backButtonHeight - ViewportManager.Get("Back_Button").Height / 2),
+            LabelViewPort = ViewportManager.Get("Back_Label"),
+            HighlightedLabelViewPort = ViewportManager.Get("Back_Label_Highlighted"),
+            LabelPosition = new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Back_Label").Width) / 2,
+                    _backButtonHeight - ViewportManager.Get("Back_Label").Height / 2),
             IsActive = true
         };
 
@@ -272,37 +272,37 @@ public class PauseMenu
             // Music slide chip base on music volume
             if (Singleton.Instance.MusicVolume <= 0)
             {
-                _musicSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip0");
+                _musicSlideChip.Viewport = ViewportManager.Get("Slide_Chip0");
             }
             else if (Singleton.Instance.MusicVolume <= 0.33)
             {
-                _musicSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip1");
+                _musicSlideChip.Viewport = ViewportManager.Get("Slide_Chip1");
             }
             else if (Singleton.Instance.MusicVolume <= 0.66)
             {
-                _musicSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip2");
+                _musicSlideChip.Viewport = ViewportManager.Get("Slide_Chip2");
             }
             else
             {
-                _musicSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip3");             
+                _musicSlideChip.Viewport = ViewportManager.Get("Slide_Chip3");             
             }
 
             // SFX slide chip base on SFX volume
             if (Singleton.Instance.SFXVolume <= 0)
             {
-                _sfxSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip0");
+                _sfxSlideChip.Viewport = ViewportManager.Get("Slide_Chip0");
             }
             else if (Singleton.Instance.SFXVolume <= 0.33)
             {
-                _sfxSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip1");
+                _sfxSlideChip.Viewport = ViewportManager.Get("Slide_Chip1");
             }
             else if (Singleton.Instance.SFXVolume <= 0.66)
             {
-                _sfxSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip2");
+                _sfxSlideChip.Viewport = ViewportManager.Get("Slide_Chip2");
             }
             else
             {
-                _sfxSlideChip.Viewport = Singleton.GetViewPortFromSpriteSheet("Slide_Chip3");             
+                _sfxSlideChip.Viewport = ViewportManager.Get("Slide_Chip3");             
             }
 
         }
@@ -316,8 +316,8 @@ public class PauseMenu
         if (!_settings)
         {         
             // Pause Title
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.GetViewPortFromSpriteSheet("Pause_Title0").Width / 2), 
-            _pauseTitleHeight - (Singleton.GetViewPortFromSpriteSheet("Pause_Title0").Height / 2)), Singleton.GetViewPortFromSpriteSheet("Pause_Title0"), Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (ViewportManager.Get("Pause_Title0").Width / 2), 
+            _pauseTitleHeight - (ViewportManager.Get("Pause_Title0").Height / 2)), ViewportManager.Get("Pause_Title0"), Color.White);
 
             // Buttons
             _resumeButton.Draw(_spriteBatch);
@@ -330,22 +330,22 @@ public class PauseMenu
         else {
 
             // Settings Box
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Width/ 2),
-             (Singleton.SCREEN_HEIGHT / 2) - (Singleton.GetViewPortFromSpriteSheet("Settings_Box0").Height/ 2)), Singleton.GetViewPortFromSpriteSheet("Settings_Box0"), Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (ViewportManager.Get("Settings_Box0").Width/ 2),
+             (Singleton.SCREEN_HEIGHT / 2) - (ViewportManager.Get("Settings_Box0").Height/ 2)), ViewportManager.Get("Settings_Box0"), Color.White);
             
             // Music
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.GetViewPortFromSpriteSheet("Music_Label").Width/ 2),
-            _musicLabelHeight), Singleton.GetViewPortFromSpriteSheet("Music_Label"), Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (ViewportManager.Get("Music_Label").Width/ 2),
+            _musicLabelHeight), ViewportManager.Get("Music_Label"), Color.White);
 
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Width/ 2),
-            _musicSlideBarHeight), Singleton.GetViewPortFromSpriteSheet("Slide_Bar"), Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (ViewportManager.Get("Slide_Bar").Width/ 2),
+            _musicSlideBarHeight), ViewportManager.Get("Slide_Bar"), Color.White);
             
             // SFX
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.GetViewPortFromSpriteSheet("SFX_Label").Width/ 2),
-            _sfxLabelHeight), Singleton.GetViewPortFromSpriteSheet("SFX_Label"), Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (ViewportManager.Get("SFX_Label").Width/ 2),
+            _sfxLabelHeight), ViewportManager.Get("SFX_Label"), Color.White);
 
-            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (Singleton.GetViewPortFromSpriteSheet("Slide_Bar").Width/ 2),
-            _sfxSlideBarHeight), Singleton.GetViewPortFromSpriteSheet("Slide_Bar"), Color.White);
+            _spriteBatch.Draw(_texture, new Vector2((Singleton.SCREEN_WIDTH / 2) - (ViewportManager.Get("Slide_Bar").Width/ 2),
+            _sfxSlideBarHeight), ViewportManager.Get("Slide_Bar"), Color.White);
             
             // Back button
             _backButton.Draw(_spriteBatch);

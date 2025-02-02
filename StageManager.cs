@@ -377,7 +377,7 @@ public class Stage
         }
     };
 
-    public static void SetUpBoard()
+    public static void SetUpStage()
     {
         if (!StageLayouts.ContainsKey(Singleton.Instance.Stage))
         {

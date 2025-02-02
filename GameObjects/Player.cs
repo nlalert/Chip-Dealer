@@ -36,7 +36,7 @@ class Player : GameObject
     {
         Vector2 Origin = new Vector2(0, 0);
 
-        Vector2 PositionOffset = new Vector2(Singleton.GetViewPortFromSpriteSheet("Player_Hand").Width/2, 0);
+        Vector2 PositionOffset = new Vector2(ViewportManager.Get("Player_Hand").Width/2, 0);
 
         DrawDottedLine(spriteBatch, _initialPosition + PositionOffset + Origin - new Vector2(DOT_SIZE/2, 0), Rotation, Color.White);
 

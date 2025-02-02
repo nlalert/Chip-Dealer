@@ -176,12 +176,12 @@ public class MainScene
         _numObject = _gameObjects.Count;
 
         //draw background
-        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Ingame_Background").Width)/2 ,0),
-            Singleton.GetViewPortFromSpriteSheet("Ingame_Background"), Color.White);
+        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Ingame_Background").Width)/2 ,0),
+            ViewportManager.Get("Ingame_Background"), Color.White);
 
             
-        _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.PLAY_AREA_START_X, - Singleton.GetViewPortFromSpriteSheet("Chip_Stick").Height + Singleton.Instance.CeilingPosition),
-        Singleton.GetViewPortFromSpriteSheet("Chip_Stick"), Color.White);
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.PLAY_AREA_START_X, - ViewportManager.Get("Chip_Stick").Height + Singleton.Instance.CeilingPosition),
+        ViewportManager.Get("Chip_Stick"), Color.White);
 
         for (int i = 0; i < _numObject; i++)
         {
@@ -196,8 +196,8 @@ public class MainScene
         {
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("GameOver_Title").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("GameOver_Title").Height) / 2),
-                Singleton.GetViewPortFromSpriteSheet("GameOver_Title"), Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("GameOver_Title").Width) / 2, (Singleton.SCREEN_HEIGHT - ViewportManager.Get("GameOver_Title").Height) / 2),
+                ViewportManager.Get("GameOver_Title"), Color.White);
             return;
         }
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
@@ -233,7 +233,7 @@ public class MainScene
         _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Player_Hand"),
+            Viewport = ViewportManager.Get("Player_Hand"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             Left = Keys.Left,
             Right = Keys.Right,
@@ -273,7 +273,7 @@ public class MainScene
         _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Player_Hand"),
+            Viewport = ViewportManager.Get("Player_Hand"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             SlidingSound = _handSlidingSound,
             Left = Keys.Left,
@@ -314,8 +314,8 @@ public class MainScene
         _slotMachine = new SlotMachine(_SpriteTexture)
         {
             Name = "SlotMachine",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Slot_Machine"),
-            Position = new Vector2(_slotMachinePositionX, Singleton.SCREEN_HEIGHT/2 - Singleton.GetViewPortFromSpriteSheet("Slot_Machine").Height/2 + 32),
+            Viewport = ViewportManager.Get("Slot_Machine"),
+            Position = new Vector2(_slotMachinePositionX, Singleton.SCREEN_HEIGHT/2 - ViewportManager.Get("Slot_Machine").Height/2 + 32),
             LosingBetSound = _LosingBetSound,
             WinningBetSound = _WinningBetSound
         };
@@ -332,7 +332,7 @@ public class MainScene
 
     protected void SetUpInitalChipsPattern()
     {
-        Stage.SetUpBoard();
+        Stage.SetUpStage();
 
         for (int j = 0; j < Singleton.CHIP_GRID_HEIGHT; j++)
         {

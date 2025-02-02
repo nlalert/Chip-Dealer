@@ -92,8 +92,8 @@ class Chip : GameObject
         if (Singleton.Instance.CurrentChip == ChipType.Explosive)
         {
             Viewport = _explosiveFrameToggle
-                ? Singleton.GetViewPortFromSpriteSheet("Explosive_Chip0")
-                : Singleton.GetViewPortFromSpriteSheet("Explosive_Chip1");
+                ? ViewportManager.Get("Explosive_Chip0")
+                : ViewportManager.Get("Explosive_Chip1");
         }
     }
     

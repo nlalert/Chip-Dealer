@@ -30,7 +30,7 @@ class Shop : GameObject
             Vector2 SpaceOffSet = new Vector2(0,10);
             Vector2 itemPosition = new Vector2(
                 Position.X + col * (_itemSize + _itemSpacing),
-                Position.Y + Singleton.GetViewPortFromSpriteSheet("Pause_Button").Height + row * (_itemSize + _itemSpacing)
+                Position.Y + ViewportManager.Get("Pause_Button").Height + row * (_itemSize + _itemSpacing)
             ) + SpaceOffSet;
 
             _shopItems[i].Position = itemPosition;
