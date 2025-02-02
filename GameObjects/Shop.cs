@@ -44,7 +44,7 @@ class Shop : GameObject
             {
                 Name = string.Concat(_itemsType[i].ToString().Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())),
                 relicType = _itemsType[i],
-                Position = new Vector2(Position.X - Singleton.GetViewPortFromSpriteSheet("Shop_Box").Width/2 + _itemSize, (_itemSpacing + _itemSize) * (i+1)),
+                Position = new Vector2(Position.X - ViewportManager.Get("Shop_Box").Width/2 + _itemSize, (_itemSpacing + _itemSize) * (i+1)),
                 Rarity = Relics.GetRelicRarity(_itemsType[i]),
                 Price = Relics.GetRelicPrice(_itemsType[i]),
                 Descriptions = Relics.GetRelicDescriptions(_itemsType[i]),
@@ -57,14 +57,14 @@ class Shop : GameObject
         _nextButton = new Button(_texture)
         {
             Name = "NextButton",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Small_Button"),
-            HighlightedViewPort = Singleton.GetViewPortFromSpriteSheet("Small_Button_Highlighted"),
-            Position = new Vector2(Position.X - Singleton.GetViewPortFromSpriteSheet("Small_Button").Width/2,
-                    Position.Y - Singleton.GetViewPortFromSpriteSheet("Small_Button").Height / 2 + 16*12 + 8),
-            LabelViewPort = Singleton.GetViewPortFromSpriteSheet("Next_Label"),
-            HighlightedLabelViewPort = Singleton.GetViewPortFromSpriteSheet("Next_Label_Highlighted"),
-            LabelPosition = new Vector2(Position.X - Singleton.GetViewPortFromSpriteSheet("Next_Label").Width/2,
-                    Position.Y - Singleton.GetViewPortFromSpriteSheet("Next_Label").Height / 2 + 16*12 + 8),
+            Viewport = ViewportManager.Get("Small_Button"),
+            HighlightedViewPort = ViewportManager.Get("Small_Button_Highlighted"),
+            Position = new Vector2(Position.X - ViewportManager.Get("Small_Button").Width/2,
+                    Position.Y - ViewportManager.Get("Small_Button").Height / 2 + 16*12 + 8),
+            LabelViewPort = ViewportManager.Get("Next_Label"),
+            HighlightedLabelViewPort = ViewportManager.Get("Next_Label_Highlighted"),
+            LabelPosition = new Vector2(Position.X - ViewportManager.Get("Next_Label").Width/2,
+                    Position.Y - ViewportManager.Get("Next_Label").Height / 2 + 16*12 + 8),
             IsActive = true
         };
 
@@ -114,8 +114,8 @@ class Shop : GameObject
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_texture ,new Vector2(Position.X - Singleton.GetViewPortFromSpriteSheet("Shop_Box").Width/2, Position.Y - Singleton.GetViewPortFromSpriteSheet("Shop_Box").Height/2),
-        Singleton.GetViewPortFromSpriteSheet("Shop_Box"), Color.White);
+        spriteBatch.Draw(_texture ,new Vector2(Position.X - ViewportManager.Get("Shop_Box").Width/2, Position.Y - ViewportManager.Get("Shop_Box").Height/2),
+        ViewportManager.Get("Shop_Box"), Color.White);
 
         _nextButton.Draw(spriteBatch);
 

@@ -197,12 +197,12 @@ public class MainScene
         _numObject = _gameObjects.Count;
 
         //draw background
-        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Ingame_Background").Width)/2 ,0),
-            Singleton.GetViewPortFromSpriteSheet("Ingame_Background"), Color.White);
+        _spriteBatch.Draw(_SpriteTexture, new Vector2((Singleton.SCREEN_WIDTH - ViewportManager.Get("Ingame_Background").Width)/2 ,0),
+            ViewportManager.Get("Ingame_Background"), Color.White);
 
             
-        _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.PLAY_AREA_START_X, - Singleton.GetViewPortFromSpriteSheet("Chip_Stick").Height + Singleton.Instance.CeilingPosition),
-        Singleton.GetViewPortFromSpriteSheet("Chip_Stick"), Color.White);
+        _spriteBatch.Draw(_SpriteTexture, new Vector2(Singleton.PLAY_AREA_START_X, - ViewportManager.Get("Chip_Stick").Height + Singleton.Instance.CeilingPosition),
+        ViewportManager.Get("Chip_Stick"), Color.White);
 
         for (int i = 0; i < _numObject; i++)
         {
@@ -218,45 +218,45 @@ public class MainScene
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
             
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2),
-                Singleton.GetViewPortFromSpriteSheet("Big_Box0"), Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Big_Box0").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2),
+               ViewportManager.Get("Big_Box0"), Color.White);
             _spriteBatch.Draw(_SpriteTexture,
 
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("GameOver_Label").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*3),
-                Singleton.GetViewPortFromSpriteSheet("GameOver_Label"), Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("GameOver_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*3),
+               ViewportManager.Get("GameOver_Label"), Color.White);
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*18),
-                Singleton.GetViewPortFromSpriteSheet("NewGame_Label"), Color.White);  
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*18),
+               ViewportManager.Get("NewGame_Label"), Color.White);  
 
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Score_Label2").Width - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16
-                , (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*13),
-                Singleton.GetViewPortFromSpriteSheet("Score_Label2"), Color.White);  
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Label2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
+                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
+               ViewportManager.Get("Score_Label2"), Color.White);  
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16
-                , (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15),
-                Singleton.GetViewPortFromSpriteSheet("Score_Box2"), Color.White);  
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Box2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
+                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
+               ViewportManager.Get("Score_Box2"), Color.White);  
             
             Vector2 fontSize = _font.MeasureString(Singleton.Instance.Score.ToString());
 
             _spriteBatch.DrawString(_font,Singleton.Instance.Score.ToString(),
-                new Vector2((Singleton.SCREEN_WIDTH - fontSize.X - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16,
-                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH - fontSize.X -ViewportManager.Get("Stage_Box").Width) / 2 - 16,
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
 
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Stage_Label").Width + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2,
-                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*13),
-                Singleton.GetViewPortFromSpriteSheet("Stage_Label"), Color.White);  
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Label").Width +ViewportManager.Get("Score_Box2").Width) / 2,
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
+               ViewportManager.Get("Stage_Label"), Color.White);  
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2,
-                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15),
-                Singleton.GetViewPortFromSpriteSheet("Stage_Box"), Color.White);  
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Box").Width +ViewportManager.Get("Score_Box2").Width) / 2,
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
+               ViewportManager.Get("Stage_Box"), Color.White);  
             
             fontSize = _font.MeasureString(Singleton.Instance.Stage.ToString());
             
             _spriteBatch.DrawString(_font,Singleton.Instance.Stage.ToString(),
-            new Vector2((Singleton.SCREEN_WIDTH - fontSize.X + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2 - 8,
-            (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+            new Vector2((Singleton.SCREEN_WIDTH - fontSize.X +ViewportManager.Get("Score_Box2").Width) / 2 - 8,
+            (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
 
             return;
         }
@@ -266,44 +266,44 @@ public class MainScene
             _spriteBatch.Draw(_rectTexture, Vector2.Zero, new Rectangle(0, 0, Singleton.SCREEN_WIDTH, Singleton.SCREEN_HEIGHT), new Color(0, 0, 0, 100));
             
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2),
-                Singleton.GetViewPortFromSpriteSheet("Big_Box0"), Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Big_Box0").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2),
+               ViewportManager.Get("Big_Box0"), Color.White);
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("GameWin_Label").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*3),
-                Singleton.GetViewPortFromSpriteSheet("GameWin_Label"), Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("GameWin_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*3),
+               ViewportManager.Get("GameWin_Label"), Color.White);
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*18),
-                Singleton.GetViewPortFromSpriteSheet("NewGame_Label"), Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*18),
+               ViewportManager.Get("NewGame_Label"), Color.White);
 
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Score_Label2").Width - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16
-                , (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*13),
-                Singleton.GetViewPortFromSpriteSheet("Score_Label2"), Color.White);  
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Label2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
+                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
+               ViewportManager.Get("Score_Label2"), Color.White);  
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16
-                , (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15),
-                Singleton.GetViewPortFromSpriteSheet("Score_Box2"), Color.White);       
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Box2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
+                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
+               ViewportManager.Get("Score_Box2"), Color.White);       
             
             Vector2 fontSize = _font.MeasureString(Singleton.Instance.Score.ToString());
 
             _spriteBatch.DrawString(_font,Singleton.Instance.Score.ToString(),
-                new Vector2((Singleton.SCREEN_WIDTH - fontSize.X - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width) / 2 - 16,
-                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+                new Vector2((Singleton.SCREEN_WIDTH - fontSize.X -ViewportManager.Get("Stage_Box").Width) / 2 - 16,
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
 
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Stage_Label").Width + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2,
-                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*13),
-                Singleton.GetViewPortFromSpriteSheet("Stage_Label"), Color.White);  
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Label").Width +ViewportManager.Get("Score_Box2").Width) / 2,
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
+               ViewportManager.Get("Stage_Label"), Color.White);  
             _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH - Singleton.GetViewPortFromSpriteSheet("Stage_Box").Width + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2,
-                (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15),
-                Singleton.GetViewPortFromSpriteSheet("Stage_Box"), Color.White);  
+                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Box").Width +ViewportManager.Get("Score_Box2").Width) / 2,
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
+               ViewportManager.Get("Stage_Box"), Color.White);  
             
             fontSize = _font.MeasureString(Singleton.Instance.Stage.ToString());
             
             _spriteBatch.DrawString(_font,Singleton.Instance.Stage.ToString(),
-            new Vector2((Singleton.SCREEN_WIDTH - fontSize.X + Singleton.GetViewPortFromSpriteSheet("Score_Box2").Width) / 2 - 8,
-            (Singleton.SCREEN_HEIGHT - Singleton.GetViewPortFromSpriteSheet("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);  
+            new Vector2((Singleton.SCREEN_WIDTH - fontSize.X +ViewportManager.Get("Score_Box2").Width) / 2 - 8,
+            (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);  
 
             return;
         }
@@ -344,7 +344,7 @@ public class MainScene
         _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Player_Hand"),
+            Viewport = ViewportManager.Get("Player_Hand"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             Left = Keys.Left,
             Right = Keys.Right,
@@ -385,7 +385,7 @@ public class MainScene
         _gameObjects.Add(new Player(_SpriteTexture)
         {
             Name = "Player",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Player_Hand"),
+            Viewport = ViewportManager.Get("Player_Hand"),
             Position = new Vector2(Singleton.SCREEN_WIDTH / 2, Singleton.CHIP_SHOOTING_HEIGHT),
             SlidingSound = _handSlidingSound,
             Left = Keys.Left,
@@ -426,8 +426,8 @@ public class MainScene
         _slotMachine = new SlotMachine(_SpriteTexture)
         {
             Name = "SlotMachine",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Slot_Machine"),
-            Position = new Vector2(_slotMachinePositionX, Singleton.SCREEN_HEIGHT/2 - Singleton.GetViewPortFromSpriteSheet("Slot_Machine").Height/2 + 32),
+            Viewport = ViewportManager.Get("Slot_Machine"),
+            Position = new Vector2(_slotMachinePositionX, Singleton.SCREEN_HEIGHT/2 - ViewportManager.Get("Slot_Machine").Height/2 + 32),
             LosingBetSound = _LosingBetSound,
             WinningBetSound = _WinningBetSound
         };
@@ -444,7 +444,7 @@ public class MainScene
 
     protected void SetUpInitalChipsPattern()
     {
-        Stage.SetUpBoard();
+        Stage.SetUpStage();
 
         for (int j = 0; j < Singleton.CHIP_GRID_HEIGHT; j++)
         {

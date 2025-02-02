@@ -55,7 +55,7 @@ class SlotMachine : GameObject
 
         for (int i = 0; i < slotBorders.Length; i++)
         {
-            slotBorders[i] = new Rectangle(Singleton.GetViewPortFromSpriteSheet("Slot_Background").X,Singleton.GetViewPortFromSpriteSheet("Slot_Background").Y,48,50);
+            slotBorders[i] = new Rectangle(ViewportManager.Get("Slot_Background").X,ViewportManager.Get("Slot_Background").Y,48,50);
 
             slotPositions[i] = new Vector2(Position.X + 8 + i*48, Position.Y + 23);
 
@@ -85,7 +85,7 @@ class SlotMachine : GameObject
 
         _handle = new Button(_texture){
             Name = "SlotHandle",
-            Viewport = Singleton.GetViewPortFromSpriteSheet("Slot_Handle"),
+            Viewport = ViewportManager.Get("Slot_Handle"),
             Position = new Vector2 (Position.X + 8, handleMinHeight),
             IsActive = true
 
@@ -144,7 +144,7 @@ class SlotMachine : GameObject
                 {
                     _chipReward = new Button(_texture)
                     {
-                        Viewport = Singleton.GetViewPortFromSpriteSheet(_currentChipRewardType.ToString() + "_Chip"),
+                        Viewport = ViewportManager.Get(_currentChipRewardType.ToString() + "_Chip"),
                         Position = new Vector2 (Position.X + 112, Position.Y + 102),
                     };
                 }
@@ -175,15 +175,15 @@ class SlotMachine : GameObject
             if (_chipsDisplay[i] == ChipType.None)
             {   
                 slotBorders[i].Y += slotSpinSpeed;
-                if (slotBorders[i].Y - Singleton.GetViewPortFromSpriteSheet("Slot_Background").Y 
-                >= Singleton.GetViewPortFromSpriteSheet("Slot_Background").Height - slotBorders[i].Height)
+                if (slotBorders[i].Y - ViewportManager.Get("Slot_Background").Y 
+                >= ViewportManager.Get("Slot_Background").Height - slotBorders[i].Height)
                 {
-                    slotBorders[i].Y = Singleton.GetViewPortFromSpriteSheet("Slot_Background").Y;
+                    slotBorders[i].Y = ViewportManager.Get("Slot_Background").Y;
                 }
             }
             else
             {
-                slotBorders[i].Y = Singleton.GetViewPortFromSpriteSheet("Slot_Background").Y;
+                slotBorders[i].Y = ViewportManager.Get("Slot_Background").Y;
             }
         }
 
@@ -201,14 +201,14 @@ class SlotMachine : GameObject
         for (int i = 0; i < chipDisplayPositions.Length; i++)
         {
             if (_chipsDisplay[i] != ChipType.None)
-                spriteBatch.Draw(_texture, chipDisplayPositions[i], Singleton.GetViewPortFromSpriteSheet(_chipsDisplay[i].ToString() + "_Chip"), Color.White);
+                spriteBatch.Draw(_texture, chipDisplayPositions[i], ViewportManager.Get(_chipsDisplay[i].ToString() + "_Chip"), Color.White);
         }
 
         _handle.Draw(spriteBatch);
 
-        spriteBatch.Draw(_texture, new Vector2(Position.X, Position.Y - 16*11), Singleton.GetViewPortFromSpriteSheet("Tutorial_Drawing"), Color.White);
-        spriteBatch.Draw(_texture, new Vector2(Position.X, Position.Y - 16*4), Singleton.GetViewPortFromSpriteSheet("Slot_Label"), Color.White);
-        spriteBatch.Draw(_texture, new Vector2(Position.X + 24, Position.Y + 16*11), Singleton.GetViewPortFromSpriteSheet("Slot_Drawing"), Color.White);
+        spriteBatch.Draw(_texture, new Vector2(Position.X, Position.Y - 16*11), ViewportManager.Get("Tutorial_Drawing"), Color.White);
+        spriteBatch.Draw(_texture, new Vector2(Position.X, Position.Y - 16*4), ViewportManager.Get("Slot_Label"), Color.White);
+        spriteBatch.Draw(_texture, new Vector2(Position.X + 24, Position.Y + 16*11), ViewportManager.Get("Slot_Drawing"), Color.White);
         
         _chipReward.Draw(spriteBatch);
     }
