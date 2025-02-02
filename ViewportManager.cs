@@ -88,8 +88,7 @@ public class ViewportManager
         {"Ceiling_Turn_Label",new Rectangle(720, 144 ,48, 16)},
         {"Ceiling_Turn_Box",new Rectangle(720, 176 ,48, 32)},
 
-        {"Relic_Box",new Rectangle(784, 560 ,144, 144)},
-        {"Relic_Placeholder",new Rectangle(176, 176 ,32, 32)},
+        {"Owned_Relic_Box",new Rectangle(768, 992 ,144, 144)},
 
         {"Next_Chip_Box",new Rectangle( 112, 160, 48, 48)},
         {"Next_Chip_Label",new Rectangle( 176, 144, 64, 16)},

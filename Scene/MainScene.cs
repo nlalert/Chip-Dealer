@@ -140,6 +140,9 @@ public class MainScene
 
                     _shop.Reset();
                     _gameObjects.Add(_shop);
+                    _gameObjects.Remove(_gameStat);
+                    _gameObjects.Add(_gameStat);
+                    
                 }
 
                 _gameStat.Update(gameTime, _gameObjects);
@@ -208,10 +211,6 @@ public class MainScene
         {
             _gameObjects[i].Draw(_spriteBatch);
         }
-
-        //draw Next Chip Display
-        _spriteBatch.Draw(_SpriteTexture, new Vector2(_statPosition.X - Singleton.CHIP_SIZE/2 , _statPosition.Y + 16*25 + 8), 
-            new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White); 
 
         if (Singleton.Instance.CurrentGameState == Singleton.GameState.GameOver)
         {
@@ -307,21 +306,6 @@ public class MainScene
 
             return;
         }
-
-        if (Singleton.Instance.CurrentGameState == Singleton.GameState.Pause)
-        {
-            //idk what to put in here
-            //hehe 
-            return;
-        }
-        // if (Singleton.Instance.CurrentGameState == Singleton.GameState.PassingLevel && _showLevelPass)
-        // {
-        //     Vector2 position = new Vector2(
-        //         (Singleton.SCREEN_WIDTH - _LevelPassTexture.Width) / 2,
-        //         (Singleton.SCREEN_HEIGHT - _LevelPassTexture.Height) / 2
-        //     );
-        //     _spriteBatch.Draw(_LevelPassTexture, position, Color.White);
-        // }
     }
 
     protected void ResetGame()

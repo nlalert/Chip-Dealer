@@ -56,7 +56,7 @@ class GameStat : GameObject
                 {
                     Name = string.Concat(Singleton.Instance.OwnedRelics[i].ToString().Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())),
                     relicType = Singleton.Instance.OwnedRelics[i],
-                    Position = new Vector2(Position.X - ViewportManager.Get("Relic_Box").Width/2 + 16 + 40 * (Singleton.Instance.OwnedRelics.IndexOf(Singleton.Instance.OwnedRelics[i])%3), 
+                    Position = new Vector2(Position.X - ViewportManager.Get("Owned_Relic_Box").Width/2 + 16 + 40 * (Singleton.Instance.OwnedRelics.IndexOf(Singleton.Instance.OwnedRelics[i])%3), 
                     Position.Y + 16*13 + 16 + 40 * (Singleton.Instance.OwnedRelics.IndexOf(Singleton.Instance.OwnedRelics[i])/3)),
                     Rarity = Relics.GetRelicRarity(Singleton.Instance.OwnedRelics[i]),
                     Price = Relics.GetRelicPrice(Singleton.Instance.OwnedRelics[i]),
@@ -77,12 +77,21 @@ class GameStat : GameObject
             {
                 Singleton.Instance.Money += _relics[i].Price/4;
                 int index = Singleton.Instance.OwnedRelics.IndexOf(_relics[i].relicType);
-                //Console.WriteLine(_relics[i].relicType + " " + Singleton.Instance.OwnedRelics[index]);
                 if (index != -1) Singleton.Instance.OwnedRelics[index] = Relics.RelicType.None;
                 _relics.Remove(_relics[i]);
                 Console.WriteLine(_relics.Count());
                 break;
             }
+
+            if (_relics[i].IsMouseHoveringForInfo())
+            {
+                _relics[i].DescriptionsPosition = new Vector2 (Singleton.Instance.CurrentMouseState.Position.X , Singleton.Instance.CurrentMouseState.Position.Y);
+                _relics[i].showDescriptions = true;
+            }
+            else{
+                _relics[i].showDescriptions = false;
+            }
+
         }
     }
 
@@ -124,7 +133,7 @@ class GameStat : GameObject
         spriteBatch.DrawString(font,(Singleton.CEILING_WAITING_TURN - (Singleton.Instance.ChipShotAmount % Singleton.CEILING_WAITING_TURN)).ToString(),
         new Vector2(Position.X + (ViewportManager.Get("Money_Box").Width - ViewportManager.Get("Ceiling_Turn_Box").Width + 16)/2 + 16 - fontSize.X/2, Position.Y + 16*10 + 10),Color.White);
 
-        spriteBatch.Draw(_texture, new Vector2(Position.X - ViewportManager.Get("Relic_Box").Width/2, Position.Y + 16*13), ViewportManager.Get("Relic_Box"), Color.White);
+        spriteBatch.Draw(_texture, new Vector2(Position.X - ViewportManager.Get("Owned_Relic_Box").Width/2, Position.Y + 16*13), ViewportManager.Get("Owned_Relic_Box"), Color.White);
 
         foreach (ShopRelic item in _relics)
         {
@@ -134,12 +143,20 @@ class GameStat : GameObject
         for (int i = 0; i < 9; i++)
         {
             if (Singleton.Instance.OwnedRelics[i] == Relics.RelicType.None){
-                spriteBatch.Draw(_texture, new Vector2(Position.X - ViewportManager.Get("Relic_Box").Width/2 + 16 + 40 * (i%3),
+                spriteBatch.Draw(_texture, new Vector2(Position.X - ViewportManager.Get("Owned_Relic_Box").Width/2 + 16 + 40 * (i%3),
                 Position.Y + 16*13 + 16 + 40 * (i/3)), ViewportManager.Get("Placeholder"), Color.White);
             }
         }
 
         spriteBatch.Draw(_texture, new Vector2(Position.X  - ViewportManager.Get("Next_Chip_Label").Width/2 , Position.Y + 16*23),ViewportManager.Get("Next_Chip_Label"),Color.White);
         spriteBatch.Draw(_texture, new Vector2(Position.X  - ViewportManager.Get("Next_Chip_Box").Width/2 , Position.Y + 16*25),ViewportManager.Get("Next_Chip_Box"),Color.White);
+
+        spriteBatch.Draw(_texture, new Vector2(Position.X - Singleton.CHIP_SIZE/2 , Position.Y + 16*25 + 8), 
+        new Rectangle(((int)Singleton.Instance.NextChip - 1) * Singleton.CHIP_SIZE, 0, Singleton.CHIP_SIZE, Singleton.CHIP_SIZE + Singleton.CHIP_SHADOW_HEIGHT),Color.White);
+
+        for (int i = 0; i < _relics.Count; i++)
+        {
+            if (_relics[i].IsMouseHoveringForInfo()) _relics[i].Draw(spriteBatch);
+        }
     }
 }
