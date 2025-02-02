@@ -11,19 +11,18 @@ class Chip : GameObject
     public float Speed;
     public bool IsShot;
 
-    public bool IsFalling = false;
-    public float FallSpeed = 800f;
-
+    public bool IsFalling;
+    private float FallSpeed;
 
     public int Score;
+    private float _explosiveTimer;
+    private bool _explosiveFrameToggle;
 
     public Vector2 BoardCoord;
 
     public ChipType ChipType;
 
     public SoundEffect ChipHitSound;
-    private float _explosiveTimer = 0f;
-    private bool _explosiveFrameToggle = false;
 
 
     public Chip(Texture2D texture) : base(texture)
@@ -33,18 +32,9 @@ class Chip : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if (!IsShot){
-            Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE/2);
-            //draw current chip on hand
-            Viewport = Singleton.GetChipViewPort(Singleton.Instance.CurrentChip);
-            // if (ChipType == ChipType.Explosive) Hand Chip never be any chip but it use singleton to know what chip it is
-            if(Singleton.Instance.CurrentChip == ChipType.Explosive)
-            {
-                if (_explosiveFrameToggle)
-                    Viewport = Singleton.GetViewPortFromSpriteSheet("Explosive_Chip0");
-                else
-                    Viewport = Singleton.GetViewPortFromSpriteSheet("Explosive_Chip1");
-            }
+        if (!IsShot)
+        {
+            DrawCurrentChipOnHand();
         }
         
         spriteBatch.Draw(_texture, Position, Viewport, Color.White);
@@ -53,98 +43,34 @@ class Chip : GameObject
 
     public override void Reset()
     {
+        IsFalling = false;
         Speed = 0;
+        FallSpeed = 1000f;
         Radius = Singleton.CHIP_SIZE / 2;
         BoardCoord = new Vector2(Singleton.CHIP_GRID_WIDTH, Singleton.CHIP_GRID_HEIGHT);
-
+        _explosiveTimer = 0f;
+        _explosiveFrameToggle = false;
         ResetChipTexture();
 
         base.Reset();
     }
 
-    public void ResetChipTexture()
-    {
-        Viewport = Singleton.GetChipViewPort(ChipType);
-    }
 
     public override void Update(GameTime gameTime, List<GameObject> gameObjects)
     {
         if (IsFalling)
         {
             ApplyGravity(gameTime);
-
-            if (Position.Y > Singleton.SCREEN_HEIGHT)
-            {
-                IsActive = false;
-                Singleton.Instance.GameBoard.DestroySingleChip((int)BoardCoord.Y, (int)BoardCoord.X, gameObjects);
-                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
-            }
+            HandleChipOutOfBounds(gameObjects);
         }
         else
         {
-            // Normal chip movement logic
-            Velocity.X = (float)Math.Cos(Angle) * Speed;
-            Velocity.Y = (float)Math.Sin(Angle) * Speed;
-            Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-        }
-
-        if(Speed != 0)
-        {
-            if (Position.Y < Singleton.Instance.CeilingPosition){
-                Position.Y = Singleton.Instance.CeilingPosition;
-                SnapToGrid();
-                
-                switch (ChipType)
-                {
-                    case ChipType.Explosive:
-                        Singleton.Instance.GameBoard.DestroyAdjacentChips(BoardCoord, gameObjects);
-                        break;
-                    default:
-                        Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
-                        break;
-                }
-                Singleton.Instance.CurrentGameState = Singleton.GameState.CheckCeiling;
-            }
-
-            if (Position.X < Singleton.PLAY_AREA_START_X){
-                Position.X = Singleton.PLAY_AREA_START_X;
-                Angle = (float)Math.PI - Angle;
-            }
-            
-            if(Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
-            {
-                Position.X = Singleton.PLAY_AREA_END_X - Rectangle.Width;
-                Angle = (float)Math.PI - Angle;
-            }
-            
-            foreach (GameObject s in gameObjects)
-            {
-                if (s != this && s is Chip && !(s as Chip).IsFalling && IsTouchingAsCircle(s))
-                {
-                    MoveBackUntilNoCollision(gameTime, s);
-                    SnapToGrid();
-
-                    switch (ChipType)
-                    {
-                        case ChipType.Explosive:
-                            Singleton.Instance.GameBoard.DestroyAdjacentChips(BoardCoord, gameObjects);
-                            break;
-                        default:
-                            Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
-                            break;
-                    }
-                    Singleton.Instance.CurrentGameState = Singleton.GameState.CheckCeiling;
-                }
-            }
+            MoveChip(gameTime);
+            CheckCollisions(gameTime, gameObjects);
         }
 
        // if(!_isShot){
-            _explosiveTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (_explosiveTimer >= 1f)
-            {
-                _explosiveTimer = 0f;
-                _explosiveFrameToggle = !_explosiveFrameToggle;
-            }
+            HandleExplosiveAnimation(gameTime);
             // Console.WriteLine(_explosiveTimer);
         //}
 
@@ -153,21 +79,114 @@ class Chip : GameObject
         base.Update(gameTime, gameObjects);
     }
 
+    public void ResetChipTexture()
+    {
+        Viewport = Singleton.GetChipViewPort(ChipType);
+    }
+
+    protected void DrawCurrentChipOnHand()
+    {
+        Position = new Vector2((Singleton.SCREEN_WIDTH / 2) - 16, Singleton.CHIP_SHOOTING_HEIGHT - Singleton.CHIP_SIZE / 2);
+        Viewport = Singleton.GetChipViewPort(Singleton.Instance.CurrentChip);
+
+        if (Singleton.Instance.CurrentChip == ChipType.Explosive)
+        {
+            Viewport = _explosiveFrameToggle
+                ? Singleton.GetViewPortFromSpriteSheet("Explosive_Chip0")
+                : Singleton.GetViewPortFromSpriteSheet("Explosive_Chip1");
+        }
+    }
+    
+    protected void CheckCollisions(GameTime gameTime, List<GameObject> gameObjects)
+    {
+        HandleCeilingCollision(gameObjects);
+        HandleWallCollisions();
+        HandleChipCollisions(gameTime, gameObjects);
+    }
+
+    protected void HandleCeilingCollision(List<GameObject> gameObjects)
+    {
+        if (Position.Y >= Singleton.Instance.CeilingPosition) return;
+
+        Position.Y = Singleton.Instance.CeilingPosition;
+        SnapToGrid();
+        DestroyAroundChips(gameObjects);
+        Singleton.Instance.CurrentGameState = Singleton.GameState.CheckCeiling;
+    }
+
+    protected void HandleWallCollisions()
+    {
+        if (Position.X < Singleton.PLAY_AREA_START_X)
+        {
+            Position.X = Singleton.PLAY_AREA_START_X;
+            Angle = (float)Math.PI - Angle;
+        }
+        
+        if(Position.X > Singleton.PLAY_AREA_END_X - Rectangle.Width) 
+        {
+            Position.X = Singleton.PLAY_AREA_END_X - Rectangle.Width;
+            Angle = (float)Math.PI - Angle;
+        }
+    }
+
+    protected void HandleChipCollisions(GameTime gameTime, List<GameObject> gameObjects)
+    {
+        foreach (var obj in gameObjects)
+        {
+            if (obj == this || !(obj is Chip otherChip) || otherChip.IsFalling || !IsTouchingAsCircle(obj))
+                continue;
+
+            MoveBackUntilNoCollision(gameTime, obj);
+            SnapToGrid();
+            DestroyAroundChips(gameObjects);
+            Singleton.Instance.CurrentGameState = Singleton.GameState.CheckCeiling;
+        }
+    }
+
+    protected void DestroyAroundChips(List<GameObject> gameObjects)
+    {
+        switch (ChipType)
+        {
+            case ChipType.Explosive:
+                Singleton.Instance.GameBoard.DestroyAdjacentChips(BoardCoord, gameObjects);
+                break;
+            default:
+                Singleton.Instance.GameBoard.DestroyConnectedSameTypeChips(BoardCoord, gameObjects);
+                break;
+        }
+    }
+
+    protected void HandleChipOutOfBounds(List<GameObject> gameObjects)
+    {
+        if (Position.Y <= Singleton.SCREEN_HEIGHT) return;
+
+        IsActive = false;
+        Singleton.Instance.GameBoard.DestroySingleChip((int)BoardCoord.Y, (int)BoardCoord.X, gameObjects);
+        Singleton.Instance.CurrentGameState = Singleton.GameState.CheckGameBoard;
+    }
+
     protected void ApplyGravity(GameTime gameTime)
     {
         Position.Y += FallSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
-    protected void MoveBackUntilNoCollision(GameTime gameTime, GameObject s)
+
+    protected void MoveBackUntilNoCollision(GameTime gameTime, GameObject otherChip)
     {
         Angle = Angle - (float)Math.PI;
         do
         {
             Speed = 10;
-            Velocity.X = (float) Math.Cos(Angle) * Speed;
-            Velocity.Y = (float) Math.Sin(Angle) * Speed;
+            MoveChip(gameTime);
 
-            Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-        } while (IsTouchingAsCircle(s));
+        } while (IsTouchingAsCircle(otherChip));
+    }
+
+    protected void MoveChip(GameTime gameTime)
+    {
+        Velocity.X = (float) Math.Cos(Angle) * Speed;
+        Velocity.Y = (float) Math.Sin(Angle) * Speed;
+
+        Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
 
     protected void SnapToGrid()
@@ -177,7 +196,7 @@ class Chip : GameObject
         Vector2 gridPosition = CalculateApproxGridPosition();
 
         Vector2 closestSpot = FindClosestEmptySpot(gridPosition);
-        // Console.WriteLine("=============================");
+
         PlaceChipOnGrid(closestSpot);
     }
 
@@ -186,17 +205,7 @@ class Chip : GameObject
         int approxY = (int)Math.Round((Position.Y - Singleton.Instance.CeilingPosition) / Singleton.CHIP_SIZE);
         int offset = (approxY % 2 == 0) ? 0 : (Singleton.CHIP_SIZE / 2);
         int approxX = (int)Math.Round((Position.X - offset - Singleton.PLAY_AREA_START_X) / Singleton.CHIP_SIZE);
-        
 
-        // Console.WriteLine("trueY : "+ (Position.Y - Singleton.Instance.CeilingPosition) / Singleton.CHIP_SIZE);
-        // Console.WriteLine("trueX : "+ (Position.X - offset - Singleton.PLAY_AREA_START_X) / Singleton.CHIP_SIZE);
-
-        // Console.WriteLine("posY : "+ Position.Y);
-        // Console.WriteLine("posX : "+ Position.X);
-
-        // Console.WriteLine("Y : "+approxY);
-        // Console.WriteLine("X : "+approxX);
-        // Console.WriteLine("=============================");
         return new Vector2(approxX, approxY);
     }
 
@@ -220,25 +229,14 @@ class Chip : GameObject
                 if (Singleton.Instance.GameBoard.HaveChip(j, i))
                     continue;
 
-                // Console.WriteLine("xOffset : "+ xOffset);
                 float targetX = i * Singleton.CHIP_SIZE + Singleton.PLAY_AREA_START_X + xOffset;
                 float targetY = j * Singleton.CHIP_SIZE + Singleton.Instance.CeilingPosition;
                 float distance = Vector2.Distance(new Vector2(targetX, targetY), Position);
 
                 if (distance <= closestDistance)
                 {
-        
-
-            //     Console.WriteLine("targetX : "+ targetX);
-            //     Console.WriteLine("targetY : "+ targetY);
-            //     Console.WriteLine("distance : "+ distance);
-                    
                     closestDistance = distance;
-                    closestSpot = new Vector2(i, j);
-                  
-                // Console.WriteLine("i : "+ i);
-                // Console.WriteLine("j : "+ j);
-                     
+                    closestSpot = new Vector2(i, j);               
                 }
             }
         }
@@ -251,7 +249,6 @@ class Chip : GameObject
         int approxX = (int)closestSpot.X;
         int approxY = (int)closestSpot.Y;
 
-
         Singleton.Instance.GameBoard[approxY, approxX] = ChipType;
         BoardCoord = new Vector2(approxX, approxY);
 
@@ -261,5 +258,15 @@ class Chip : GameObject
         Position = new Vector2(targetX, targetY);
 
         ChipHitSound.Play();
+    }
+
+    protected void HandleExplosiveAnimation(GameTime gameTime)
+    {
+        _explosiveTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        if (_explosiveTimer >= 1f)
+        {
+            _explosiveTimer = 0f;
+            _explosiveFrameToggle = !_explosiveFrameToggle;
+        }
     }
 }
