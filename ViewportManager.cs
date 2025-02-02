@@ -25,7 +25,7 @@ public class ViewportManager
         {"Processing_Chip",new Rectangle( 160, 96, 32, 35)},
         {"Chipped_Chip",new Rectangle( 192, 96, 32, 35)},
 
-        {"Chipy_Chip",new Rectangle( 0, 0, 32, 35)},
+        {"Chipy_Chip0",new Rectangle( 0, 0, 32, 35)},
         {"Chipy_Chip1",new Rectangle( 0, 0, 32, 35)},
         {"Chipy_Chip2",new Rectangle( 0, 0, 32, 35)},
         {"Chipy_Chip3",new Rectangle( 0, 0, 32, 35)},

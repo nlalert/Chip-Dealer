@@ -32,7 +32,7 @@ public class MainScene
     Shop _shop;
 
     private int _slotMachinePositionX = 470;
-
+    private String _gameOverText;
     private bool HasChipFell = false;
     private Vector2 _statPosition = new Vector2(90, 16);
     public void Initialize()
@@ -98,8 +98,10 @@ public class MainScene
                     Singleton.Instance.CurrentGameState = Singleton.GameState.Pause;
                 }
 
-                if (Singleton.Instance.Money <= 0 && Singleton.Instance.waitForPlayer) 
+                if (Singleton.Instance.Money <= 0 && Singleton.Instance.waitForPlayer) {
+                    _gameOverText = "You ran out of money :(";
                     Singleton.Instance.CurrentGameState = Singleton.GameState.GameOver;
+                }
 
                 break;
             case Singleton.GameState.CheckGameBoard:
@@ -234,43 +236,93 @@ public class MainScene
             _spriteBatch.Draw(_SpriteTexture,
                 new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Big_Box0").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2),
                ViewportManager.Get("Big_Box0"), Color.White);
-            _spriteBatch.Draw(_SpriteTexture,
 
-                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("GameOver_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*3),
-               ViewportManager.Get("GameOver_Label"), Color.White);
-            _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*18),
-               ViewportManager.Get("NewGame_Label"), Color.White);  
+            if (_gameOverText == "")
+            {
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("GameOver_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*3),
+                ViewportManager.Get("GameOver_Label"), Color.White);
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*18),
+                ViewportManager.Get("NewGame_Label"), Color.White);
 
-            _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Label2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
-                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
-               ViewportManager.Get("Score_Label2"), Color.White);  
-            _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Box2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
-                , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
-               ViewportManager.Get("Score_Box2"), Color.White);  
-            
-            Vector2 fontSize = _font.MeasureString(Singleton.Instance.Score.ToString());
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Label2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
+                    , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
+                ViewportManager.Get("Score_Label2"), Color.White);  
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Box2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
+                    , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
+                ViewportManager.Get("Score_Box2"), Color.White);  
+                
+                Vector2 fontSize = _font.MeasureString(Singleton.Instance.Score.ToString());
 
-            _spriteBatch.DrawString(_font,Singleton.Instance.Score.ToString(),
-                new Vector2((Singleton.SCREEN_WIDTH - fontSize.X -ViewportManager.Get("Stage_Box").Width) / 2 - 16,
+                _spriteBatch.DrawString(_font,Singleton.Instance.Score.ToString(),
+                    new Vector2((Singleton.SCREEN_WIDTH - fontSize.X -ViewportManager.Get("Stage_Box").Width) / 2 - 16,
+                    (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Label").Width +ViewportManager.Get("Score_Box2").Width) / 2,
+                    (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
+                ViewportManager.Get("Stage_Label"), Color.White);  
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Box").Width +ViewportManager.Get("Score_Box2").Width) / 2,
+                    (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
+                ViewportManager.Get("Stage_Box"), Color.White);  
+                
+                fontSize = _font.MeasureString(Singleton.Instance.Stage.ToString());
+                
+                _spriteBatch.DrawString(_font,Singleton.Instance.Stage.ToString(),
+                new Vector2((Singleton.SCREEN_WIDTH - fontSize.X +ViewportManager.Get("Score_Box2").Width) / 2 - 8,
                 (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+            }
 
-            _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Label").Width +ViewportManager.Get("Score_Box2").Width) / 2,
-                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*13),
-               ViewportManager.Get("Stage_Label"), Color.White);  
-            _spriteBatch.Draw(_SpriteTexture,
-                new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Box").Width +ViewportManager.Get("Score_Box2").Width) / 2,
-                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15),
-               ViewportManager.Get("Stage_Box"), Color.White);  
-            
-            fontSize = _font.MeasureString(Singleton.Instance.Stage.ToString());
-            
-            _spriteBatch.DrawString(_font,Singleton.Instance.Stage.ToString(),
-            new Vector2((Singleton.SCREEN_WIDTH - fontSize.X +ViewportManager.Get("Score_Box2").Width) / 2 - 8,
-            (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*15 + 10),Color.White);
+            else
+            {
+         
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("GameOver_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*2),
+                ViewportManager.Get("GameOver_Label"), Color.White);
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("NewGame_Label").Width) / 2, (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*19),
+                ViewportManager.Get("NewGame_Label"), Color.White);
+                
+                Vector2 fontSize = _font.MeasureString(_gameOverText);
+
+                _spriteBatch.DrawString(_font,_gameOverText,
+                    new Vector2((Singleton.SCREEN_WIDTH - fontSize.X) / 2,
+                    (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*12),Color.White);
+                
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Label2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
+                    , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*14),
+                ViewportManager.Get("Score_Label2"), Color.White);  
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Score_Box2").Width -ViewportManager.Get("Stage_Box").Width) / 2 - 16
+                    , (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*16),
+                ViewportManager.Get("Score_Box2"), Color.White);  
+                
+                fontSize = _font.MeasureString(Singleton.Instance.Score.ToString());
+
+                _spriteBatch.DrawString(_font,Singleton.Instance.Score.ToString(),
+                    new Vector2((Singleton.SCREEN_WIDTH - fontSize.X -ViewportManager.Get("Stage_Box").Width) / 2 - 16,
+                    (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*16 + 10),Color.White);
+
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Label").Width +ViewportManager.Get("Score_Box2").Width) / 2,
+                    (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*14),
+                ViewportManager.Get("Stage_Label"), Color.White);  
+                _spriteBatch.Draw(_SpriteTexture,
+                    new Vector2((Singleton.SCREEN_WIDTH -ViewportManager.Get("Stage_Box").Width +ViewportManager.Get("Score_Box2").Width) / 2,
+                    (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*16),
+                ViewportManager.Get("Stage_Box"), Color.White);  
+                
+                fontSize = _font.MeasureString(Singleton.Instance.Stage.ToString());
+                
+                _spriteBatch.DrawString(_font,Singleton.Instance.Stage.ToString(),
+                new Vector2((Singleton.SCREEN_WIDTH - fontSize.X +ViewportManager.Get("Score_Box2").Width) / 2 - 8,
+                (Singleton.SCREEN_HEIGHT -ViewportManager.Get("Big_Box0").Height) / 2 + 16*16 + 10),Color.White);
+            }
 
         }
 
@@ -338,6 +390,8 @@ public class MainScene
         Singleton.Instance.waitForPlayer = true;
         Singleton.Instance.OwnedRelics = Relics.GetEmptyRelicList();
         Singleton.Instance.CurrentGameState = Singleton.GameState.InitializingStage;
+
+        _gameOverText = "";
 
         _gameObjects.Add(new Player(_SpriteTexture)
         {
